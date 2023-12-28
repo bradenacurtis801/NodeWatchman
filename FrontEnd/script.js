@@ -46,32 +46,99 @@ function createBoxContainer(sectionId, rowLabel, rackLabel) {
   container.appendChild(boxesContainer);
 
   // Create boxes and append to the boxes-container
-  for (let i = 1; i <= 20; i++) {
-    const boxId = `${rowLabel}-${rackLabel}-${i}`; // Unique identifier
-    const box = document.createElement("div");
-    box.id = boxId; // Set the unique ID
-    box.classList.add("box");
-    box.textContent = i;
-    const debouncedSaveBoxState = debounce(() => saveBoxState(), 5000);
-    box.addEventListener("click", function () {
-        box.classList.toggle("highlighted");
-        // debouncedSaveBoxState(); // Use the debounced function
+for (let i = 1; i <= 20; i++) {
+  const boxId = `${rowLabel}-${rackLabel}-${i}`; // Unique identifier
+  const box = document.createElement("div");
+  box.id = boxId; // Set the unique ID
+  box.classList.add("box");
+  box.textContent = i;
+
+  // Left-click event listener
+  box.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent default right-click menu
+      cycleBoxColor(box); // Cycle through colors
+      // debouncedSaveBoxState(); // Use the debounced function (automatically save every 5 seconds)
+  });
+
+  // Right-click event listener
+  box.addEventListener("contextmenu", function (event) {
+      event.preventDefault(); // Prevent default right-click menu
+      resetBoxColor(box); // Reset the box color
+      // debouncedSaveBoxState(); // Use the debounced function (automatically save every 5 seconds)
+  });
+
+  // Long press event variables
+  let pressTimer;
+    let pressStartTime;
+
+    // Touch events for mobile devices
+    box.addEventListener("touchstart", function (event) {
+        event.preventDefault(); // Prevent the default long press action
+        pressStartTime = new Date().getTime();
+        pressTimer = window.setTimeout(function() { resetBoxColor(box); }, 1000); // 1000 ms for long press
     });
-    boxesContainer.appendChild(box);
+
+    box.addEventListener("touchend", function (event) {
+        const pressDuration = new Date().getTime() - pressStartTime;
+        if (pressDuration < 1000) { // If it's a short press
+            cycleBoxColor(box); // Change the color
+        }
+        clearTimeout(pressTimer);
+    });
+
+    // Mouse events for non-touch devices
+    box.addEventListener("mousedown", function () {
+        pressStartTime = new Date().getTime();
+        pressTimer = window.setTimeout(function() { resetBoxColor(box); }, 1000); // 1000 ms for long press
+    });
+
+    box.addEventListener("mouseup", function () {
+        const pressDuration = new Date().getTime() - pressStartTime;
+        if (pressDuration < 1000) { // If it's a short press
+            cycleBoxColor(box); // Change the color
+        }
+        clearTimeout(pressTimer);
+    });
+
+    box.addEventListener("mouseleave", function () {
+        clearTimeout(pressTimer);
+    });
+    
+  boxesContainer.appendChild(box);
 }
 
   // Append the new rack container to the row-container
   rowContainer.appendChild(container);
 }
 
+// Function to cycle box colors on each click
+function cycleBoxColor(box) {
+  const colors = ['green', 'yellow', 'red'];
+  const currentColor = box.style.backgroundColor;
+  const currentColorIndex = colors.indexOf(currentColor);
+  const nextColorIndex = (currentColorIndex + 1) % colors.length;
+  box.style.backgroundColor = colors[nextColorIndex];
+}
+
+// Function to reset box color on right-click
+function resetBoxColor(box) {
+  box.style.backgroundColor = ''; // Remove any set color
+}
+
 // Function to save the state of boxes
 function saveBoxState() {
   const boxStates = {};
   document.querySelectorAll('.box').forEach(box => {
-      boxStates[box.id] = box.classList.contains('highlighted');
+    // Example of how you might determine the color - adjust as needed
+    const color = box.style.backgroundColor || 'defaultColor'; // Fallback to 'defaultColor'
+    boxStates[box.id] = {
+      id: box.id,
+      color: color
+    };
   });
   saveStateToServer(boxStates); // Send the state to the server
 }
+
 
 // Function to load the saved state of boxes
 async function loadBoxState() {
@@ -89,11 +156,17 @@ async function loadBoxState() {
 // Apply the state to the boxes
 function applyBoxState(savedStates) {
   document.querySelectorAll('.box').forEach(box => {
-      if (savedStates[box.id]) {
-          box.classList.add('highlighted');
-      }
+    const boxState = savedStates[box.id];
+    if (boxState && boxState.color) {
+      // Apply the color directly to the box's style
+      box.style.backgroundColor = boxState.color;
+    } else {
+      // Apply default color or remove the style
+      box.style.backgroundColor = ""; // Set to your default color or remove the style
+    }
   });
 }
+
 
 // Function to send the current state to the server
 async function saveStateToServer(boxStates) {
@@ -112,16 +185,6 @@ async function saveStateToServer(boxStates) {
   }
 }
 
-
-// Function to reset boxes
-function resetBoxes(container) {
-  container.querySelectorAll('.box').forEach(box => {
-      box.classList.remove('highlighted');
-  });
-  saveBoxState(); // Save the updated state
-}
-
-
 function debounce(func, delay) {
   let debounceTimer;
   return function() {
@@ -133,32 +196,32 @@ function debounce(func, delay) {
 }
 
 // Function to create a top-level save button
-function createTopLevelSaveButton() {
   const topLevelSaveButton = document.getElementById('saveStateButton');
-
   topLevelSaveButton.addEventListener("click", function() {
       saveBoxState(); // Directly call saveBoxState when clicked
   });
-}
 
 
-// Function to create a top-level reset button
-function createTopLevelResetButton() {
   const topLevelResetButton = document.getElementById('resetAllButton');
-
   topLevelResetButton.addEventListener("click", function() {
-      // Ask for confirmation before resetting
-      const confirmed = confirm("Are you sure you want to reset all boxes?");
-      if (confirmed) {
-          document.querySelectorAll('.box').forEach(box => {
-              box.classList.remove('highlighted');
-          });
-          saveBoxState(); // Save the updated state
-      }
+    // Ask for confirmation before resetting
+    const confirmed = confirm("Are you sure you want to reset all boxes?");
+    if (confirmed) {
+        document.querySelectorAll('.box').forEach(box => {
+            box.style.backgroundColor = ''; // Remove any set color
+        });
+        saveBoxState(); // Save the updated state
+    }
   });
+  
+
+// Function to reset boxes within a specific container
+function resetBoxes(container) {
+  container.querySelectorAll('.box').forEach(box => {
+      box.style.backgroundColor = ''; // Remove any set color
+  });
+  saveBoxState(); // Save the updated state
 }
-
-
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -181,7 +244,5 @@ document.addEventListener("DOMContentLoaded", function () {
   createBoxContainer("section-B", "B2", "123");
   createBoxContainer("section-B", "B2", "124");
   // ... more calls as needed
-  createTopLevelSaveButton(); // Create the top-level save button
-  createTopLevelResetButton();
   loadBoxState(); // Load the saved state after creating all boxes
 });
