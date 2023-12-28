@@ -1,0 +1,14 @@
+[
+  {
+    "username": "bradenacurtis801",
+    "hashedPassword": "$2a$10$OdAuSOVBRvz.cwyn.ka6H.m6fzWcL17MS8RoqJKcAH9NtIXz0WL0G"
+  },
+  {
+    "username": "test",
+    "hashedPassword": "$2a$10$0RvK1fQtfTgI5ejdERmMpeNE2j.p0EMuzUejDlJ.bV1gi9O/nO.Cy"
+  },
+  {
+    "username": "test2",
+    "hashedPassword": "$2a$10$LQowSs8euWT0qrbksCWshuaPIfjKlbfvPCpMT09SoWexgVAdCkaiW"
+  }
+]

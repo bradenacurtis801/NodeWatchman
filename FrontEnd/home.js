@@ -25,11 +25,16 @@ function createBoxContainer(sectionId, rowLabel, rackLabel) {
   // Add reset button for each parent box
   const resetButton = document.createElement("button");
   resetButton.textContent = "Reset";
-  resetButton.classList.add("box-reset-button"); 
-  resetButton.addEventListener("click", function() {
+  resetButton.classList.add("box-reset-button");
+  resetButton.addEventListener("click", function () {
+    // Display confirmation dialog
+    const confirmed = confirm("Are you sure you want to reset these boxes?");
+    if (confirmed) {
       resetBoxes(boxesContainer);
+    }
   });
   labels.appendChild(resetButton);
+
 
   const rowSpan = document.createElement("div");
   rowSpan.classList.add("header-row-span");
@@ -46,66 +51,69 @@ function createBoxContainer(sectionId, rowLabel, rackLabel) {
   container.appendChild(boxesContainer);
 
   // Create boxes and append to the boxes-container
-for (let i = 1; i <= 20; i++) {
-  const boxId = `${rowLabel}-${rackLabel}-${i}`; // Unique identifier
-  const box = document.createElement("div");
-  box.id = boxId; // Set the unique ID
-  box.classList.add("box");
-  box.textContent = i;
+  for (let i = 1; i <= 20; i++) {
+    const boxId = `${rowLabel}-${rackLabel}-${i}`; // Unique identifier
+    const box = document.createElement("div");
+    box.id = boxId; // Set the unique ID
+    box.classList.add("box");
+    box.textContent = i;
 
-  // Left-click event listener
-  box.addEventListener("click", function (event) {
-      event.preventDefault(); // Prevent default right-click menu
-      cycleBoxColor(box); // Cycle through colors
-      // debouncedSaveBoxState(); // Use the debounced function (automatically save every 5 seconds)
-  });
+   // Left-click event listener
+box.addEventListener("click", function (event) {
+  // Prevent default right-click menu if it's a right-click
+  if (event.button === 2) {
+    return;
+  }
+  cycleBoxColor(box); // Cycle through colors
+  // debouncedSaveBoxState(); // Use the debounced function (automatically save every 5 seconds)
+});
 
-  // Right-click event listener
-  box.addEventListener("contextmenu", function (event) {
-      event.preventDefault(); // Prevent default right-click menu
-      resetBoxColor(box); // Reset the box color
-      // debouncedSaveBoxState(); // Use the debounced function (automatically save every 5 seconds)
-  });
+// Right-click event listener
+box.addEventListener("contextmenu", function (event) {
+  event.preventDefault(); // Prevent default right-click menu
+  resetBoxColor(box); // Reset the box color
+  // debouncedSaveBoxState(); // Use the debounced function (automatically save every 5 seconds)
+});
 
-  // Long press event variables
-  let pressTimer;
+    // Long press event variables
+    let pressTimer;
     let pressStartTime;
 
     // Touch events for mobile devices
     box.addEventListener("touchstart", function (event) {
-        event.preventDefault(); // Prevent the default long press action
-        pressStartTime = new Date().getTime();
-        pressTimer = window.setTimeout(function() { resetBoxColor(box); }, 1000); // 1000 ms for long press
+      event.preventDefault(); // Prevent the default long press action
+      pressStartTime = new Date().getTime();
+      pressTimer = window.setTimeout(function () { resetBoxColor(box); }, 1000); // 1000 ms for long press
     });
 
     box.addEventListener("touchend", function (event) {
-        const pressDuration = new Date().getTime() - pressStartTime;
-        if (pressDuration < 1000) { // If it's a short press
-            cycleBoxColor(box); // Change the color
-        }
-        clearTimeout(pressTimer);
+      const pressDuration = new Date().getTime() - pressStartTime;
+      if (pressDuration < 1000) { // If it's a short press
+        cycleBoxColor(box); // Change the color
+      }
+      clearTimeout(pressTimer);
     });
 
     // Mouse events for non-touch devices
     box.addEventListener("mousedown", function () {
-        pressStartTime = new Date().getTime();
-        pressTimer = window.setTimeout(function() { resetBoxColor(box); }, 1000); // 1000 ms for long press
+      pressStartTime = new Date().getTime();
+      pressTimer = window.setTimeout(function () { resetBoxColor(box); }, 1000); // 1000 ms for long press
     });
 
     box.addEventListener("mouseup", function () {
-        const pressDuration = new Date().getTime() - pressStartTime;
-        if (pressDuration < 1000) { // If it's a short press
-            cycleBoxColor(box); // Change the color
-        }
-        clearTimeout(pressTimer);
+      const pressDuration = new Date().getTime() - pressStartTime;
+      if (pressDuration < 1000) { // If it's a short press
+        cycleBoxColor(box); // Change the color
+      }
+      clearTimeout(pressTimer);
     });
 
     box.addEventListener("mouseleave", function () {
-        clearTimeout(pressTimer);
+      clearTimeout(pressTimer);
     });
-    
-  boxesContainer.appendChild(box);
-}
+
+    boxesContainer.appendChild(box);
+  }
 
   // Append the new rack container to the row-container
   rowContainer.appendChild(container);
@@ -119,6 +127,7 @@ function cycleBoxColor(box) {
   const nextColorIndex = (currentColorIndex + 1) % colors.length;
   box.style.backgroundColor = colors[nextColorIndex];
 }
+
 
 // Function to reset box color on right-click
 function resetBoxColor(box) {
@@ -143,13 +152,13 @@ function saveBoxState() {
 // Function to load the saved state of boxes
 async function loadBoxState() {
   try {
-      const response = await fetch('http://192.168.200.54:3000/load-machine-state');
-      const data = await response.json();
-      if (data && data.boxStates) {
-          applyBoxState(data.boxStates);
-      }
+    const response = await fetch('http://192.168.200.54:3000/load-machine-state');
+    const data = await response.json();
+    if (data && data.boxStates) {
+      applyBoxState(data.boxStates);
+    }
   } catch (error) {
-      console.error('Error loading state:', error);
+    console.error('Error loading state:', error);
   }
 }
 
@@ -171,60 +180,100 @@ function applyBoxState(savedStates) {
 // Function to send the current state to the server
 async function saveStateToServer(boxStates) {
   try {
-      const response = await fetch('http://192.168.200.54:3000/save-machine-state', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ boxStates: boxStates })
-      });
-      const data = await response.json();
-      console.log('Success:', data);
+    const response = await fetch('http://192.168.200.54:3000/save-machine-state', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ boxStates: boxStates })
+    });
+    const data = await response.json();
+    console.log('Success:', data);
   } catch (error) {
-      console.error('Error:', error);
+    console.error('Error:', error);
   }
 }
 
 function debounce(func, delay) {
   let debounceTimer;
-  return function() {
-      const context = this;
-      const args = arguments;
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => func.apply(context, args), delay);
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => func.apply(context, args), delay);
   }
 }
 
+
+function disableBoxInteractions() {
+  document.querySelectorAll('.box').forEach(box => {
+      box.style.pointerEvents = 'none'; // Disable click events
+  });
+}
+
+function enableBoxInteractions() {
+  document.querySelectorAll('.box').forEach(box => {
+      box.style.pointerEvents = 'auto'; // Enable click events
+  });
+}
+
 // Function to create a top-level save button
-  const topLevelSaveButton = document.getElementById('saveStateButton');
-  topLevelSaveButton.addEventListener("click", function() {
-      saveBoxState(); // Directly call saveBoxState when clicked
-  });
+const topLevelSaveButton = document.getElementById('saveStateButton');
+topLevelSaveButton.addEventListener("click", function () {
+  saveBoxState(); // Directly call saveBoxState when clicked
+  // Check the toggle to 'read' mode
+  modeToggle.checked = true;
+  disableBoxInteractions();
+});
 
 
-  const topLevelResetButton = document.getElementById('resetAllButton');
-  topLevelResetButton.addEventListener("click", function() {
-    // Ask for confirmation before resetting
-    const confirmed = confirm("Are you sure you want to reset all boxes?");
-    if (confirmed) {
-        document.querySelectorAll('.box').forEach(box => {
-            box.style.backgroundColor = ''; // Remove any set color
-        });
-        saveBoxState(); // Save the updated state
-    }
-  });
-  
+const topLevelResetButton = document.getElementById('resetAllButton');
+topLevelResetButton.addEventListener("click", function () {
+  // Ask for confirmation before resetting
+  const confirmed = confirm("Are you sure you want to reset all boxes?");
+  if (confirmed) {
+    document.querySelectorAll('.box').forEach(box => {
+      box.style.backgroundColor = ''; // Remove any set color
+    });
+    saveBoxState(); // Save the updated state
+  }
+});
+
 
 // Function to reset boxes within a specific container
 function resetBoxes(container) {
   container.querySelectorAll('.box').forEach(box => {
-      box.style.backgroundColor = ''; // Remove any set color
+    box.style.backgroundColor = ''; // Remove any set color
   });
   saveBoxState(); // Save the updated state
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  // Check if the user is authenticated
+  if (!localStorage.getItem('token')) {
+      window.location.href = 'login.html'; // Redirect to login if not authenticated
+      return;
+  }
+
+  // Initialize your application
+  // ... rest of your application's code ...
+});
+
 
 document.addEventListener("DOMContentLoaded", function () {
+  const modeToggle = document.getElementById('modeToggle');
+
+    modeToggle.addEventListener('change', function () {
+        if (this.checked) {
+            // Read mode enabled
+            disableBoxInteractions();
+        } else {
+            // Write mode enabled
+            enableBoxInteractions();
+        }
+    });
+
+  
   createBoxContainer("section-A", "A1", "11");
   createBoxContainer("section-A", "A1", "12");
   createBoxContainer("section-A", "A1", "13");
@@ -245,4 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
   createBoxContainer("section-B", "B2", "124");
   // ... more calls as needed
   loadBoxState(); // Load the saved state after creating all boxes
+  // Initially set to read mode
+  disableBoxInteractions();
+  
 });
