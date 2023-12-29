@@ -1,3 +1,5 @@
+const token = localStorage.getItem('token'); // Retrieve the token from storage
+
 
 function createBoxContainer(sectionId, rowLabel, rackLabel) {
   // Find the section to append the container
@@ -58,22 +60,22 @@ function createBoxContainer(sectionId, rowLabel, rackLabel) {
     box.classList.add("box");
     box.textContent = i;
 
-   // Left-click event listener
-box.addEventListener("click", function (event) {
-  // Prevent default right-click menu if it's a right-click
-  if (event.button === 2) {
-    return;
-  }
-  cycleBoxColor(box); // Cycle through colors
-  // debouncedSaveBoxState(); // Use the debounced function (automatically save every 5 seconds)
-});
+    // Left-click event listener
+    box.addEventListener("click", function (event) {
+      // Prevent default right-click menu if it's a right-click
+      if (event.button === 2) {
+        return;
+      }
+      cycleBoxColor(box); // Cycle through colors
+      // debouncedSaveBoxState(); // Use the debounced function (automatically save every 5 seconds)
+    });
 
-// Right-click event listener
-box.addEventListener("contextmenu", function (event) {
-  event.preventDefault(); // Prevent default right-click menu
-  resetBoxColor(box); // Reset the box color
-  // debouncedSaveBoxState(); // Use the debounced function (automatically save every 5 seconds)
-});
+    // Right-click event listener
+    box.addEventListener("contextmenu", function (event) {
+      event.preventDefault(); // Prevent default right-click menu
+      resetBoxColor(box); // Reset the box color
+      // debouncedSaveBoxState(); // Use the debounced function (automatically save every 5 seconds)
+    });
 
     // Long press event variables
     let pressTimer;
@@ -128,7 +130,6 @@ function cycleBoxColor(box) {
   box.style.backgroundColor = colors[nextColorIndex];
 }
 
-
 // Function to reset box color on right-click
 function resetBoxColor(box) {
   box.style.backgroundColor = ''; // Remove any set color
@@ -136,6 +137,7 @@ function resetBoxColor(box) {
 
 // Function to save the state of boxes
 function saveBoxState() {
+  checkAndHandleTokenExpiration()
   const boxStates = {};
   document.querySelectorAll('.box').forEach(box => {
     // Example of how you might determine the color - adjust as needed
@@ -151,8 +153,19 @@ function saveBoxState() {
 
 // Function to load the saved state of boxes
 async function loadBoxState() {
+
   try {
-    const response = await fetch('http://192.168.200.54:3000/load-machine-state');
+    const response = await fetch('http://192.168.200.54:3000/load-machine-state', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch state');
+    }
+
     const data = await response.json();
     if (data && data.boxStates) {
       applyBoxState(data.boxStates);
@@ -161,6 +174,7 @@ async function loadBoxState() {
     console.error('Error loading state:', error);
   }
 }
+
 
 // Apply the state to the boxes
 function applyBoxState(savedStates) {
@@ -184,6 +198,7 @@ async function saveStateToServer(boxStates) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ boxStates: boxStates })
     });
@@ -207,13 +222,13 @@ function debounce(func, delay) {
 
 function disableBoxInteractions() {
   document.querySelectorAll('.box').forEach(box => {
-      box.style.pointerEvents = 'none'; // Disable click events
+    box.style.pointerEvents = 'none'; // Disable click events
   });
 }
 
 function enableBoxInteractions() {
   document.querySelectorAll('.box').forEach(box => {
-      box.style.pointerEvents = 'auto'; // Enable click events
+    box.style.pointerEvents = 'auto'; // Enable click events
   });
 }
 
@@ -239,6 +254,16 @@ topLevelResetButton.addEventListener("click", function () {
   }
 });
 
+function checkAndHandleTokenExpiration() {
+  const token = localStorage.getItem('token');
+  if (!token || isTokenExpired(token)) {
+    localStorage.removeItem('token'); // Remove the expired or invalid token
+    window.location.href = 'login.html';
+    return false;
+  }
+  return true;
+}
+
 
 // Function to reset boxes within a specific container
 function resetBoxes(container) {
@@ -248,32 +273,78 @@ function resetBoxes(container) {
   saveBoxState(); // Save the updated state
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Check if the user is authenticated
-  if (!localStorage.getItem('token')) {
-      window.location.href = 'login.html'; // Redirect to login if not authenticated
-      return;
+function parseJwt(token) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(window.atob(base64)).exp;
+  } catch (error) {
+    return null;
   }
+}
 
-  // Initialize your application
-  // ... rest of your application's code ...
-});
+function isTokenExpired(token) {
+  if (!token) return true;
 
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const payload = JSON.parse(atob(base64));
+  const exp = payload.exp;
+  const currentTime = Date.now() / 1000;
+  console.log(exp, currentTime)
+
+  return exp < currentTime;
+}
+
+function checkAndHandleTokenExpiration() {
+  const token = localStorage.getItem('token');
+  console.log('before auth', token)
+  if (!token || isTokenExpired(token)) {
+    console.log('after auth')
+    alert('Session expired. Please log in again.');
+    window.location.href = 'login.html';
+    return true; // Indicate that the token has expired
+  }
+  return false; // Token is still valid
+}
 
 document.addEventListener("DOMContentLoaded", function () {
+  const logoutButton = document.getElementById('logoutBtn');
+  // Add an event listener for the click event on the logout button
+  logoutButton.addEventListener('click', async function () {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem('token');
+
+    // If a token exists, send a logout request to the server
+    if (token) {
+      await fetch('/logout', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      // Regardless of the server's response, remove the token from localStorage
+      localStorage.removeItem('token');
+    }
+
+    // Redirect the user to the login page
+    window.location.href = 'login.html';
+  });
+
+  checkAndHandleTokenExpiration()
   const modeToggle = document.getElementById('modeToggle');
 
-    modeToggle.addEventListener('change', function () {
-        if (this.checked) {
-            // Read mode enabled
-            disableBoxInteractions();
-        } else {
-            // Write mode enabled
-            enableBoxInteractions();
-        }
-    });
+  modeToggle.addEventListener('change', function () {
+    if (this.checked) {
+      // Read mode enabled
+      disableBoxInteractions();
+    } else {
+      // Write mode enabled
+      enableBoxInteractions();
+    }
+  });
 
-  
+
   createBoxContainer("section-A", "A1", "11");
   createBoxContainer("section-A", "A1", "12");
   createBoxContainer("section-A", "A1", "13");
@@ -296,5 +367,5 @@ document.addEventListener("DOMContentLoaded", function () {
   loadBoxState(); // Load the saved state after creating all boxes
   // Initially set to read mode
   disableBoxInteractions();
-  
+
 });
