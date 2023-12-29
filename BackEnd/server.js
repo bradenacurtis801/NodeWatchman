@@ -8,11 +8,16 @@ const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
 const machineStateFile = './machineState.json';
 const USERS_FILE = './users.json';
 
+let tokenBlacklist = {};
+
+
 const app = express();
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
+// app.use(checkBlacklist);
 
-app.post('/save-machine-state', async (req, res) => {
+
+app.post('/save-machine-state', authenticateToken, async (req, res) => {
     try {
         await fs.writeFile(machineStateFile, JSON.stringify(req.body));
         res.send({ status: 'success' });
@@ -23,7 +28,7 @@ app.post('/save-machine-state', async (req, res) => {
 });
 
 
-app.get('/load-machine-state', async (req, res) => {
+app.get('/load-machine-state', authenticateToken, async (req, res) => {
     console.log("Endpoint /load-machine-state hit");
 
     try {
@@ -44,11 +49,11 @@ app.get('/load-machine-state', async (req, res) => {
     }
 });
 
-
-
 app.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
+
+        console.log('here')
         
         // Initialize an empty array for users
         let users = [];
@@ -101,7 +106,7 @@ app.post('/login', async (req, res) => {
 
         // Check if user exists and password is correct
         if (user && await bcrypt.compare(password, user.hashedPassword)) {
-            const token = jwt.sign({ username: username }, REMOVED_JWT_SECRET, { expiresIn: '1h' });
+            const token = jwt.sign({ username: username }, REMOVED_JWT_SECRET, { expiresIn: '20m' });
             res.json({ token });
         } else {
             res.status(401).send('Invalid credentials');
@@ -111,5 +116,54 @@ app.post('/login', async (req, res) => {
         res.status(500).send('Error during login');
     }
 });
+
+// API endpoint to handle logout
+app.post('/logout', (req, res) => {
+    const token = req.headers['authorization'].split(' ')[1];
+    blacklistToken(token);
+    res.send('Logged out successfully');
+});
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    console.log(token)
+
+    if (token == null) return res.status(401).send('Token is required');
+
+    jwt.verify(token, REMOVED_JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).send('Token is invalid or expired');
+        req.user = user;
+        next();
+    });
+}
+
+function blacklistToken(token) {
+    // Assume the token has a certain expiration time, e.g., 1 hour
+    const EXPIRY_TIME_IN_MS = 3600 * 1000; // 1 hour in milliseconds
+
+    // Add the token to the blacklist
+    tokenBlacklist[token] = true;
+
+    // Set a timeout to remove the token from the blacklist after it expires
+    setTimeout(() => {
+        delete tokenBlacklist[token];
+    }, EXPIRY_TIME_IN_MS);
+}
+
+function checkBlacklist(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        return res.status(401).send('No token provided');
+    }
+
+    const token = authHeader.split(' ')[1];
+    if (tokenBlacklist[token]) {
+        return res.status(401).send('Token has been invalidated');
+    }
+
+    next();
+}
+
 
 app.listen(3000, '0.0.0.0', () => console.log('Server started on port 3000'));
