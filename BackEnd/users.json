@@ -10,5 +10,9 @@
   {
     "username": "test2",
     "hashedPassword": "$2a$10$LQowSs8euWT0qrbksCWshuaPIfjKlbfvPCpMT09SoWexgVAdCkaiW"
+  },
+  {
+    "username": "rakesh",
+    "hashedPassword": "$2a$10$zttbf0XDhZ2NmbJysDmJV.oOX2IOjCux0Lf.htIYoRWqUszWmQmKO"
   }
 ]
