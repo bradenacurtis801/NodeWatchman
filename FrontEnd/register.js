@@ -4,7 +4,7 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
     const data = Object.fromEntries(formData.entries());
 
     try {
-        const response = await fetch('http://192.168.200.54:3000/register', {
+        const response = await fetch(`http://10.10.250.101:3000/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
