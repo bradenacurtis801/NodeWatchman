@@ -2,7 +2,7 @@
 document.getElementById('loginForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const response = await fetch(`${config.BACKEND_SERVER_IP}/login`, {
+    const response = await fetch(`http://${config.BACKEND_SERVER_IP}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Object.fromEntries(formData))
