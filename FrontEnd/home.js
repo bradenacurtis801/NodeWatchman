@@ -242,27 +242,6 @@ function enableBoxInteractions() {
   });
 }
 
-// // Function to create a top-level save button
-// topLevelSaveButton.addEventListener("click", function () {
-//   saveBoxState(); // Directly call saveBoxState when clicked
-//   // Check the toggle to 'read' mode
-//   modeToggle.checked = true;
-//   disableBoxInteractions();
-// });
-
-
-// const topLevelResetButton = document.getElementById('resetAllButton');
-// topLevelResetButton.addEventListener("click", function () {
-//   // Ask for confirmation before resetting
-//   const confirmed = confirm("Are you sure you want to reset all boxes?");
-//   if (confirmed) {
-//     document.querySelectorAll('.box').forEach(box => {
-//       box.style.backgroundColor = ''; // Remove any set color
-//     });
-//     saveBoxState(); // Save the updated state
-//   }
-// });
-
 function checkAndHandleTokenExpiration() {
   const token = localStorage.getItem('token');
   if (!token || isTokenExpired(token)) {
