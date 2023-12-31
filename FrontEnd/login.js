@@ -2,7 +2,7 @@
 document.getElementById('loginForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const response = await fetch('http://192.168.200.54:3000/login', {
+    const response = await fetch(`${config.BACKEND_SERVER_IP}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Object.fromEntries(formData))
@@ -15,4 +15,3 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
         alert('Login failed');
     }
 });
-
