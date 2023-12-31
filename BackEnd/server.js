@@ -3,10 +3,13 @@ const fs = require('fs').promises;
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const fetchAndUpdateMachineData = require('./rbm_api');
 require('dotenv').config();
+
 const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
 const machineStateFile = './machineState.json';
 const USERS_FILE = './users.json';
+const RBM_NODES_FILE = './rbm_nodes.json';
 
 let tokenBlacklist = {};
 
@@ -16,6 +19,15 @@ app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
 // app.use(checkBlacklist);
 
+app.get('/update-miners', async (req, res) => {
+    try {
+        await fetchAndUpdateMachineData();
+        console.log('miners database updated!')
+        res.send('Miners updated successfully.');
+    } catch (error) {
+        res.status(500).send('Error updating miners.');
+    }
+});
 
 app.post('/save-machine-state', authenticateToken, async (req, res) => {
     try {
@@ -29,11 +41,14 @@ app.post('/save-machine-state', authenticateToken, async (req, res) => {
 
 
 app.get('/load-machine-state', authenticateToken, async (req, res) => {
-    console.log("Endpoint /load-machine-state hit");
-
     try {
-        const data = await fs.readFile(machineStateFile, 'utf8');
-        console.log('Data read from file:', data);
+        let dataFile = machineStateFile;
+        if (req.query.source === 'rbm') {
+            dataFile = RBM_NODES_FILE;
+        }
+
+        const data = await fs.readFile(dataFile, 'utf8');
+        console.log(`Data read from file: ${dataFile}`, data);
 
         const jsonData = data ? JSON.parse(data) : {};
         console.log('Parsed JSON data:', jsonData);
@@ -41,7 +56,7 @@ app.get('/load-machine-state', authenticateToken, async (req, res) => {
     } catch (err) {
         console.error('Error:', err);
         if (err.code === 'ENOENT') {
-            console.log('No existing state file. Sending empty state.');
+            console.log(`No existing file (${dataFile}). Sending empty state.`);
             res.json({ boxStates: {} });
         } else {
             res.status(500).send('Error loading state');
@@ -53,8 +68,6 @@ app.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        console.log('here')
-        
         // Initialize an empty array for users
         let users = [];
 
@@ -93,9 +106,6 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
-        console.log("Current Working Directory:", process.cwd());
-        console.log("REMOVED_JWT_SECRET:", process.env.REMOVED_JWT_SECRET);
-
 
         // Read the users file
         const data = await fs.readFile(USERS_FILE, 'utf8');
