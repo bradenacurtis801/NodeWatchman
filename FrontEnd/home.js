@@ -1,6 +1,5 @@
 const token = localStorage.getItem('token'); // Retrieve the token from storage
 
-
 function createBoxContainer(sectionId, rowLabel, rackLabel) {
   // Find the section to append the container
   const section = document.getElementById(sectionId);
@@ -24,18 +23,21 @@ function createBoxContainer(sectionId, rowLabel, rackLabel) {
   labels.classList.add("labels");
   container.appendChild(labels);
 
-  // Add reset button for each parent box
-  const resetButton = document.createElement("button");
-  resetButton.textContent = "Reset";
-  resetButton.classList.add("box-reset-button");
-  resetButton.addEventListener("click", function () {
-    // Display confirmation dialog
-    const confirmed = confirm("Are you sure you want to reset these boxes?");
-    if (confirmed) {
-      resetBoxes(boxesContainer);
-    }
-  });
-  labels.appendChild(resetButton);
+  // Check if the current page is home.html before adding the reset button
+  if (window.location.pathname.includes("home.html")) {
+    // Add reset button for each parent box
+    const resetButton = document.createElement("button");
+    resetButton.textContent = "Reset";
+    resetButton.classList.add("box-reset-button");
+    resetButton.addEventListener("click", function () {
+      // Display confirmation dialog
+      const confirmed = confirm("Are you sure you want to reset these boxes?");
+      if (confirmed) {
+        resetBoxes(boxesContainer);
+      }
+    });
+    labels.appendChild(resetButton);
+  }
 
 
   const rowSpan = document.createElement("div");
@@ -153,9 +155,16 @@ function saveBoxState() {
 
 // Function to load the saved state of boxes
 async function loadBoxState() {
+  // Determine which endpoint to use based on the HTML page
+  const page = document.body.getAttribute('data-page');
+  let apiUrl = `http://${config.BACKEND_SERVER_IP}/load-machine-state`;
+
+  if (page === 'rbm_monitor') {
+    apiUrl += '?source=rbm';
+  }
 
   try {
-    const response = await fetch('http://192.168.200.54:3000/load-machine-state', {
+    const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -167,6 +176,7 @@ async function loadBoxState() {
     }
 
     const data = await response.json();
+    console.log("data",data)
     if (data && data.boxStates) {
       applyBoxState(data.boxStates);
     }
@@ -194,7 +204,7 @@ function applyBoxState(savedStates) {
 // Function to send the current state to the server
 async function saveStateToServer(boxStates) {
   try {
-    const response = await fetch('http://192.168.200.54:3000/save-machine-state', {
+    const response = await fetch(`http://${config.BACKEND_SERVER_IP}/save-machine-state`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -232,27 +242,26 @@ function enableBoxInteractions() {
   });
 }
 
-// Function to create a top-level save button
-const topLevelSaveButton = document.getElementById('saveStateButton');
-topLevelSaveButton.addEventListener("click", function () {
-  saveBoxState(); // Directly call saveBoxState when clicked
-  // Check the toggle to 'read' mode
-  modeToggle.checked = true;
-  disableBoxInteractions();
-});
+// // Function to create a top-level save button
+// topLevelSaveButton.addEventListener("click", function () {
+//   saveBoxState(); // Directly call saveBoxState when clicked
+//   // Check the toggle to 'read' mode
+//   modeToggle.checked = true;
+//   disableBoxInteractions();
+// });
 
 
-const topLevelResetButton = document.getElementById('resetAllButton');
-topLevelResetButton.addEventListener("click", function () {
-  // Ask for confirmation before resetting
-  const confirmed = confirm("Are you sure you want to reset all boxes?");
-  if (confirmed) {
-    document.querySelectorAll('.box').forEach(box => {
-      box.style.backgroundColor = ''; // Remove any set color
-    });
-    saveBoxState(); // Save the updated state
-  }
-});
+// const topLevelResetButton = document.getElementById('resetAllButton');
+// topLevelResetButton.addEventListener("click", function () {
+//   // Ask for confirmation before resetting
+//   const confirmed = confirm("Are you sure you want to reset all boxes?");
+//   if (confirmed) {
+//     document.querySelectorAll('.box').forEach(box => {
+//       box.style.backgroundColor = ''; // Remove any set color
+//     });
+//     saveBoxState(); // Save the updated state
+//   }
+// });
 
 function checkAndHandleTokenExpiration() {
   const token = localStorage.getItem('token');
@@ -308,43 +317,106 @@ function checkAndHandleTokenExpiration() {
   return false; // Token is still valid
 }
 
+async function updateMiners() {
+  try {
+      const response = await fetch(`http://${config.BACKEND_SERVER_IP}/update-miners`);
+      if (response.ok) {
+          console.log('Miners updated successfully. Reloading the page.');
+          // Reload the page
+          window.location.reload();
+      } else {
+          console.error('Failed to update miners');
+          // Update the UI to notify the user of the failure
+      }
+  } catch (error) {
+      console.error('Error:', error);
+      // Update the UI to notify the user of the error
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+  console.log(config.BACKEND_SERVER_IP);
+
+  // Event listener for the Refresh button
+  const refreshButton = document.getElementById('getRBM_Update');
+  if (refreshButton) {
+
+    refreshButton.addEventListener('click', () => {
+      updateMiners();
+  });
+  }
+
+  // Check for the existence of elements before adding event listeners
+  const topLevelSaveButton = document.getElementById('saveStateButton');
+  if (topLevelSaveButton) {
+    topLevelSaveButton.addEventListener("click", function () {
+      saveBoxState(); // Directly call saveBoxState when clicked
+      // Check the toggle to 'read' mode
+      const modeToggle = document.getElementById('modeToggle');
+      if (modeToggle) {
+        modeToggle.checked = true;
+        disableBoxInteractions();
+      }
+    });
+  }
+
+  const topLevelResetButton = document.getElementById('resetAllButton');
+  if (topLevelResetButton) {
+    topLevelResetButton.addEventListener("click", function () {
+      const confirmed = confirm("Are you sure you want to reset all boxes?");
+      if (confirmed) {
+        document.querySelectorAll('.box').forEach(box => {
+          box.style.backgroundColor = ''; // Remove any set color
+        });
+        saveBoxState(); // Save the updated state
+      }
+    });
+  }
+
+  // Logout Button logic
   const logoutButton = document.getElementById('logoutBtn');
-  // Add an event listener for the click event on the logout button
-  logoutButton.addEventListener('click', async function () {
-    // Retrieve the token from localStorage
-    const token = localStorage.getItem('token');
+  if (logoutButton) {
+    logoutButton.addEventListener('click', async function () {
+      const token = localStorage.getItem('token');
+      if (token) {
+        await fetch('/logout', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+      }
+    });
+  }
 
-    // If a token exists, send a logout request to the server
-    if (token) {
-      await fetch('/logout', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      // Regardless of the server's response, remove the token from localStorage
-      localStorage.removeItem('token');
-    }
+  // Token expiration check
+  checkAndHandleTokenExpiration();
 
-    // Redirect the user to the login page
-    window.location.href = 'login.html';
-  });
-
-  checkAndHandleTokenExpiration()
+  // Mode toggle logic
   const modeToggle = document.getElementById('modeToggle');
+  if (modeToggle) {
+    modeToggle.addEventListener('change', function () {
+      if (this.checked) {
+        disableBoxInteractions();
+      } else {
+        enableBoxInteractions();
+      }
+    });
+    // Initially set to read mode
+    disableBoxInteractions();
+  }
 
-  modeToggle.addEventListener('change', function () {
-    if (this.checked) {
-      // Read mode enabled
-      disableBoxInteractions();
-    } else {
-      // Write mode enabled
-      enableBoxInteractions();
-    }
-  });
+  // Create box containers
+  createBoxContainers();
+
+  // Load the state of boxes
+  loadBoxState();
+});
 
 
+function createBoxContainers() {
   createBoxContainer("section-A", "A1", "11");
   createBoxContainer("section-A", "A1", "12");
   createBoxContainer("section-A", "A1", "13");
@@ -364,8 +436,6 @@ document.addEventListener("DOMContentLoaded", function () {
   createBoxContainer("section-B", "B2", "123");
   createBoxContainer("section-B", "B2", "124");
   // ... more calls as needed
-  loadBoxState(); // Load the saved state after creating all boxes
   // Initially set to read mode
   disableBoxInteractions();
-
-});
+}
