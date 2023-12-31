@@ -325,6 +325,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   }
 
+  const homeButton = document.getElementById('homeButton');
+  homeButton.addEventListener("click", function () {
+      window.location.href = 'home.html';
+  });
+
   // Check for the existence of elements before adding event listeners
   const topLevelSaveButton = document.getElementById('saveStateButton');
   if (topLevelSaveButton) {
