@@ -155,7 +155,7 @@ function saveBoxState() {
 async function loadBoxState() {
 
   try {
-    const response = await fetch('http://192.168.200.54:3000/load-machine-state', {
+    const response = await fetch(`http://10.10.250.101:3000/load-machine-state`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -194,7 +194,7 @@ function applyBoxState(savedStates) {
 // Function to send the current state to the server
 async function saveStateToServer(boxStates) {
   try {
-    const response = await fetch('http://192.168.200.54:3000/save-machine-state', {
+    const response = await fetch(`http://10.10.250.101:3000/save-machine-state`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -361,6 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
   createBoxContainer("section-B", "B1", "113");
 
   createBoxContainer("section-B", "B2", "121");
+  createBoxContainer("section-B", "B2", "122");
   createBoxContainer("section-B", "B2", "123");
   createBoxContainer("section-B", "B2", "124");
   // ... more calls as needed
