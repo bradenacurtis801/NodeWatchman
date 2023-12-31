@@ -4,7 +4,10 @@ const app = express();
 const cors = require('cors');
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(cors({
+  origin: '*',
+}));
+
 // Serve static files from the 'FrontEnd' directory
 app.use(express.static(path.join(__dirname, '.')));
 

@@ -1,6 +1,6 @@
 // config.js
 const config = {
-    BACKEND_SERVER_IP: '127.0.0.1:3000',
+    BACKEND_SERVER_IP: '10.10.250.101:3000',
   };
   
   
