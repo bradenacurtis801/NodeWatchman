@@ -7,12 +7,16 @@ const fetchAndUpdateMachineData = require('./rbm_api');
 require('dotenv').config();
 
 const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
-const machineStateFile = './machineState.json';
+const MACHINE_STATE_FILE = './machineState.json';
 const USERS_FILE = './users.json';
 const RBM_NODES_FILE = './rbm_nodes.json';
 
-let tokenBlacklist = {};
+// Ensure required JSON files exist
+ensureFileExists(MACHINE_STATE_FILE, '{}');
+ensureFileExists(USERS_FILE, '[]');
+ensureFileExists(RBM_NODES_FILE, '{}');
 
+let tokenBlacklist = {};
 
 const app = express();
 app.use(cors()); // Enable CORS for all routes
@@ -31,7 +35,7 @@ app.get('/update-miners', async (req, res) => {
 
 app.post('/save-machine-state', authenticateToken, async (req, res) => {
     try {
-        await fs.writeFile(machineStateFile, JSON.stringify(req.body));
+        await fs.writeFile(MACHINE_STATE_FILE, JSON.stringify(req.body));
         res.send({ status: 'success' });
     } catch (err) {
         console.error(err);
@@ -42,7 +46,7 @@ app.post('/save-machine-state', authenticateToken, async (req, res) => {
 
 app.get('/load-machine-state', authenticateToken, async (req, res) => {
     try {
-        let dataFile = machineStateFile;
+        let dataFile = MACHINE_STATE_FILE;
         if (req.query.source === 'rbm') {
             dataFile = RBM_NODES_FILE;
         }
@@ -173,6 +177,18 @@ function checkBlacklist(req, res, next) {
     }
 
     next();
+}
+
+// Function to ensure a file exists, and create it with default content if it doesn't
+async function ensureFileExists(filePath, defaultContent) {
+    try {
+        const fileExists = await fs.access(filePath).then(() => true).catch(() => false);
+        if (!fileExists) {
+            await fs.writeFile(filePath, defaultContent);
+        }
+    } catch (err) {
+        console.error(`Error ensuring file exists: ${filePath}`, err);
+    }
 }
 
 
