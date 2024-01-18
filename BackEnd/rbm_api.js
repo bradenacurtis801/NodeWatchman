@@ -1,5 +1,7 @@
 require('dotenv').config();
 const fs = require('fs').promises;
+//const fetch = require("node-fetch");
+const fetch = require('cross-fetch');
 
 async function fetchAndUpdateMachineData() {
     try {
@@ -8,6 +10,7 @@ async function fetchAndUpdateMachineData() {
         const data = await response.json();
 
         const processedData = processMachineData(data);
+	console.log('writing to rbm_nodes');
         await fs.writeFile('rbm_nodes.json', JSON.stringify({ boxStates: processedData }, null, 2));
         console.log('Data processed and saved to rbm_nodes.json');
     } catch (error) {

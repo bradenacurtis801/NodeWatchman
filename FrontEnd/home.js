@@ -24,7 +24,7 @@ function createBoxContainer(sectionId, rowLabel, rackLabel) {
   container.appendChild(labels);
 
   // Check if the current page is home.html before adding the reset button
-  if (window.location.pathname.includes("home.html")) {
+  if (window.location.pathname.includes("Node_MAAS_Status.html")) {
     // Add reset button for each parent box
     const resetButton = document.createElement("button");
     resetButton.textContent = "Reset";
@@ -297,38 +297,61 @@ function checkAndHandleTokenExpiration() {
 }
 
 async function updateMiners() {
-  try {
-      const response = await fetch(`http://${config.BACKEND_SERVER_IP}/update-miners`);
-      if (response.ok) {
-          console.log('Miners updated successfully. Reloading the page.');
-          // Reload the page
-          window.location.reload();
-      } else {
-          console.error('Failed to update miners');
-          // Update the UI to notify the user of the failure
-      }
-  } catch (error) {
-      console.error('Error:', error);
-      // Update the UI to notify the user of the error
-  }
+    overlay.style.display = "flex";
+    let isRateLimitHit = false;
+
+    try {
+        const response = await fetch(`http://${config.BACKEND_SERVER_IP}/update-miners`);
+        if (response.ok) {
+            console.log('Miners updated successfully. Reloading the page.');
+            window.location.reload();
+        } else {
+            const errorMessage = await response.text();
+
+            if (response.status === 429) {
+                console.error('Rate limit hit:', errorMessage);
+                isRateLimitHit = true;
+            } else {
+                console.error('Failed to update miners:', errorMessage);
+            }
+
+            // Show the error message after hiding the overlay
+            overlay.style.display = "none";
+            alert(errorMessage);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while updating miners.');
+    } finally {
+        // Ensure overlay is hidden if not a rate limit error
+        if (!isRateLimitHit) {
+            overlay.style.display = "none";
+        }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Token expiration check
+  checkAndHandleTokenExpiration();
+
   console.log(config.BACKEND_SERVER_IP);
 
-  // Event listener for the Refresh button
+   // Event listener for the Refresh button
   const refreshButton = document.getElementById('getRBM_Update');
-  if (refreshButton) {
+  const overlay = document.getElementById('overlay');
 
+if (refreshButton) {
     refreshButton.addEventListener('click', () => {
-      updateMiners();
+        // Call updateMiners
+        updateMiners();
+    });
+}
+  const homeButton = document.getElementById('homeButton');
+  if (homeButton) {
+    homeButton.addEventListener("click", function () {
+    window.location.href = 'home.html';
   });
   }
-
-  const homeButton = document.getElementById('homeButton');
-  homeButton.addEventListener("click", function () {
-      window.location.href = 'home.html';
-  });
 
   // Check for the existence of elements before adding event listeners
   const topLevelSaveButton = document.getElementById('saveStateButton');
@@ -375,8 +398,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Token expiration check
-  checkAndHandleTokenExpiration();
 
   // Mode toggle logic
   const modeToggle = document.getElementById('modeToggle');
@@ -417,8 +438,10 @@ function createBoxContainers() {
   createBoxContainer("section-B", "B1", "113");
 
   createBoxContainer("section-B", "B2", "121");
+  createBoxContainer("section-B", "B2", "122");
   createBoxContainer("section-B", "B2", "123");
   createBoxContainer("section-B", "B2", "124");
+  createBoxContainer("section-B", "B2", "125");
   // ... more calls as needed
   // Initially set to read mode
   disableBoxInteractions();
