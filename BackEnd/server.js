@@ -4,6 +4,7 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fetchAndUpdateMachineData = require('./rbm_api');
+const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
@@ -13,18 +14,33 @@ const RBM_NODES_FILE = './rbm_nodes.json';
 
 let tokenBlacklist = {};
 
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 3, // Limit to 3 requests per window
+  handler: function (req, res /*, next */) {
+    const resetTime = new Date(parseInt(res.getHeaders()["x-ratelimit-reset"]) * 1000);
+    const currentTime = new Date();
+    const timeToWait = Math.ceil((resetTime - currentTime) / 1000); // Time in seconds
+    res.status(429).json({
+      message: `Too many requests. Please try again in ${timeToWait} seconds.`
+    });
+  }
+});
 
 const app = express();
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
+app.use('/update-miners', limiter);
 // app.use(checkBlacklist);
 
 app.get('/update-miners', async (req, res) => {
     try {
+	console.log('Received request to update miners');
         await fetchAndUpdateMachineData();
         console.log('miners database updated!')
         res.send('Miners updated successfully.');
     } catch (error) {
+        console.error('Error updating miners:', error);
         res.status(500).send('Error updating miners.');
     }
 });
@@ -46,12 +62,10 @@ app.get('/load-machine-state', authenticateToken, async (req, res) => {
         if (req.query.source === 'rbm') {
             dataFile = RBM_NODES_FILE;
         }
-
         const data = await fs.readFile(dataFile, 'utf8');
-        console.log(`Data read from file: ${dataFile}`, data);
-
+        //console.log(`Data read from file: ${dataFile}`, data);
         const jsonData = data ? JSON.parse(data) : {};
-        console.log('Parsed JSON data:', jsonData);
+        //console.log('Parsed JSON data:', jsonData);
         res.json(jsonData);
     } catch (err) {
         console.error('Error:', err);
@@ -116,7 +130,7 @@ app.post('/login', async (req, res) => {
 
         // Check if user exists and password is correct
         if (user && await bcrypt.compare(password, user.hashedPassword)) {
-            const token = jwt.sign({ username: username }, REMOVED_JWT_SECRET, { expiresIn: '20m' });
+            const token = jwt.sign({ username: username }, REMOVED_JWT_SECRET, { expiresIn: '9999 years' });
             res.json({ token });
         } else {
             res.status(401).send('Invalid credentials');
