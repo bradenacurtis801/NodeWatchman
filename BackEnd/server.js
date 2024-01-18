@@ -17,7 +17,6 @@ ensureFileExists(MACHINE_STATE_FILE, '{}');
 ensureFileExists(USERS_FILE, '[]');
 ensureFileExists(RBM_NODES_FILE, '{}');
 
-<<<<<<< HEAD
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 3, // Limit to 3 requests per window
@@ -30,9 +29,7 @@ const limiter = rateLimit({
     });
   }
 });
-=======
 let tokenBlacklist = {};
->>>>>>> origin/main
 
 const app = express();
 app.use(cors()); // Enable CORS for all routes

@@ -30,4 +30,5 @@ Thumbs.db
 # ignore database files
 machineState.json
 rbm_nodes.json
+users.json
 
