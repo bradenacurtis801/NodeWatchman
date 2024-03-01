@@ -24,7 +24,7 @@ app.use(cors()); // Enable CORS for all routes
 
 
 // POST endpoint to execute the script
-app.post('/execute-script', (req, res) => {
+app.post('/execute-script', async (req, res) => {
     const { ips, script } = req.body;
     if (!ips || !script) {
         return res.status(400).send('IP addresses or script missing');
@@ -32,33 +32,43 @@ app.post('/execute-script', (req, res) => {
 
     // Assuming the script is now located within the public directory or correctly accessible
     const scriptPath = '../BashScripts/execute_on_machines.sh';
-    // Prepare to stream the response
-    res.writeHead(200, {
-        "Content-Type": "text/plain",
-        "Transfer-Encoding": "chunked",
-    });
 
     console.log('running ssh command');
     const childProcess = spawn('bash', [scriptPath, ips, script]);
+    let jsonOutput = []; // Store JSON data
 
-    childProcess.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
-        res.write(data); // Send chunks of data as they come
-    });
+    try {
+        for await (const data of childProcess.stdout) {
+            console.log(`stdout: ${data}`);
+            try {
+                const json = JSON.parse(data); // Try parsing the data as JSON
+                // Filter out empty JSON objects
+                if (Object.keys(json).length > 0) {
+                    jsonOutput.push(json); // Parse JSON data
+                }
+            } catch (error) {
+                // Handle non-JSON data (regular output) here
+                console.error('Error parsing JSON:', error);
+            }
+        }
+    } catch (error) {
+        console.error('Error reading stdout:', error);
+    }
 
     childProcess.stderr.on('data', (data) => {
         console.error(`stderr: ${data}`);
-        res.write(`Error: ${data}`); // Optionally handle errors differently
+        // Optionally handle errors differently
     });
 
     childProcess.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
-        res.end(); // Close the response stream
+        // Send the JSON data back as the response
+        res.json(jsonOutput);
     });
 
     childProcess.on('error', (error) => {
         console.error(`exec error: ${error}`);
-        res.status(500).send(`Script execution error: ${error.message}`);
+        res.status(500).json({ error: `Script execution error: ${error.message}` });
     });
 });
 
