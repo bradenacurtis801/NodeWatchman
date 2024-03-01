@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, '.')));
 
 // Route to serve the home.html file
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'home.html'));
+    res.sendFile(path.join(__dirname, 'public/home.html'));
 });
 
 const PORT = 5500;
