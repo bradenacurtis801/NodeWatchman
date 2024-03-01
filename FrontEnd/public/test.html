@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Box Highlighter</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body data-page="home">
+
+    <button id="runCustomScriptBtn">Run Custom Script</button>
+    
+<div id="customScriptModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Custom Script Runner</h2>
+      <div id="selectedMachines"></div>
+      <textarea id="bashCode" placeholder="Paste your Bash script here..."></textarea>
+      <button id="startCommand">Start</button>
+    </div>
+  </div>
+
+    <div class="main-container">
+      <div class="section" id="section-A"></div>
+      <div class="section" id="section-B"></div>
+    </div>
+
+    <script src="../interact.js"></script>
+    <script src="../boxFactory/boxFactory.js"></script>
+    <!-- <script type="module">
+      import { dragSelect } from "../dragSelect.js";
+      import { debugInfo } from "../debug.js";
+
+      globalThis.debugInfo = debugInfo;
+
+      const mainContainer = document.querySelector(".main-container");
+      dragSelect(mainContainer, {
+        itemSelector: ".drag-selectable", // Ensure your boxes have this class
+        areaClassName: "drag-select-area", // Ensure you have CSS for this
+      });
+    </script> -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const manager = new BoxContainerManager();
+        window.manager = manager; // Make it globally accessible
+
+        // Add a couple of rows with some racks for demonstration purposes
+        manager.createRowContainer("section-A", "A1");
+        manager.createRowContainer("section-B", "B1");
+
+        // Now, assuming both RowContainer and RackContainer instances have been properly setup
+        // and that boxes have been added to racks in those rows, we update all box behaviors:
+
+        // Get a row and add racks to it
+        const rowA1 = manager.getRow("A1");
+        if (rowA1) {
+          rowA1.addRack("11", 20, SpecializedRackContainer);
+          rowA1.addRack("12", 25, SpecializedRackContainer);
+        } else {
+          console.log("Row A1 does not exist.");
+        }
+        
+        console.log(manager);
+      });
+    </script>
+  </body>
+</html>

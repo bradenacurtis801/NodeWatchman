@@ -36,17 +36,26 @@
 </head>
 <body>
     <ul class="nav-menu">
-        <li><a href="Node_MAAS_Status.html">MASS Nodes</a></li>
-        <li><a href="rbm_monitor.html">RainbowMiner Status</a></li>
+        <li><a href="#" onclick="loadPage('public/Node_MAAS_Status.html');return false;">MASS Nodes</a></li>
+        <li><a href="#" onclick="loadPage('public/rbm_monitor.html');return false;">RainbowMiner Status</a></li>
+        <li><a href="#" onclick="loadPage('public/interact.html');return false;">Interact</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
     </ul>
 
     <div class="content">
         <!-- Your page content goes here -->
         <h1>Welcome to Your Stylish Page</h1>
         <p>This is the content of your stylish HTML page.</p>
+        <iframe id="contentFrame" style="width:100%; height:600px; border:none;"></iframe>
     </div>
-    <script src="home.js"></script>
-    <script src="config.js"></script>
+    <script src="../auth.js"></script>
+    <script src="../config.js"></script>
+    <script src="../home.js"></script>
+    <script>
+        function loadPage(url) {
+            document.getElementById('contentFrame').src = url;
+        }
+        </script>
 </body>
 </html>
 
