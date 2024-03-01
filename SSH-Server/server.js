@@ -1,6 +1,7 @@
 const os = require('os');
 const express = require('express');
 const bodyParser = require('body-parser');
+const { spawn } = require('child_process'); 
 const cors = require('cors');
 const { exec } = require('child_process');
 
@@ -13,48 +14,52 @@ const { exec } = require('child_process');
 // }
 
 const app = express();
+app.use(express.json()); // For parsing application/json
 const port = 5000;
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 app.use(cors()); // Enable CORS for all routes
 
+
+
 // POST endpoint to execute the script
 app.post('/execute-script', (req, res) => {
-  const { ips, script } = req.body;
-  if (!ips || !script) {
-    return res.status(400).send('IP addresses or script missing');
-  }
-
-  // Path to your bash script
-//   const scriptPath = '../BashScripts/execute_on_machines.sh';
-
-  // Use a more generalized command without assuming WSL's 'wsl' prefix
-  // as we're now checking for a WSL environment beforehand.
-//   exec(`bash ${scriptPath} "${ips}" "${script}"`, (error, stdout, stderr) => {
-//     if (error) {
-//       console.error(`exec error: ${error}`);
-//       return res.status(500).send(`Script execution error: ${error.message}`);
-//     }
-//     console.log(`stdout: ${stdout}`);
-//     console.error(`stderr: ${stderr}`);
-//     res.send({ message: 'Script executed successfully', stdout, stderr });
-//   });
-const scriptPath = '/mnt/d/CareMedical/PriceDatabaseUtil/NodeWatchman/BashScripts/execute_on_machines.sh';
-
-  // Adjust the command to invoke the script correctly.
-  // Here we're assuming the script is executable and has the correct shebang line (e.g., #!/bin/bash)
-  const command = `bash ${scriptPath} "${ips}" "${script}"`;
-
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return res.status(500).send(`Script execution error: ${error.message}`);
+    const { ips, script } = req.body;
+    if (!ips || !script) {
+        return res.status(400).send('IP addresses or script missing');
     }
-    console.log('stdout: ', stdout);
-    console.log('stderr: ', stderr);
-    res.send({ message: 'Script executed successfully', stdout, stderr });
-  });
+
+    // Assuming the script is now located within the public directory or correctly accessible
+    const scriptPath = '../BashScripts/execute_on_machines.sh';
+    // Prepare to stream the response
+    res.writeHead(200, {
+        "Content-Type": "text/plain",
+        "Transfer-Encoding": "chunked",
+    });
+
+    console.log('running ssh command');
+    const childProcess = spawn('bash', [scriptPath, ips, script]);
+
+    childProcess.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+        res.write(data); // Send chunks of data as they come
+    });
+
+    childProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+        res.write(`Error: ${data}`); // Optionally handle errors differently
+    });
+
+    childProcess.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+        res.end(); // Close the response stream
+    });
+
+    childProcess.on('error', (error) => {
+        console.error(`exec error: ${error}`);
+        res.status(500).send(`Script execution error: ${error.message}`);
+    });
 });
 
 app.listen(port, '0.0.0.0', () => {
