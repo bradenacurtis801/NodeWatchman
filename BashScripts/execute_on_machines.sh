@@ -1,3 +1,6 @@
+#!/bin/bash
+
+# Function to parse output and create JSON object
 parse_output_to_json() {
     local ip="$1"
     local command="$2"
@@ -38,7 +41,7 @@ for ip in "${machine_ips[@]}"; do
     (
         printf "Executing on %s:\n%s\n" "$ip" "$(printf '%.0s-' {1..10})"
         # Capture the output of each SSH command and write it to a temporary file
-        output=$(ssh -i ../id_rsa -o StrictHostKeyChecking=no testuser@"$ip" "$command" 2>&1)
+        output=$(ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "$command" 2>&1)
         # If using a key for SSH, use: output=$(ssh -i /path/to/private/key user@"$ip" "$command" 2>&1)
 
         # Output to console
@@ -52,3 +55,4 @@ done
 wait
 
 echo "done"
+
