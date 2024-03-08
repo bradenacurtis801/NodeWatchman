@@ -16,6 +16,32 @@ async function saveStateToServer(boxStates) {
     }
   }
 
+  // Load box state specifically for MAAS UI
+  async function loadBoxState() {
+    const apiUrl = `http://${config.BACKEND_SERVER_IP}/load-machine-state`; // No source parameter needed
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch state for MAAS UI');
+      }
+  
+      const data = await response.json();
+      console.log("MAAS UI data", data);
+      if (data && data.boxStates) {
+        applyBoxState(data.boxStates); // Ensure this function is defined to apply the state to boxes
+      }
+    } catch (error) {
+      console.error('Error loading state for MAAS UI:', error);
+    }
+  }
+
   // Function to save the state of boxes
 function saveBoxState() {
     checkAndHandleTokenExpiration()
@@ -78,35 +104,6 @@ function cycleBoxColor(box) {
   function resetBoxColor(box) {
     box.style.backgroundColor = ''; // Remove any set color
   }
-
-  // Load box state specifically for MAAS UI
-async function loadBoxState() {
-    const apiUrl = `http://${config.BACKEND_SERVER_IP}/load-machine-state`; // No source parameter needed
-  
-    try {
-      const response = await fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-  
-      if (!response.ok) {
-        throw new Error('Failed to fetch state for MAAS UI');
-      }
-  
-      const data = await response.json();
-      console.log("MAAS UI data", data);
-      if (data && data.boxStates) {
-        applyBoxState(data.boxStates); // Ensure this function is defined to apply the state to boxes
-      }
-    } catch (error) {
-      console.error('Error loading state for MAAS UI:', error);
-    }
-  }
-  
-
-
 
   const resetButton = document.createElement("button");
   resetButton.textContent = "Reset";

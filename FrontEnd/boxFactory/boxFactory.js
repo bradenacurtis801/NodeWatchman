@@ -29,6 +29,10 @@ class BoxContainerManager {
     updateAllBoxBehaviors(eventHandlers) {
         this.rows.forEach(row => row.updateAllBoxBehaviors(eventHandlers));
     }
+
+    getInfoAll() {
+        return this.rows.reduce((acc, row) => acc.concat(...row.getInfoRow()), []);
+    } 
 }
 
 class RowContainerBase {
@@ -66,6 +70,14 @@ class RowContainerBase {
 
     updateAllBoxBehaviors(eventHandlers) {
         this.racks.forEach(rack => rack.updateAllBoxBehaviors(eventHandlers));
+    }
+
+    getInfoRow() {
+        const rowInfo = [];
+        this.racks.forEach(rack => {
+            rowInfo.push(rack.getInfoRack());
+        });
+        return rowInfo;
     }
     
 }
@@ -149,6 +161,14 @@ class RackContainerBase {
             }
         }
     }
+
+    getInfoRack() {
+        const rackInfo = [];
+        this.boxes.forEach(box => {
+            rackInfo.push(box.getInfo());
+        });
+        return rackInfo;
+    }
 }
 
 class Box {
@@ -156,9 +176,9 @@ class Box {
         this.rowLabel = rowLabel;
         this.rackLabel = rackLabel;
         this.index = index;
-        this.element = this.createElement();
         this.id = `${rowLabel}-${rackLabel}-${index}`;
         this.ip = this.getMachineIP();
+        this.element = this.createElement();
         this.setEventHandlers(eventHandlers);
     }
 
@@ -187,6 +207,17 @@ class Box {
 
     updateEventHandlers(eventHandlers) {
         this.setEventHandlers(eventHandlers);
+    }
+
+    getInfo() {
+        return {
+            [this.id]: {
+                rowLabel: this.rowLabel,
+                rackLabel: this.rackLabel,
+                index: this.index,
+                ip: this.ip
+            }
+        };
     }
 }
 
