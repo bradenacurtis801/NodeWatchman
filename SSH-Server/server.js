@@ -33,56 +33,44 @@ app.post('/execute-script', async (req, res) => {
     const scriptPath = '../BashScripts/execute_on_machines.sh';
     console.log('running ssh command');
     const childProcess = spawn('bash', [scriptPath, ips, script]);
-    let jsonOutput = []; // Store JSON data
-    let buffer = '';
+    let rawData = ''; // Accumulate data here
 
-    try {
-        for await (const data of childProcess.stdout) {
-            console.log(`stdout: ${data}`);
-            buffer += data;
-
-            // This regex helps to find what seems to be a JSON object
-            let match;
-            while (match = buffer.match(/\{.*?\}\s*(?=\{|$)/s)) {
-                const jsonString = match[0];
-                buffer = buffer.substring(match.index + jsonString.length);
-                
-                try {
-                    const json = JSON.parse(jsonString);
-                    jsonOutput.push(json);
-                } catch (error) {
-                    console.error('Error parsing JSON:', error, 'From string:', jsonString);
-                }
-            }
-        }
-    } catch (error) {
-        console.error('Error reading stdout:', error);
-    }
-
-    childProcess.stderr.on('data', (data) => {
-        console.error(`stderr: ${data}`);
+    childProcess.stdout.on('data', (data) => {
+        rawData += data.toString(); // Accumulate data as a string.
     });
 
     childProcess.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
 
-        // Sort the JSON data by IP address numerically
-        jsonOutput.sort((a, b) => {
-            const ipSegmentsA = a.ip.split('.').map(Number);
-            const ipSegmentsB = b.ip.split('.').map(Number);
-            
-            for (let i = 0; i < ipSegmentsA.length; i++) {
-                if (ipSegmentsA[i] < ipSegmentsB[i]) {
-                    return -1;
-                } else if (ipSegmentsA[i] > ipSegmentsB[i]) {
-                    return 1;
-                }
-            }
-            return 0;
-        });
+        // Directly parse the rawData as JSON
+        try {
+            let jsonOutput = JSON.parse(rawData);
 
-        // Send the sorted JSON data back as the response
-        res.json(jsonOutput);
+            // Optionally, sort the JSON data by IP address numerically
+            jsonOutput.sort((a, b) => {
+                const ipSegmentsA = a.ip.split('.').map(Number);
+                const ipSegmentsB = b.ip.split('.').map(Number);
+                
+                for (let i = 0; i < ipSegmentsA.length; i++) {
+                    if (ipSegmentsA[i] < ipSegmentsB[i]) {
+                        return -1;
+                    } else if (ipSegmentsA[i] > ipSegmentsB[i]) {
+                        return 1;
+                    }
+                }
+                return 0;
+            });
+
+            // Send the sorted JSON data back as the response
+            res.json(jsonOutput);
+        } catch (error) {
+            console.error('Error parsing JSON:', error, 'From rawData:', rawData);
+            res.status(500).json({ error: 'Error parsing script output as JSON' });
+        }
+    });
+
+    childProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
     });
 
     childProcess.on('error', (error) => {
@@ -94,3 +82,4 @@ app.post('/execute-script', async (req, res) => {
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+

@@ -18,7 +18,7 @@ parse_output_to_json() {
 }
 
 # Declare an array to store JSON data
-declare -a json_data
+temp_file=$(mktemp)
 
 # Check if at least two arguments are provided
 if [ "$#" -lt 2 ]; then
@@ -35,19 +35,18 @@ command="$2"
 # Loop through the array of IPs and execute the command on each machine in parallel
 for ip in "${machine_ips[@]}"; do
     (
-        # Output execution info to both console and debug.txt
-        printf "Executing on %s:\n%s\n" "$ip" "$(printf '%.0s-' {1..10})" | tee -a debug.txt
-
         # Capture the output of each SSH command and write it to a temporary file
-        output=$(ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "$command" 2>&1 | tee -a debug.txt)
+        output=$(ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ubuntu@"$ip" "$command" 2>&1)
 
         # Call function to parse output and create JSON object
-        json=$(parse_output_to_json "$ip" "$command" "$output")
-        echo "$json" | tee -a debug.txt
+        parse_output_to_json "$ip" "$command" "$output" >> "$temp_file"
     ) &
 done
 
 wait
 
-echo "done" | tee -a debug.txt
+# Combine individual JSON objects into a JSON array
+jq -s '.' < "$temp_file"
+
+rm "$temp_file" # Clean up the temporary file
 
