@@ -6,12 +6,15 @@ parse_output_to_json() {
     local command="$2"
     local output="$3"
 
-    # Check if output contains error message
+    # Check if output contains "No route to host" error message
     if [[ $output == *"No route to host"* ]]; then
-        # Create JSON object for error using jq
+        # Create JSON object for "No route to host" error using jq
         jq -n --arg ip "$ip" '{"ip": $ip, "error": "No route to host"}'
+    elif [[ $output == *"Connection timed out"* ]]; then
+        # Create JSON object for "Connection timed out" error using jq
+        jq -n --arg ip "$ip" '{"ip": $ip, "error": "Connection timed out"}'
     else
-        # Use jq to properly escape and create JSON objects
+        # Use jq to properly escape and create JSON objects for other outputs
         jq -nR --arg ip "$ip" --arg cmd "$command" --arg out "$output" \
           '{"ip": $ip, "result": {"cmd": $cmd, "output": $out}}'
     fi
