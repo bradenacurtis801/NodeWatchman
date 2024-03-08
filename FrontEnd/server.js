@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/test.html'));
 });
 
-const PORT = 5500;
+const PORT = 5501;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
