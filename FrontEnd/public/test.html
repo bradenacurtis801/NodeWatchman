@@ -8,8 +8,12 @@
   </head>
 
   <body data-page="home">
+    <div id="top-level-buttons" class="top-level-buttons">
+      <!-- Buttons will be added here dynamically -->
+      <button id="getNodeStatusBtn">Update Node Status</button>
+      <button id="runCustomScriptBtn">Run Custom Script</button>
+    </div>
 
-    <button id="runCustomScriptBtn">Run Custom Script</button>
     
 <div id="customScriptModal" class="modal">
     <div class="modal-content">
@@ -25,7 +29,7 @@
       <div class="section" id="section-A"></div>
       <div class="section" id="section-B"></div>
     </div>
-
+    <script src="../config.js"></script>
     <script src="../interact.js"></script>
     <script src="../boxFactory/boxFactory.js"></script>
     <!-- <script type="module">
@@ -47,21 +51,46 @@
 
         // Add a couple of rows with some racks for demonstration purposes
         manager.createRowContainer("section-A", "A1");
+        manager.createRowContainer("section-A", "A2");
         manager.createRowContainer("section-B", "B1");
+        manager.createRowContainer("section-B", "B2");
 
         // Now, assuming both RowContainer and RackContainer instances have been properly setup
         // and that boxes have been added to racks in those rows, we update all box behaviors:
 
         // Get a row and add racks to it
         const rowA1 = manager.getRow("A1");
+        const rowA2 = manager.getRow("A2");
+        const rowB1 = manager.getRow("B1");
+        const rowB2 = manager.getRow("B2");
         if (rowA1) {
           rowA1.addRack("11", 20, SpecializedRackContainer);
-          rowA1.addRack("12", 25, SpecializedRackContainer);
+          rowA1.addRack("12", 20, SpecializedRackContainer);
+          rowA1.addRack("13", 20, SpecializedRackContainer);
+          rowA1.addRack("14", 20, SpecializedRackContainer);
+
+          rowA2.addRack("21", 20, SpecializedRackContainer);
+          rowA2.addRack("22", 20, SpecializedRackContainer);
+          rowA2.addRack("23", 20, SpecializedRackContainer);
+          rowA2.addRack("24", 20, SpecializedRackContainer);
+          rowA2.addRack("25", 20, SpecializedRackContainer);
+
+          rowB1.addRack("11", 20, SpecializedRackContainer);
+          rowB1.addRack("12", 20, SpecializedRackContainer);
+          rowB1.addRack("13", 20, SpecializedRackContainer);
+
+          rowB2.addRack("21", 20, SpecializedRackContainer);
+          rowB2.addRack("22", 20, SpecializedRackContainer);
+          rowB2.addRack("23", 20, SpecializedRackContainer);
+          rowB2.addRack("24", 20, SpecializedRackContainer);
+          rowB2.addRack("25", 20, SpecializedRackContainer);
         } else {
           console.log("Row A1 does not exist.");
         }
         
         console.log(manager);
+        const allInfo = manager.getInfoAll();
+        console.log(allInfo);
       });
     </script>
   </body>

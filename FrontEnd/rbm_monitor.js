@@ -3,7 +3,7 @@ async function updateMiners() {
     let isRateLimitHit = false;
 
     try {
-        const response = await fetch(`http://${config.BACKEND_SERVER_IP}/update-miners`);
+        const response = await fetch(`http://${config.BACKEND_SERVER_IP}:${config.BACKEND_SERVER_PORT}/update-miners`);
         if (response.ok) {
             console.log('Miners updated successfully. Reloading the page.');
             window.location.reload();
@@ -34,7 +34,7 @@ async function updateMiners() {
 
 // Load box state specifically for RBM Monitor
 async function loadBoxState() {
-    const apiUrl = `http://${config.BACKEND_SERVER_IP}/load-machine-state?source=rbm`;
+    const apiUrl = `http://${config.BACKEND_SERVER_IP}:${config.BACKEND_SERVER_PORT}/load-machine-state?source=rbm`;
   
     try {
       const response = await fetch(apiUrl, {
