@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    loadBoxState();
     const runCustomScriptBtn = document.getElementById('runCustomScriptBtn');
     const customScriptModal = document.getElementById('customScriptModal');
     const closeBtn = customScriptModal.querySelector('.close');
@@ -97,21 +98,107 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ ips: ipsString, script: bashCode }), // Assuming nodeInfo is the object to send
       });
       const executeResult = await executeResponse.json();
-      console.log('Execution Result:', executeResult);
+      const mappedInfo = executeResult.reduce((acc, obj) => {
+        const id = generateIdFromIp(obj.ip);
+        acc[id] = obj;
+        return acc;
+      }, {});
+     const mappedArray = Object.entries(mappedInfo).map(([id, obj]) => {
+       const color = obj.error ? 'red' : 'green';
+       return { [id]: { ...obj, color } };
+     });
+     console.log('Execution Result:', mappedArray);
   
       // Forwarding the response to another endpoint
-//      const updateStateUrl = `http://${config.BACKEND_SERVER_IP}/interact/update-machine-state`;
-//      const updateResponse = await fetch(updateStateUrl, {
-//        method: 'POST',
-//        headers: {
-//          'Content-Type': 'application/json',
-//        },
-//        body: JSON.stringify({ips: ipsString, script: bashCommand}), // Forwarding the response received from the previous request
-//      });
-//      const updateResult = await updateResponse.json();
-//      console.log('Update Machine State Result:', updateResult);
-    } catch (error) {
+      const updateStateUrl = `http://${config.BACKEND_SERVER_IP}:${config.BACKEND_SERVER_PORT}/interact/update-machine-state`;
+      const updateResponse = await fetch(updateStateUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(mappedArray), // Forwarding the response received from the previous request
+      });
+      const updateResult = await updateResponse.json();
+      console.log('Update Machine State Result:', updateResult);} catch (error) {
       console.error('Error in processing:', error);
     }
   });
-  
+
+async function loadBoxState() {
+  // Determine which endpoint to use based on the HTML page
+  const page = document.body.getAttribute('data-page');
+  let apiUrl = `http://${config.BACKEND_SERVER_IP}:${config.BACKEND_SERVER_PORT}/interact/load-machine-state`;
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch state');
+    }
+
+    const data = await response.json();
+    console.log("data",data)
+    if (data && Array.isArray(data)) {
+      const boxStates = Object.assign({}, ...data);
+      applyBoxState(boxStates);
+    }
+  } catch (error) {
+    console.error('Error loading state:', error);
+  }
+}
+
+function applyBoxState(savedStates) {
+  document.querySelectorAll('.box').forEach(box => {
+    const boxState = savedStates[box.id];
+    if (boxState && boxState.color) {
+      // Apply the color directly to the box's style
+      box.style.backgroundColor = boxState.color;
+    } else {
+      // Apply default color or remove the style
+      box.style.backgroundColor = ""; // Set to your default color or remove the style
+    }
+  });
+}
+
+function generateIdFromIp(ip) {
+  const octets = ip.split(".").map(Number);
+  if (octets.length !== 4) {
+    throw new Error("Invalid IP address format");
+  }
+
+  const [network1, network2, thirdOctet, machineNumber] = octets;
+
+  // Determine if third octet is in the specified range for Section A
+  const sectionARange = [11, 12, 13, 14, 21, 22, 23, 24, 25];
+  const sectionBRange = [111, 112, 113, 121, 122, 123, 124, 125];
+  let section;
+  if (sectionARange.includes(thirdOctet)) {
+    section = "A";
+  } else if (sectionBRange.includes(thirdOctet)) {
+    section = "B";
+  } else {
+    section = "Unknown";
+  }
+
+  // Determine the number based on the range of the third octet
+  let number;
+  if (
+    (thirdOctet >= 11 && thirdOctet <= 19) ||
+    (thirdOctet >= 111 && thirdOctet <= 119)
+  ) {
+    number = 1;
+  } else if (
+    (thirdOctet >= 21 && thirdOctet <= 29) ||
+    (thirdOctet >= 121 && thirdOctet <= 129)
+  ) {
+    number = 2;
+  } else {
+    number = "Unknown"; // Placeholder, adjust as needed
+  }
+
+  // Construct the ID
+  const id = `${section}${number}-${thirdOctet}-${machineNumber}`;
+  return id;
+}

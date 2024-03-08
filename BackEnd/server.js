@@ -5,7 +5,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fetchAndUpdateMachineData = require('./rbm_api');
 const rateLimit = require('express-rate-limit');
+const config = require('../Config/config.js');
 require('dotenv').config();
+const bodyParser = require('body-parser');
 
 const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
 const MACHINE_STATE_FILE = './db/machineState.json';
@@ -33,9 +35,17 @@ const limiter = rateLimit({
 });
 let tokenBlacklist = {};
 
+const corsOptions = {
+    origin: '*', // or use '*' to allow all origins
+    optionsSuccessStatus: 200, // For legacy browser support
+    methods: ['GET', 'POST'], // Add other methods as per your requirement
+    allowedHeaders: ['Content-Type'], // Add other headers as per your requirement
+  };
+
 const app = express();
 app.use(cors()); // Enable CORS for all routes
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use('/update-miners', limiter);
 // app.use(checkBlacklist);
 
@@ -168,6 +178,48 @@ function authenticateToken(req, res, next) {
     });
 }
 
+app.post('/interact/update-machine-state', async (req, res) => {
+    // Directly use req.body as it contains the executeResult array
+    const executeResult = req.body;
+
+    // Validate the executeResult to ensure it's not empty and is an array
+    if (!Array.isArray(executeResult) || executeResult.length === 0) {
+        return res.status(400).send('Invalid or empty execute result provided');
+    }
+
+    // Process the received data and save it to INTERACTIVE_NODES_FILE
+    try {
+        // Write the executeResult array to the file
+        await fs.writeFile(INTERACTIVE_NODES_FILE, JSON.stringify(executeResult, null, 2));
+        console.log(executeResult);
+        // Respond with a success message
+        res.json({ status: 'success', message: 'Interactive machine state updated successfully.' });
+    } catch (error) {
+        console.error('Error saving interactive machine state:', error);
+        res.status(500).send('Error processing request');
+    }
+});
+
+app.get('/interact/load-machine-state', async (req, res) => {
+    try {
+        let dataFile = INTERACTIVE_NODES_FILE;
+
+        const data = await fs.readFile(dataFile, 'utf8');
+        //console.log(`Data read from file: ${dataFile}`, data);
+        const jsonData = data ? JSON.parse(data) : {};
+        //console.log('Parsed JSON data:', jsonData);
+        res.json(jsonData);
+    } catch (err) {
+        console.error('Error:', err);
+        if (err.code === 'ENOENT') {
+            console.log(`No existing file (${dataFile}). Sending empty state.`);
+            res.json({ boxStates: {} });
+        } else {
+            res.status(500).send('Error loading state');
+        }
+    }
+});
+
 function blacklistToken(token) {
     // Assume the token has a certain expiration time, e.g., 1 hour
     const EXPIRY_TIME_IN_MS = 3600 * 1000; // 1 hour in milliseconds
@@ -207,5 +259,5 @@ async function ensureFileExists(filePath, defaultContent) {
     }
 }
 
+app.listen(config.BACKEND_SERVER_PORT, '0.0.0.0', () => console.log(`Server started on port ${config.BACKEND_SERVER_PORT}`));
 
-app.listen(3000, '0.0.0.0', () => console.log('Server started on port 3000'));
