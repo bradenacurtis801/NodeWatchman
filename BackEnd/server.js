@@ -8,14 +8,16 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
-const MACHINE_STATE_FILE = './machineState.json';
-const USERS_FILE = './users.json';
-const RBM_NODES_FILE = './rbm_nodes.json';
+const MACHINE_STATE_FILE = './db/machineState.json';
+const USERS_FILE = './db/users.json';
+const RBM_NODES_FILE = './db/rbm_nodes.json';
+const INTERACTIVE_NODES_FILE = './db/interactive_nodes.json';
 
 // Ensure required JSON files exist
 ensureFileExists(MACHINE_STATE_FILE, '{}');
 ensureFileExists(USERS_FILE, '[]');
 ensureFileExists(RBM_NODES_FILE, '{}');
+ensureFileExists(INTERACTIVE_NODES_FILE, '{}');
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
