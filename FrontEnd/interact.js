@@ -70,9 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('getNodeStatusBtn').addEventListener('click', async () => {
     // Get the info from manager.getInfoAll()
     const nodeInfo = manager.getInfoAll(); // Assuming manager.getInfoAll() returns the required object
-    const ipsList = nodeInfoAll.map(obj => Object.values(obj)[0].ip); // Extracting IPs from each object
+    const ipsList = nodeInfo.map(obj => Object.values(obj)[0].ip); // Extracting IPs from each object
     const ipsString = ipsList.join(','); // Joining all IPs into a single string separated by commas
-    const bashCommand = `
+    const bashCode = `
       ip addr | awk '
           $1 ~ /^[0-9]+:/ { 
               if (iface != "" && mac != "") print iface": "mac
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
       '`;
 
-    console.log('Sending Node Info to /execute-script:', nodeInfo);
+    console.log('Sending Node Info to /execute-script:',bashCode, ipsString);
   
     // Sending the nodeInfo object to the /execute-script endpoint
     const executeScriptUrl = 'http://localhost:5000/execute-script';
@@ -94,22 +94,22 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(nodeInfo), // Assuming nodeInfo is the object to send
+        body: JSON.stringify({ ips: ipsString, script: bashCode }), // Assuming nodeInfo is the object to send
       });
       const executeResult = await executeResponse.json();
       console.log('Execution Result:', executeResult);
   
       // Forwarding the response to another endpoint
-      const updateStateUrl = `http://${config.BACKEND_SERVER_IP}/interact/update-machine-state`;
-      const updateResponse = await fetch(updateStateUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ips: ipsString, script: bashCommand}), // Forwarding the response received from the previous request
-      });
-      const updateResult = await updateResponse.json();
-      console.log('Update Machine State Result:', updateResult);
+//      const updateStateUrl = `http://${config.BACKEND_SERVER_IP}/interact/update-machine-state`;
+//      const updateResponse = await fetch(updateStateUrl, {
+//        method: 'POST',
+//        headers: {
+//          'Content-Type': 'application/json',
+//        },
+//        body: JSON.stringify({ips: ipsString, script: bashCommand}), // Forwarding the response received from the previous request
+//      });
+//      const updateResult = await updateResponse.json();
+//      console.log('Update Machine State Result:', updateResult);
     } catch (error) {
       console.error('Error in processing:', error);
     }

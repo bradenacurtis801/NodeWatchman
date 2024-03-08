@@ -30,25 +30,29 @@ app.post('/execute-script', async (req, res) => {
         return res.status(400).send('IP addresses or script missing');
     }
 
-    // Assuming the script is now located within the public directory or correctly accessible
     const scriptPath = '../BashScripts/execute_on_machines.sh';
-
     console.log('running ssh command');
     const childProcess = spawn('bash', [scriptPath, ips, script]);
     let jsonOutput = []; // Store JSON data
+    let buffer = '';
 
     try {
         for await (const data of childProcess.stdout) {
             console.log(`stdout: ${data}`);
-            try {
-                const json = JSON.parse(data); // Try parsing the data as JSON
-                // Filter out empty JSON objects
-                if (Object.keys(json).length > 0) {
-                    jsonOutput.push(json); // Parse JSON data
+            buffer += data;
+
+            // This regex helps to find what seems to be a JSON object
+            let match;
+            while (match = buffer.match(/\{.*?\}\s*(?=\{|$)/s)) {
+                const jsonString = match[0];
+                buffer = buffer.substring(match.index + jsonString.length);
+                
+                try {
+                    const json = JSON.parse(jsonString);
+                    jsonOutput.push(json);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error, 'From string:', jsonString);
                 }
-            } catch (error) {
-                // Handle non-JSON data (regular output) here
-                console.error('Error parsing JSON:', error);
             }
         }
     } catch (error) {
@@ -57,12 +61,27 @@ app.post('/execute-script', async (req, res) => {
 
     childProcess.stderr.on('data', (data) => {
         console.error(`stderr: ${data}`);
-        // Optionally handle errors differently
     });
 
     childProcess.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
-        // Send the JSON data back as the response
+
+        // Sort the JSON data by IP address numerically
+        jsonOutput.sort((a, b) => {
+            const ipSegmentsA = a.ip.split('.').map(Number);
+            const ipSegmentsB = b.ip.split('.').map(Number);
+            
+            for (let i = 0; i < ipSegmentsA.length; i++) {
+                if (ipSegmentsA[i] < ipSegmentsB[i]) {
+                    return -1;
+                } else if (ipSegmentsA[i] > ipSegmentsB[i]) {
+                    return 1;
+                }
+            }
+            return 0;
+        });
+
+        // Send the sorted JSON data back as the response
         res.json(jsonOutput);
     });
 

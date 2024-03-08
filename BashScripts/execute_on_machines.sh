@@ -1,23 +1,19 @@
 #!/bin/bash
 
-# Function to parse output and create JSON object
+# Improved function to parse output and create JSON object using jq
 parse_output_to_json() {
     local ip="$1"
     local command="$2"
     local output="$3"
 
-    # Replace newlines with '\n'
-    output=$(echo "$output" | sed ':a;N;$!ba;s/\n/\\n/g')
-
     # Check if output contains error message
     if [[ $output == *"No route to host"* ]]; then
-        # Create JSON object for error
-        echo "{\"ip\": \"$ip\", \"error\": \"No route to host\"}"
+        # Create JSON object for error using jq
+        jq -n --arg ip "$ip" '{"ip": $ip, "error": "No route to host"}'
     else
-        # Extract filenames from output
-        filenames=$(echo "$output" | grep -oP '\S+\.(sh|txt|Dockerfile)')
-        # Create JSON object for command output
-        echo "{\"ip\": \"$ip\", \"result\": {\"cmd\": \"$command\", \"output\": \"$filenames\"}}"
+        # Use jq to properly escape and create JSON objects
+        jq -nR --arg ip "$ip" --arg cmd "$command" --arg out "$output" \
+          '{"ip": $ip, "result": {"cmd": $cmd, "output": $out}}'
     fi
 }
 
@@ -26,7 +22,7 @@ declare -a json_data
 
 # Check if at least two arguments are provided
 if [ "$#" -lt 2 ]; then
-    echo "Usage: $0 'machine1_ip,machine2_ip,...' 'command to execute'"
+    echo "Usage: $0 'machine1_ip,machine2_ip,...' 'command to execute'" | tee -a debug.txt
     exit 1
 fi
 
@@ -39,20 +35,19 @@ command="$2"
 # Loop through the array of IPs and execute the command on each machine in parallel
 for ip in "${machine_ips[@]}"; do
     (
-        printf "Executing on %s:\n%s\n" "$ip" "$(printf '%.0s-' {1..10})"
-        # Capture the output of each SSH command and write it to a temporary file
-        output=$(ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "$command" 2>&1)
-        # If using a key for SSH, use: output=$(ssh -i /path/to/private/key user@"$ip" "$command" 2>&1)
+        # Output execution info to both console and debug.txt
+        printf "Executing on %s:\n%s\n" "$ip" "$(printf '%.0s-' {1..10})" | tee -a debug.txt
 
-        # Output to console
-        printf "%s\n" "$output"
+        # Capture the output of each SSH command and write it to a temporary file
+        output=$(ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "$command" 2>&1 | tee -a debug.txt)
 
         # Call function to parse output and create JSON object
-        parse_output_to_json "$ip" "$command" "$output"
+        json=$(parse_output_to_json "$ip" "$command" "$output")
+        echo "$json" | tee -a debug.txt
     ) &
 done
 
 wait
 
-echo "done"
+echo "done" | tee -a debug.txt
 
