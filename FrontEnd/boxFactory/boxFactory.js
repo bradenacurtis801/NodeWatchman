@@ -254,7 +254,8 @@ class SpecializedRackContainer extends RackContainerBase {
             ...eventHandlers,
             click: (event) => {
                 // Assuming the box object is stored in the dataset or accessible directly
-                this.toggleSelection(event.currentTarget, this.boxes[index]);
+        	const currentIndex = this.boxes.findIndex(box => box.element === event.currentTarget);
+                this.toggleSelection(event.currentTarget, this.boxes[currentIndex]);
                 console.log(`Specialized box ${index} clicked`);
                 eventHandlers.click?.(event);
             }
