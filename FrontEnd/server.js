@@ -10,7 +10,7 @@ app.use(express.static('public'))
 
 // Route to serve the home.html file
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/test.html'));
+    res.sendFile(path.join(__dirname, 'public/interact.html'));
 });
 
 const PORT = 5501;

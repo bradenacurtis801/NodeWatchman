@@ -2,9 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
     loadBoxState();
     const runCustomScriptBtn = document.getElementById('runCustomScriptBtn');
     const customScriptModal = document.getElementById('customScriptModal');
+    const textareaContainer = document.getElementById('textareaContainer');
+    const textareaInput = document.getElementById('textareaInput');
     const closeBtn = customScriptModal.querySelector('.close');
     const startCommandBtn = document.getElementById('startCommand');
-  
+    
     runCustomScriptBtn.addEventListener('click', () => {
       customScriptModal.style.display = 'block';
       displaySelectedMachines();
@@ -15,10 +17,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   
     window.onclick = (event) => {
-      if (event.target == customScriptModal) {
+      console.log(event.target);
+      if (event.target == customScriptModal && !isMouseDownInsideTextarea) {
         customScriptModal.style.display = 'none';
       }
     };
+
+    let isMouseDownInsideTextarea = false;
+
+    window.addEventListener('mousedown', (event) => {
+      console.log(event.target);
+      if (event.target == textareaContainer || event.target == textareaInput) {
+          console.log('Mouse down inside textarea');
+          isMouseDownInsideTextarea = true;
+      } else isMouseDownInsideTextarea = false;
+  });
   
     function displaySelectedMachines() {
       const selectedMachinesDiv = document.getElementById('selectedMachines');
