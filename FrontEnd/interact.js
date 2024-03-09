@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
           isMouseDownInsideTextarea = true;
       } else isMouseDownInsideTextarea = false;
   });
+
   
     function displaySelectedMachines() {
       const selectedMachinesDiv = document.getElementById('selectedMachines');
@@ -121,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
        return { [id]: { ...obj, color } };
      });
      console.log('Execution Result:', mappedArray);
+     displayBashOutput(mappedArray);
   
       // Forwarding the response to another endpoint
       const updateStateUrl = `http://${config.BACKEND_SERVER_IP}:${config.BACKEND_SERVER_PORT}/interact/update-machine-state`;
@@ -136,6 +138,63 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error('Error in processing:', error);
     }
   });
+
+  function displayBashOutput(mappedArray) {
+    const bashOutputContainer = document.getElementById('BashOutput');
+    bashOutputContainer.innerHTML = ''; // Clear existing content
+  
+    mappedArray.forEach((item, index) => {
+      const id = Object.keys(item)[0];
+      const obj = item[id];
+      const elementId = `collapse-${index}`;
+  
+      const wrapperDiv = document.createElement('div');
+      wrapperDiv.classList.add('collapsible-wrapper');
+  
+      const button = document.createElement('button');
+      button.textContent = id + (obj.error ? ` - Error` : ` - Result`);
+      button.classList.add('collapsible-btn');
+      button.setAttribute('type', 'button');
+      button.setAttribute('data-target', elementId);
+  
+      const contentDiv = document.createElement('div');
+      contentDiv.id = elementId;
+      contentDiv.classList.add('collapsible-content');
+      contentDiv.style.display = 'none'; // Initially hidden
+  
+      const pre = document.createElement('pre');
+      const code = document.createElement('code');
+      code.className = 'language-bash'; // Ensure this class is set for Highlight.js
+  
+      // Check if the 'result' object and its 'cmd' property exist
+      if (obj.result && obj.result.cmd) {
+        code.textContent = `Command:\n${obj.result.cmd}\nOutput:\n${obj.result.output}`;
+      } else if (obj.error) {
+        // If there's an error but no 'result' object
+        code.textContent = `Error: ${obj.error}`;
+      } else {
+        // If neither 'result' nor 'error' are present
+        code.textContent = `No detailed information available.`;
+      }
+  
+      pre.appendChild(code);
+      contentDiv.appendChild(pre);
+      wrapperDiv.appendChild(button);
+      wrapperDiv.appendChild(contentDiv);
+      bashOutputContainer.appendChild(wrapperDiv);
+  
+      button.addEventListener('click', function() {
+        const target = document.getElementById(this.getAttribute('data-target'));
+        if (target.style.display === 'none') {
+          target.style.display = 'block';
+          // Apply highlighting when the content is shown
+          hljs.highlightElement(code); // Make sure to highlight after appending
+        } else {
+          target.style.display = 'none';
+        }
+      });
+    });
+  }
 
 async function loadBoxState() {
   // Determine which endpoint to use based on the HTML page
