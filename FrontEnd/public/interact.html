@@ -12,6 +12,11 @@
         padding: 8px;
       }
     </style>
+    <link rel="stylesheet" href="../highlight/styles/obsidian.css" />
+    <script src="../highlight/highlight.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
     <script type="module">
       (async ({ chrome, netscape }) => {
         // add Safari polyfill if needed
@@ -37,21 +42,42 @@
     </div>
 
     <div id="customScriptModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <h2>Custom Script Runner</h2>
-          <div class="textarea-container" id="textareaContainer">
-            <textarea is="highlighted-code"
-                      id="textareaInput"
-                      language="bash"
-                      cols="80" rows="12"
-                      placeholder="# Your bash script goes here"
-                      style="overflow: auto;"></textarea>
-            <button id="startCommandBtn">Start</button>
-          </div>
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Custom Script Runner</h2>
+
+        <!-- Tab Menu -->
+        <div class="tab">
+          <button class="tablinks" onclick="openTab(event, 'BashInput')">
+            Bash Input
+          </button>
+          <button class="tablinks" onclick="openTab(event, 'BashOutput')">
+            Bash Output
+          </button>
+        </div>
+
+        <!-- Bash Input Tab -->
+        <div id="BashInput" class="tabcontent">
+          <textarea
+            is="highlighted-code"
+            id="textareaInput"
+            language="bash"
+            cols="80"
+            rows="12"
+            placeholder="# Your bash script goes here"
+            style="overflow: auto; width: 100%"
+          ></textarea>
+          <button id="startCommandBtn">Start</button>
+        </div>
+
+        <!-- Bash Output Tab -->
+        <div id="BashOutput" class="tabcontent bash-output-container" style="display: none">
+          <pre><code>
+                <!-- Bash Output -->
+            </code></pre>
         </div>
       </div>
-      
+    </div>
 
     <div class="main-container">
       <div class="section" id="section-A"></div>
@@ -72,6 +98,32 @@
         areaClassName: "drag-select-area", // Ensure you have CSS for this
       });
     </script> -->
+
+    <!-- TESTING SCRIPT -->
+    <!-- <script src="../../TestCode/testHtml.js"></script> -->
+    <!-- END TESTING -->
+
+
+    <script>
+      function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+
+      // Set default open tab (optional)
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("defaultOpen").click();
+      });
+    </script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const manager = new BoxContainerManager();
