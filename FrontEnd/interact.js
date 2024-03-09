@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   startCommandBtn.addEventListener('click', async () => {
-    const bashCode = document.getElementById('bashCode').value;
+    const bashCode = document.getElementById('textareaInput').value;
     const selectedMachines = [];
     manager.rows.forEach(row => {
       row.racks.forEach(rack => {
@@ -77,6 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       const result = await response.json();
       console.log('Execution Result:', result);
+      displayBashOutput(result);
+      console.log('after')
     } catch (error) {
       console.error('Error executing script:', error);
     }
@@ -123,7 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
      });
      console.log('Execution Result:', mappedArray);
      displayBashOutput(mappedArray);
-  
       // Forwarding the response to another endpoint
       const updateStateUrl = `http://${config.BACKEND_SERVER_IP}:${config.BACKEND_SERVER_PORT}/interact/update-machine-state`;
       const updateResponse = await fetch(updateStateUrl, {
@@ -139,62 +140,70 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  function displayBashOutput(mappedArray) {
-    const bashOutputContainer = document.getElementById('BashOutput');
-    bashOutputContainer.innerHTML = ''; // Clear existing content
-  
-    mappedArray.forEach((item, index) => {
-      const id = Object.keys(item)[0];
-      const obj = item[id];
-      const elementId = `collapse-${index}`;
-  
-      const wrapperDiv = document.createElement('div');
-      wrapperDiv.classList.add('collapsible-wrapper');
-  
-      const button = document.createElement('button');
-      button.textContent = id + (obj.error ? ` - Error` : ` - Result`);
-      button.classList.add('collapsible-btn');
-      button.setAttribute('type', 'button');
-      button.setAttribute('data-target', elementId);
-  
-      const contentDiv = document.createElement('div');
-      contentDiv.id = elementId;
-      contentDiv.classList.add('collapsible-content');
-      contentDiv.style.display = 'none'; // Initially hidden
-  
-      const pre = document.createElement('pre');
-      const code = document.createElement('code');
-      code.className = 'language-bash'; // Ensure this class is set for Highlight.js
-  
-      // Check if the 'result' object and its 'cmd' property exist
-      if (obj.result && obj.result.cmd) {
-        code.textContent = `Command:\n${obj.result.cmd}\nOutput:\n${obj.result.output}`;
-      } else if (obj.error) {
-        // If there's an error but no 'result' object
-        code.textContent = `Error: ${obj.error}`;
+function displayBashOutput(mappedArray) {
+  const bashOutputContainer = document.getElementById("BashOutput");
+  bashOutputContainer.innerHTML = ""; // Clear existing content
+
+  mappedArray.forEach((item, index) => {
+    let obj; // This will store the relevant object (either directly or nested)
+    let id; // This will store the identifier (IP or custom ID)
+
+    // Check if the item is in the first format with a unique key
+    if (Object.keys(item).length === 1 && Object.keys(item)[0] !== "ip") {
+      id = Object.keys(item)[0];
+      obj = item[id];
+    } else {
+      // Assume it's in the second format
+      obj = item;
+      id = obj.ip;
+    }
+
+    const elementId = `collapse-${index}`;
+    const wrapperDiv = document.createElement("div");
+    wrapperDiv.classList.add("collapsible-wrapper");
+
+    const button = document.createElement("button");
+    button.textContent = id + (obj.error ? ` - Error` : ` - Result`);
+    button.classList.add("collapsible-btn");
+    button.setAttribute("type", "button");
+    button.setAttribute("data-target", elementId);
+
+    const contentDiv = document.createElement("div");
+    contentDiv.id = elementId;
+    contentDiv.classList.add("collapsible-content");
+    contentDiv.style.display = "none"; // Initially hidden
+
+    const pre = document.createElement("pre");
+    const code = document.createElement("code");
+    code.className = "language-bash"; // Ensure this class is set for Highlight.js
+
+    // Handle content based on whether it's an error or a result
+    if (obj.error) {
+      code.textContent = `Error: ${obj.error}`;
+    } else if (obj.result && obj.result.cmd) {
+      code.textContent = `IP: ${id}\nCommand:\n${obj.result.cmd}\nOutput:\n${obj.result.output}`;
+    } else {
+      code.textContent = `No detailed information available.`;
+    }
+
+    pre.appendChild(code);
+    contentDiv.appendChild(pre);
+    wrapperDiv.appendChild(button);
+    wrapperDiv.appendChild(contentDiv);
+    bashOutputContainer.appendChild(wrapperDiv);
+
+    button.addEventListener("click", function () {
+      const target = document.getElementById(this.getAttribute("data-target"));
+      if (target.style.display === "none") {
+        target.style.display = "block";
+        // Apply highlighting when the content is shown
+        hljs.highlightElement(code); // Make sure to highlight after appending
       } else {
-        // If neither 'result' nor 'error' are present
-        code.textContent = `No detailed information available.`;
+        target.style.display = "none";
       }
-  
-      pre.appendChild(code);
-      contentDiv.appendChild(pre);
-      wrapperDiv.appendChild(button);
-      wrapperDiv.appendChild(contentDiv);
-      bashOutputContainer.appendChild(wrapperDiv);
-  
-      button.addEventListener('click', function() {
-        const target = document.getElementById(this.getAttribute('data-target'));
-        if (target.style.display === 'none') {
-          target.style.display = 'block';
-          // Apply highlighting when the content is shown
-          hljs.highlightElement(code); // Make sure to highlight after appending
-        } else {
-          target.style.display = 'none';
-        }
-      });
     });
-  }
+  });
+}
 
 async function loadBoxState() {
   // Determine which endpoint to use based on the HTML page
