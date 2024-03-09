@@ -1,31 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Box Highlighter</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
 
-<body data-page="home">
+    <!-- Highlight.js styles -->
+    <style>
+      textarea[is="highlighted-code"] {
+        padding: 8px;
+      }
+    </style>
+    <script type="module">
+      (async ({ chrome, netscape }) => {
+        // add Safari polyfill if needed
+        if (!chrome && !netscape)
+          await import("https://unpkg.com/@ungap/custom-elements");
+
+        const { default: HighlightedCode } = await import(
+          "https://unpkg.com/highlighted-code"
+        );
+
+        // bootstrap a theme through one of these names
+        // https://github.com/highlightjs/highlight.js/tree/main/src/styles
+        HighlightedCode.useTheme("github-dark");
+      })(self);
+    </script>
+  </head>
+
+  <body data-page="home">
     <div id="top-level-buttons" class="top-level-buttons">
-        <label class="switch">
-            <input type="checkbox" id="modeToggle" checked>
-            <span class="slider round"></span>
-        </label>
-        <span>Read Mode</span>
-        <button id="logoutBtn">Logout</button>
-        <!-- <button id="undoButton">Undo</button> -->
+      <!-- Buttons will be added here dynamically -->
+      <button id="getNodeStatusBtn">Update Node Status</button>
+      <button id="runCustomScriptBtn">Run Custom Script</button>
     </div>
+
+    <div id="customScriptModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Custom Script Runner</h2>
+          <div class="textarea-container" id="textareaContainer">
+            <textarea is="highlighted-code"
+                      id="textareaInput"
+                      language="bash"
+                      cols="80" rows="12"
+                      placeholder="# Your bash script goes here"
+                      style="overflow: auto;"></textarea>
+            <button id="startCommandBtn">Start</button>
+          </div>
+        </div>
+      </div>
+      
+
     <div class="main-container">
-        <div class="section" id="section-A"></div>
-        <div class="section" id="section-B"></div>
+      <div class="section" id="section-A"></div>
+      <div class="section" id="section-B"></div>
     </div>
-    <script src="../auth.js"></script>
     <script src="../config.js"></script>
     <script src="../interact.js"></script>
-    <script src="../home.js"></script> 
-</body>
+    <script src="../boxFactory/boxFactory.js"></script>
+    <!-- <script type="module">
+      import { dragSelect } from "../dragSelect.js";
+      import { debugInfo } from "../debug.js";
 
+      globalThis.debugInfo = debugInfo;
+
+      const mainContainer = document.querySelector(".main-container");
+      dragSelect(mainContainer, {
+        itemSelector: ".drag-selectable", // Ensure your boxes have this class
+        areaClassName: "drag-select-area", // Ensure you have CSS for this
+      });
+    </script> -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const manager = new BoxContainerManager();
+        window.manager = manager; // Make it globally accessible
+
+        // Add a couple of rows with some racks for demonstration purposes
+        manager.createRowContainer("section-A", "A1");
+        manager.createRowContainer("section-A", "A2");
+        manager.createRowContainer("section-B", "B1");
+        manager.createRowContainer("section-B", "B2");
+
+        // Now, assuming both RowContainer and RackContainer instances have been properly setup
+        // and that boxes have been added to racks in those rows, we update all box behaviors:
+
+        // Get a row and add racks to it
+        const rowA1 = manager.getRow("A1");
+        const rowA2 = manager.getRow("A2");
+        const rowB1 = manager.getRow("B1");
+        const rowB2 = manager.getRow("B2");
+        if (rowA1) {
+          rowA1.addRack("11", 20, SpecializedRackContainer);
+          rowA1.addRack("12", 20, SpecializedRackContainer);
+          rowA1.addRack("13", 20, SpecializedRackContainer);
+          rowA1.addRack("14", 20, SpecializedRackContainer);
+
+          rowA2.addRack("21", 20, SpecializedRackContainer);
+          rowA2.addRack("22", 20, SpecializedRackContainer);
+          rowA2.addRack("23", 20, SpecializedRackContainer);
+          rowA2.addRack("24", 20, SpecializedRackContainer);
+          rowA2.addRack("25", 20, SpecializedRackContainer);
+
+          rowB1.addRack("111", 20, SpecializedRackContainer);
+          rowB1.addRack("112", 20, SpecializedRackContainer);
+          rowB1.addRack("113", 20, SpecializedRackContainer);
+
+          rowB2.addRack("121", 20, SpecializedRackContainer);
+          rowB2.addRack("122", 20, SpecializedRackContainer);
+          rowB2.addRack("123", 20, SpecializedRackContainer);
+          rowB2.addRack("124", 20, SpecializedRackContainer);
+          rowB2.addRack("125", 20, SpecializedRackContainer);
+        } else {
+          console.log("Row A1 does not exist.");
+        }
+
+        console.log(manager);
+        const allInfo = manager.getInfoAll();
+        console.log(allInfo);
+      });
+    </script>
+  </body>
 </html>
