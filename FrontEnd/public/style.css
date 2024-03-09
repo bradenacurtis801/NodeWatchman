@@ -1,279 +1,320 @@
 .main-container {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 }
 
 .section {
-    width: 48%;
+  width: 48%;
 }
 
-.parent-box, .rack-container {
-    border: 2px solid black;
-    margin-right: 10px; /* Space between boxes of the same row */
-    padding: 10px;
-    flex: 0 0 auto; /* Prevent stretching */
+.parent-box,
+.rack-container {
+  border: 2px solid black;
+  margin-right: 10px; /* Space between boxes of the same row */
+  padding: 10px;
+  flex: 0 0 auto; /* Prevent stretching */
 }
 
-.labels, .box-container-header, .button  {
-    margin-bottom: 10px;
-    display: flex; /* Enable flexbox layout */
+.labels,
+.box-container-header,
+.button {
+  margin-bottom: 10px;
+  display: flex; /* Enable flexbox layout */
 }
 
 .boxes-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
 }
 
 .box {
-    display: inline-block;
-    border: 1px solid grey;
-    text-align: center;
-    padding: 10px;
-    cursor: pointer;
-    flex: 0 0 auto; /* Prevent boxes from stretching */
-    -webkit-user-select: none; /* Safari */
+  display: inline-block;
+  border: 1px solid grey;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  flex: 0 0 auto; /* Prevent boxes from stretching */
+  -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Edge */
 }
 
 .row-container {
-    display: flex; /* Align parent-boxes horizontally */
-    flex-wrap: wrap; /* Allow wrapping to next line */
-    margin-bottom: 10px;
-    margin-bottom: 50px;
+  display: flex; /* Align parent-boxes horizontally */
+  flex-wrap: wrap; /* Allow wrapping to next line */
+  margin-bottom: 10px;
+  margin-bottom: 50px;
 }
 
-.header-row-span, .header-rack-span {
-    flex: 1; /* Each element takes equal space */
-    text-align: center; /* Center the text */
+.header-row-span,
+.header-rack-span {
+  flex: 1; /* Each element takes equal space */
+  text-align: center; /* Center the text */
 }
 
 .top-level-buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px; /* Adjust as needed */
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; /* Adjust as needed */
 }
 
 .top-level-buttons button {
-    margin: 5px;
-    padding: 10px 15px;
-    background-color: #4CAF50; /* Green background */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+  margin: 5px;
+  padding: 10px 15px;
+  background-color: #4caf50; /* Green background */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .top-level-buttons button:hover {
-    background-color: #45a049; /* Darker green on hover */
+  background-color: #45a049; /* Darker green on hover */
 }
 
 .box-reset-button {
-    margin: 5px;
-    padding: 10px 15px;
-    background-color: #4CAF50; /* Green background */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+  margin: 5px;
+  padding: 10px 15px;
+  background-color: #4caf50; /* Green background */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .green {
-    background-color: green;
+  background-color: green;
 }
 
 .yellow {
-    background-color: yellow;
+  background-color: yellow;
 }
 
 .red {
-    background-color: red;
+  background-color: red;
 }
 
 .none {
-    background-color: transparent; /* or any default color */
+  background-color: transparent; /* or any default color */
 }
 
 /* The switch - the box around the slider */
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  
-  /* Hide default checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: #2196F3;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
- 
- #overlay {
-    display: none; /* Hidden by default */
-    position: absolute; /* Sit on top of the page content */
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center children horizontally */
-    width: 100%; /* Full width (cover the whole page) */
-    height: 100%; /* Full height (cover the whole page) */
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-    cursor: pointer; /* Add a pointer on hover */
-
-
-  }
-
-  .loading-text {
-    color: white; /* White text */
-    font-weight: bold; /* Bold text */
-    font-size: 2em; /* Larger text size */
-    text-align: center; /* Center the text horizontally */
-    margin-bottom: 20px; /* Space between text and waves */
-    margin-top: 400px;
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
 }
 
-  .center {
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .wave {
-    width: 5px;
-    height: 100px;
-    background: linear-gradient(45deg, rgb(0, 255, 21), #00c8ff);
-    margin: 10px;
-    animation: wave 1s linear infinite;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
+/* Hide default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-  .wave:nth-child(2) {
-    animation-delay: 0.1s;
-  }
-  .wave:nth-child(3) {
-    animation-delay: 0.2s;
-  }
-  .wave:nth-child(4) {
-    animation-delay: 0.3s;
-  }
-  .wave:nth-child(5) {
-    animation-delay: 0.4s;
-  }
-  .wave:nth-child(6) {
-    animation-delay: 0.5s;
-  }
-  .wave:nth-child(7) {
-    animation-delay: 0.6s;
-  }
-  .wave:nth-child(8) {
-    animation-delay: 0.7s;
-  }
-  .wave:nth-child(9) {
-    animation-delay: 0.8s;
-  }
-  .wave:nth-child(10) {
-    animation-delay: 0.9s;
-  }
-
-  @keyframes wave {
-    0% {
-      transform: scale(0);
-    }
-    50% {
-      transform: scale(1);
-    }
-    100% {
-      transform: scale(0);
-    }
-  }
-
-  .drag-selectable-wrap {
-    margin: 15px 150px;
-    width: 535px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    align-items: center;
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
 
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+#overlay {
+  display: none; /* Hidden by default */
+  position: absolute; /* Sit on top of the page content */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+.loading-text {
+  color: white; /* White text */
+  font-weight: bold; /* Bold text */
+  font-size: 2em; /* Larger text size */
+  text-align: center; /* Center the text horizontally */
+  margin-bottom: 20px; /* Space between text and waves */
+  margin-top: 400px;
+}
+
+.center {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wave {
+  width: 5px;
+  height: 100px;
+  background: linear-gradient(45deg, rgb(0, 255, 21), #00c8ff);
+  margin: 10px;
+  animation: wave 1s linear infinite;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+.wave:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.wave:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.wave:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.wave:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.wave:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.wave:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.wave:nth-child(8) {
+  animation-delay: 0.7s;
+}
+.wave:nth-child(9) {
+  animation-delay: 0.8s;
+}
+.wave:nth-child(10) {
+  animation-delay: 0.9s;
+}
+
+@keyframes wave {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+.drag-selectable-wrap {
+  margin: 15px 150px;
+  width: 535px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
 
 .drag-select-area {
-    background-color: hsl(210deg 80% 50% / 50%);
-    border: 1px solid hsl(210deg 80% 50% / 75%);
-    box-sizing: border-box;
+  background-color: hsl(210deg 80% 50% / 50%);
+  border: 1px solid hsl(210deg 80% 50% / 75%);
+  box-sizing: border-box;
 }
 .drag-selected {
-    border: 5px solid black;
-    margin: -5px; /* Compensates for the outline size */
+  border: 5px solid black;
+  margin: -5px; /* Compensates for the outline size */
 }
 
-
-
 /* TEMPORARY */
-.modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4); }
-.modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; }
-.close { color: #aaa; float: right; font-size: 28px; font-weight: bold; }
-.close:hover, .close:focus { color: black; text-decoration: none; cursor: pointer; }
-textarea { width: 95%; height: 150px; margin-top: 10px; }
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+textarea {
+  overflow: auto;
+  width: 95%;
+  height: 150px;
+  margin-top: 10px;
+  max-width: 90%;
+  height: 100%;
+}
+
+.textarea-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#startCommandBtn {
+  align-self: flex-end;
+}
