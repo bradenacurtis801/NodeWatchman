@@ -46,9 +46,31 @@ function processMachineData(data) {
     return boxStates;
 }
 
+function generateFormattedId(machinename) {
+    if (machinename.match(/^[ab]\d{4,}/i)) {
+        const column = machinename[0].toUpperCase(); // 'A' or 'B'
+        const row = machinename[2]; // The first digit (placeholder)
+        const machineNumber = parseInt(machinename.substring(4, 6), 10); // The fourth and fifth digits
+        let rack;
+
+        if (column === 'A') {
+            rack = parseInt(machinename.substring(2, 4), 10); // The second and third digits
+        } else {
+            rack = parseInt(machinename.substring(1, 4), 10);
+        }
+
+        // Format: '<column><row>-<rack>-<machine number>'
+        const id = `${column}${row}-${rack}-${machineNumber}`;
+
+        return id;
+    }
+}
+
 function getStatusColor(online) {
     return online ? 'green' : 'red';
 }
+
+console.log(generateFormattedId('A01101'))
 
 // fetchAndUpdateMachineData();
 module.exports = fetchAndUpdateMachineData;
