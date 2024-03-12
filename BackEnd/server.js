@@ -14,6 +14,7 @@ const MACHINE_STATE_FILE = './db/machineState.json';
 const USERS_FILE = './db/users.json';
 const RBM_NODES_FILE = './db/rbm_nodes.json';
 const INTERACTIVE_NODES_FILE = './db/interactive_nodes.json';
+const DC02_HARDWARE_INFO = './db/DC02_HARDWARE_INFO_ALL.json'
 
 // Ensure required JSON files exist
 ensureFileExists(MACHINE_STATE_FILE, '{}');
@@ -35,17 +36,9 @@ const limiter = rateLimit({
 });
 let tokenBlacklist = {};
 
-const corsOptions = {
-    origin: '*', // or use '*' to allow all origins
-    optionsSuccessStatus: 200, // For legacy browser support
-    methods: ['GET', 'POST'], // Add other methods as per your requirement
-    allowedHeaders: ['Content-Type'], // Add other headers as per your requirement
-  };
-
 const app = express();
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json({ limit: '50mb' }));
-app.use(bodyParser.json({ limit: '10mb' }));
 app.use('/update-miners', limiter);
 // app.use(checkBlacklist);
 
@@ -203,6 +196,26 @@ app.post('/interact/update-machine-state', async (req, res) => {
 app.get('/interact/load-machine-state', async (req, res) => {
     try {
         let dataFile = INTERACTIVE_NODES_FILE;
+
+        const data = await fs.readFile(dataFile, 'utf8');
+        //console.log(`Data read from file: ${dataFile}`, data);
+        const jsonData = data ? JSON.parse(data) : {};
+        //console.log('Parsed JSON data:', jsonData);
+        res.json(jsonData);
+    } catch (err) {
+        console.error('Error:', err);
+        if (err.code === 'ENOENT') {
+            console.log(`No existing file (${dataFile}). Sending empty state.`);
+            res.json({ boxStates: {} });
+        } else {
+            res.status(500).send('Error loading state');
+        }
+    }
+});
+
+app.get('/interact/dc02-hardware-info', async (req, res) => {
+    try {
+        let dataFile = DC02_HARDWARE_INFO;
 
         const data = await fs.readFile(dataFile, 'utf8');
         //console.log(`Data read from file: ${dataFile}`, data);
