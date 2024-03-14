@@ -32,12 +32,27 @@ class BoxContainerManager {
 
     getInfoAll() {
         return this.rows.reduce((acc, row) => acc.concat(...row.getInfoRow()), []);
-    } 
+    }
+
+    getObjAll() {
+        const allObjects = [];
+        this.rows.forEach(row => {
+            allObjects.push(...row.getObjRow());
+        });
+        return allObjects;
+    }
+
+    getIpAll() {
+        const allIps = [];
+        this.rows.forEach(row => {
+            allIps.push(...row.getIpRow());
+        });
+        return allIps;
+    }
 }
 
 class RowContainerBase {
     constructor(sectionId, rowLabel) {
-        console.log(`Creating RowContainer for section: ${sectionId}, row: ${rowLabel}`);
         this.sectionId = sectionId;
         this.rowLabel = rowLabel;
         this.racks = []; // This will store RackContainer instances
@@ -72,12 +87,28 @@ class RowContainerBase {
         this.racks.forEach(rack => rack.updateAllBoxBehaviors(eventHandlers));
     }
 
+    getObjRow() {
+        let objRow = [];
+        this.racks.forEach(rack => {
+            objRow.push(...rack.getObjects());
+        });
+        return objRow;
+    }
+
     getInfoRow() {
         const rowInfo = [];
         this.racks.forEach(rack => {
-            rowInfo.push(rack.getInfoRack());
+            rowInfo.push(...rack.getInfoRack());
         });
         return rowInfo;
+    }
+
+    getIpRow() {
+        let ipRow = [];
+        this.racks.forEach(rack => {
+            ipRow.push(...rack.getIpRack());
+        });
+        return ipRow;
     }
     
 }
@@ -162,10 +193,22 @@ class RackContainerBase {
         }
     }
 
+    getObjects() {
+        return this.boxes;
+    }
+
     getInfoRack() {
         const rackInfo = [];
         this.boxes.forEach(box => {
             rackInfo.push(box.getInfo());
+        });
+        return rackInfo;
+    }
+
+    getIpRack() {
+        const rackInfo = [];
+        this.boxes.forEach(box => {
+            rackInfo.push(box.getIp());
         });
         return rackInfo;
     }
@@ -177,23 +220,37 @@ class Box {
         this.rackLabel = rackLabel;
         this.index = index;
         this.id = `${rowLabel}-${rackLabel}-${index}`;
-        this.ip = this.getMachineIP();
+        this.ip = this.generateMachineIP();
         this.element = this.createElement();
         this.setEventHandlers(eventHandlers);
     }
 
-    getMachineIP() {
+    generateMachineIP() {
         const networkBase = "10.10"; // Assuming this method correctly formulates the IP
         return `${networkBase}.${this.rackLabel}.${this.index}`;
     }
 
+    getIp() {
+        return this.ip;
+    }
+
+    setIp(newIp) {
+        const ipRegex = /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/; // Regular expression for IPv4 validation
+        if (ipRegex.test(newIp)) {
+            this.ip = newIp;
+        } else {
+            console.error("Invalid IPv4 address format");
+            // Optionally, you can throw an error or handle the invalid input differently
+        }
+    }
+
     createElement() {
-        const boxId = `${this.rowLabel}-${this.rackLabel}-${this.index}`;
+        const boxId = this.id;
         const box = document.createElement('div');
         box.className = 'box drag-selectable';
         box.id = boxId;
         box.textContent = this.index; // Assuming this sets the content correctly
-        box.setAttribute('data-ip', this.getMachineIP()); // Correctly storing the IP
+        box.setAttribute('data-ip', this.generateMachineIP()); // Correctly storing the IP
         return box;
     }
 
@@ -210,14 +267,21 @@ class Box {
     }
 
     getInfo() {
-        return {
-            [this.id]: {
-                rowLabel: this.rowLabel,
-                rackLabel: this.rackLabel,
-                index: this.index,
-                ip: this.ip
-            }
-        };
+        const info = {};
+        // Iterate over all properties of the instance
+        Object.keys(this).forEach((key) => {
+            // Add each property to the info object
+            info[key] = this[key];
+        });
+        // Return the info within an object using the box's id as the key
+        return { [this.id]: info };
+    }
+
+    // Method to add an arbitrary number of key-value pairs as properties
+    addProperties(properties) {
+        Object.entries(properties).forEach(([key, value]) => {
+            this[key] = value;
+        });
     }
 }
 

@@ -1,0 +1,8 @@
+// Powershell script for testing /register api
+// Invoke-WebRequest -Uri http://localhost:3001/register -Method POST -ContentType "application/json" -Body '{"username": "newuser", "password": "newpassword"}'
+
+// Bash script for testing /register api
+// curl -X POST http://localhost:3001/register -H "Content-Type: application/json" -d '{"username": "newuser", "password": "newpassword"}' 
+
+// Powershell script for testing /login api
+Invoke-WebRequest -Uri http://localhost:3001/login -Method Post -ContentType "application/json" -Body '{"username": "bradenacurtis801", "password": "wpkf0224"}'
