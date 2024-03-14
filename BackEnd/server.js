@@ -10,11 +10,11 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
+const { readUsersFromFile, writeUsersToFile } = require('./userdb_models');
 
 const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
 const MACHINE_STATE_FILE = './db/machineState.json';
 const USERS_FILE = './db/users.json';
-const ADMIN_FILE = './db/admins.json';
 const RBM_NODES_FILE = './db/rbm_nodes.json';
 const INTERACTIVE_NODES_FILE = './db/interactive_nodes.json';
 const DC02_HARDWARE_INFO = './db/DC02_HARDWARE_INFO_ALL.json'
@@ -35,7 +35,6 @@ ensureFileExists(USERS_FILE, '[]');
 ensureFileExists(RBM_NODES_FILE, '[]');
 ensureFileExists(INTERACTIVE_NODES_FILE, '[]');
 ensureFileExists(PENDING_REGISTRATIONS_FILE, '[]');
-ensureFileExists(ADMIN_FILE, '[]');
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
@@ -105,62 +104,81 @@ app.get('/load-machine-state', authenticateToken, async (req, res) => {
 // Registration endpoint
 app.post('/register', async (req, res) => {
     try {
-      console.log('Received registration request:', req.body);
-      const { username, password } = req.body;
-      let pendingRegistrations;
-  
-      // Load pending registrations
-      try {
-        const data = await fs.readFile(PENDING_REGISTRATIONS_FILE, 'utf8');
-        pendingRegistrations = JSON.parse(data);
-        // Ensure pendingRegistrations is always treated as an array
-        if (!Array.isArray(pendingRegistrations)) {
-            pendingRegistrations = [];
+        console.log('Received registration request:', req.body);
+        const { email, username, password } = req.body; // Include email in the destructured object
+        if (!email || !username || !password) {
+            // Return an error response if any of the required fields are missing
+            return res.status(400).send('Missing required fields: username, email, and/or password.');
         }
+
+        try {
+            const data = await fs.readFile(USERS_FILE, 'utf8');
+            users = data ? JSON.parse(data) : [];
+        } catch (error) {
+            if (error.code !== 'ENOENT') {
+                throw error; // Rethrow the error if it's not a 'file not found' error
+            }
+            // If the file doesn't exist, we'll continue with an empty users array
+        }
+
+         // Check if user already exists
+         if (users.some(user => user.username === username)) {
+            return res.status(400).send('Username already exists');
+        }
+
+        let pendingRegistrations;
+
+        // Load pending registrations
+        try {
+            const data = await fs.readFile(PENDING_REGISTRATIONS_FILE, 'utf8');
+            pendingRegistrations = JSON.parse(data);
+            if (!Array.isArray(pendingRegistrations)) {
+                pendingRegistrations = [];
+            }
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                pendingRegistrations = [];
+            } else {
+                throw error;
+            }
+        }
+
+        // Check for duplicate email in pending registrations
+        if (pendingRegistrations.some(user => user.email === email)) {
+            return res.status(400).send('Email is already pending approval.');
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const userId = uuidv4();
+
+        // Append new pending registration with email
+        pendingRegistrations.push({ username, email, hashedPassword, id: userId, isAdmin: false });
+        await fs.writeFile(PENDING_REGISTRATIONS_FILE, JSON.stringify(pendingRegistrations, null, 2));
+
+        // Send approval request to admin with email information
+        const approvalLink = `http://10.10.1.20:${config.BACKEND_SERVER_PORT}/approve/${userId}`;
+        const mailOptions = {
+            from: 'datacare234@gmail.com',
+            to: 'bradenacurtis801@gmail.com',
+            subject: 'New User Sign-Up Request',
+            text: `A new user has signed up with the email: ${email}.\n\nApprove: ${approvalLink}`
+        };
+
+        transporter.sendMail(mailOptions, function(error, info) {
+            if (error) {
+                console.error('Error:', error);
+                res.status(500).send('Error sending approval request.');
+            } else {
+                console.log('Approval request sent:', info.response);
+                res.send('Sign-up request submitted. Please wait for administrator approval.');
+            }
+        });
     } catch (error) {
-        if (error.code === 'ENOENT') {
-            pendingRegistrations = [];
-        } else {
-            throw error;
-        }
+        console.error(error);
+        res.status(500).send('Error registering new user');
     }
-  
-      // Check for duplicate username in pending registrations
-      if (pendingRegistrations.some(user => user.username === username)) {
-        return res.status(400).send('Username is already pending approval.');
-      }
-  
-      // Hash password
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const userId = uuidv4();
-  
-      // Append new pending registration
-      pendingRegistrations.push({ username, hashedPassword, id: userId });
-      await fs.writeFile(PENDING_REGISTRATIONS_FILE, JSON.stringify(pendingRegistrations, null, 2));
-  
-      // Send approval request to admin
-      const approvalLink = `http://10.10.1.20:${config.BACKEND_SERVER_PORT}/approve/${userId}`;
-      const mailOptions = {
-        from: 'datacare234@gmail.com',
-        to: 'bradenacurtis801@gmail.com',
-        subject: 'New User Sign-Up Request',
-        text: `A new user, ${username}, has signed up.\n\nApprove: ${approvalLink}`
-      };
-  
-      transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-          console.error('Error:', error);
-          res.status(500).send('Error sending approval request.');
-        } else {
-          console.log('Approval request sent:', info.response);
-          res.send('Sign-up request submitted. Please wait for administrator approval.');
-        }
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error registering new user');
-    }
-  });
+});
   
   // Approval endpoint
   app.get('/approve/:id', async (req, res) => {
@@ -197,6 +215,7 @@ app.post('/register', async (req, res) => {
       await fs.writeFile('./db/users.json', JSON.stringify(users, null, 2));
   
       res.send('User approved successfully.');
+      console.log('User approved:', user);
     } else {
       res.status(404).send('Registration not found.');
     }
@@ -204,24 +223,19 @@ app.post('/register', async (req, res) => {
 
   app.post('/login', async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { email, password } = req.body;
 
         // Read the users and admins file
         const usersData = await fs.readFile(USERS_FILE, 'utf8');
-        const adminsData = await fs.readFile(ADMIN_FILE, 'utf8');
         const users = JSON.parse(usersData);
-        const admins = JSON.parse(adminsData);
-
-        // Combine users and admins
-        const combinedUsers = users.concat(admins);
 
         // Find the user by username
-        const user = combinedUsers.find(u => u.username === username);
+        const user = users.find(u => u.email === email);
 
         // Check if user exists and password is correct
         if (user && await bcrypt.compare(password, user.hashedPassword)) {
             // Sign a token. Include a flag in the token payload to indicate if the user is an admin
-            const token = jwt.sign({ username: username, isAdmin: user.isAdmin || false }, REMOVED_JWT_SECRET, { expiresIn: '9999 years' });
+            const token = jwt.sign({ email: email, isAdmin: user.isAdmin || false }, REMOVED_JWT_SECRET, { expiresIn: '9999 years' });
             res.json({ token });
         } else {
             res.status(401).send('Invalid credentials');
@@ -234,13 +248,13 @@ app.post('/register', async (req, res) => {
 
 app.post('/admin/revoke', authenticateToken, checkAdmin, async (req, res) => {
     // In a real application, you'd check here if the requester is authenticated as an admin
-    const { userId } = req.body;
+    const { user_email } = req.body;
   
     try {
       // Load the existing users
       let users = JSON.parse(await fs.readFile('./db/users.json', 'utf8'));
   
-      const userIndex = users.findIndex(user => user.id === userId);
+      const userIndex = users.findIndex(user => user.email === user_email);
       if (userIndex === -1) {
         return res.status(404).send('User not found.');
       }
@@ -391,26 +405,30 @@ async function ensureFileExists(filePath, defaultContent) {
     }
 }
 
+
+
 async function createAdminUser() {
+    const email = 'bradenacurtis801@gmail.com';
     const username = 'bradenacurtis801';
     const password = 'wpkf0224'; // Choose a strong, secure password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const adminUser = {
+    const User = {
+        email,
         username,
         hashedPassword,
         isAdmin: true
     };
 
     // Attempt to read the existing admins file
-    let admins;
+    let users;
     try {
-        const data = await fs.readFile(ADMIN_FILE, 'utf8');
-        admins = JSON.parse(data);
+        const data = await fs.readFile(USERS_FILE, 'utf8');
+        users = JSON.parse(data);
     } catch (error) {
         if (error.code === 'ENOENT') {
             // File does not exist, start with an empty array
-            admins = [];
+            users = [];
         } else {
             // Rethrow any other error
             throw error;
@@ -418,17 +436,17 @@ async function createAdminUser() {
     }
 
     // Check if the admin user already exists
-    const existingAdmin = admins.find(admin => admin.username === username);
-    if (existingAdmin) {
-        console.log('Admin user already exists.');
+    const existingUser = users.find(users => users.email === email);
+    if (existingUser) {
+        console.log('User already exists.');
         return; // Stop execution if the admin already exists
     }
 
     // Add the new admin user to the array
-    admins.push(adminUser);
+    users.push(User);
 
     // Save the updated admins array back to the file
-    await fs.writeFile(ADMIN_FILE, JSON.stringify(admins, null, 2));
+    await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
 
     console.log('Admin user created successfully.');
 }
