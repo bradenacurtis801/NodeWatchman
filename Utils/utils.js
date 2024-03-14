@@ -29,7 +29,7 @@ function generateIdFromIp(ip) {
     }
   
     // Construct the ID
-    const id = `${section}${number}-${thirdOctet}-${machineNumber}`;
+    const id = `${section}${number}${thirdOctet}${machineNumber}`;
     return id;
   }
   
