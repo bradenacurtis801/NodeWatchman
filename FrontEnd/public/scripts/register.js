@@ -1,22 +1,52 @@
 document.getElementById('registerForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent the form from submitting the traditional way
+    
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
+    const email = formData.get('username');
+    const password = formData.get('password');
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const bodyData = { email, password };
+    console.log('bodydata', bodyData);
+
+    if (password !== confirmPassword) {
+        alert('Passwords do not match. Please try again.');
+        return;
+    }
 
     try {
         const response = await fetch(`http://${config.BACKEND_SERVER_IP}/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            body: JSON.stringify(bodyData)
         });
 
-        if (response.ok) {
-            alert('Registration successful!');
-            window.location.href = './login.html'; // Redirect to login page after registration
+        // Check if the response is JSON
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            const responseData = await response.json(); // Safely parsing the JSON
+
+            if (response.ok) {
+                alert('Registration successful!');
+                window.location.href = './login.html'; // Redirect to login page after successful registration
+            } else if (response.status === 202 && responseData.message === 'Sign-up request submitted. Please wait for administrator approval.') {
+                alert('Sign-up request submitted. Please wait for administrator approval.');
+                window.location.href = './login.html'
+            } else {
+                // Handle other server-side messages
+                alert(responseData.message || 'Registration failed. Please try again.');
+            }
         } else {
-            alert('Registration failed. Please try again.');
+            // If response is not JSON
+            const textResponse = await response.text();
+            alert(textResponse || 'An unexpected error occurred.');
         }
     } catch (error) {
         console.error('There was an error:', error);
+        alert('There was an error processing your registration. Please try again.');
     }
 });
+
+document.getElementById('loginBtn').addEventListener('click', function() {
+    window.location.href = './login.html'; // Navigate to login.html
+});
+

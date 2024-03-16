@@ -19,3 +19,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
         alert('Login failed');
     }
 });
+
+document.getElementById('registerBtn').addEventListener('click', function() {
+    window.location.href = 'register.html';
+});

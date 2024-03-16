@@ -453,7 +453,6 @@ body {
             bottom: -80px;
         }
         form{
-            height: 520px;
             width: 400px;
             background-color: rgba(255,255,255,0.13);
             position: absolute;
@@ -486,6 +485,8 @@ body {
             font-size: 16px;
             font-weight: 500;
         }
+
+        
         input{
             display: block;
             height: 50px;
