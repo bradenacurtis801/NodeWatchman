@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Design by foolishdeveloper.com -->
     <title>Register</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!--Stylesheet-->
 </head>
 <body>
-    <form id="registerForm">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="email" name="email" placeholder="Email (optional)">
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form id="registerForm"> <!-- Changed ID to registerForm -->
+        <h3>Register Here</h3>
+    
+        <label for="username">Username</label>
+        <input type="text" placeholder="Email" id="username" name="username">
+    
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" name="password">
+    
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" placeholder="Confirm Password" id="confirmPassword" name="confirmPassword"> <!-- Updated ID and Name -->
+    
         <button type="submit">Register</button>
+        <button id="loginBtn">Login</button>
     </form>
-    <!-- Login button -->
-    <button onclick="location.href='login.html'">Login</button>
-    <script src="./scripts/register.js"></script>
+    
     <script src="./scripts/config.js"></script>
-</body>
+    <script src="./scripts/register.js"></script> <!-- Make sure this path is correct -->
+    </body>
 </html>

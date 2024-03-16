@@ -2,5 +2,19 @@
   "dependencies": {
     "config": "^3.3.11",
     "uuid": "^9.0.1"
-  }
+  },
+  "name": "nodewatchman",
+  "version": "1.0.0",
+  "main": "temp.js",
+  "devDependencies": {},
+  "scripts": {
+    "start-backend": "node ./BackEnd/server.js",
+    "start-frontend": "node ./FrontEnd/server.js",
+    "start-ssh-server": "node ./SSH-Server/server.js",
+    "start": "npm run start-backend & npm run start-frontend & npm run start-ssh-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "braden curtis",
+  "license": "ISC",
+  "description": ""
 }
