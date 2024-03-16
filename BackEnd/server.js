@@ -13,7 +13,7 @@ const { v4: uuidv4 } = require('uuid');
 const { readUsersFromFile, writeUsersToFile } = require('./userdb_models');
 
 const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
-const MACHINE_STATE_FILE = './db/machineState.json';
+const MACHINE_STATE_FILE = './/db/machineState.json';
 const USERS_FILE = './db/users.json';
 const RBM_NODES_FILE = './db/rbm_nodes.json';
 const INTERACTIVE_NODES_FILE = './db/interactive_nodes.json';
@@ -102,11 +102,11 @@ app.get('/load-machine-state', authenticateToken, async (req, res) => {
 });
 
 // Registration endpoint
-app.post('/register', authenticateToken, async (req, res) => {
+app.post('/register', async (req, res) => {
     try {
         console.log('Received registration request:', req.body);
-        const { email, username, password } = req.body; // Include email in the destructured object
-        if (!email || !username || !password) {
+        const { email, password } = req.body; // Include email in the destructured object
+        if (!email || !password) {
             // Return an error response if any of the required fields are missing
             return res.status(400).send('Missing required fields: username, email, and/or password.');
         }
@@ -122,7 +122,7 @@ app.post('/register', authenticateToken, async (req, res) => {
         }
 
          // Check if user already exists
-         if (users.some(user => user.username === username)) {
+         if (users.some(user => user.email === email)) {
             return res.status(400).send('Username already exists');
         }
 
@@ -153,7 +153,7 @@ app.post('/register', authenticateToken, async (req, res) => {
         const userId = uuidv4();
 
         // Append new pending registration with email
-        pendingRegistrations.push({ username, email, hashedPassword, id: userId, isAdmin: false });
+        pendingRegistrations.push({ email, hashedPassword, id: userId, isAdmin: false });
         await fs.writeFile(PENDING_REGISTRATIONS_FILE, JSON.stringify(pendingRegistrations, null, 2));
 
         // Send approval request to admin with email information
@@ -171,7 +171,7 @@ app.post('/register', authenticateToken, async (req, res) => {
                 res.status(500).send('Error sending approval request.');
             } else {
                 console.log('Approval request sent:', info.response);
-                res.send('Sign-up request submitted. Please wait for administrator approval.');
+                res.status(202).json({ message: 'Sign-up request submitted. Please wait for administrator approval.' });
             }
         });
     } catch (error) {
