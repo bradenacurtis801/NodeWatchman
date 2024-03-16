@@ -56,7 +56,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use('/update-miners', limiter);
 // app.use(checkBlacklist);
 
-app.get('/update-miners', async (req, res) => {
+app.get('/update-miners', authenticateToken, async (req, res) => {
     try {
 	console.log('Received request to update miners');
         await fetchAndUpdateMachineData();
@@ -102,7 +102,7 @@ app.get('/load-machine-state', authenticateToken, async (req, res) => {
 });
 
 // Registration endpoint
-app.post('/register', async (req, res) => {
+app.post('/register', authenticateToken, async (req, res) => {
     try {
         console.log('Received registration request:', req.body);
         const { email, username, password } = req.body; // Include email in the destructured object
@@ -224,6 +224,7 @@ app.post('/register', async (req, res) => {
   app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(email, password)
 
         // Read the users and admins file
         const usersData = await fs.readFile(USERS_FILE, 'utf8');
@@ -234,6 +235,7 @@ app.post('/register', async (req, res) => {
 
         // Check if user exists and password is correct
         if (user && await bcrypt.compare(password, user.hashedPassword)) {
+            console.log(user)
             // Sign a token. Include a flag in the token payload to indicate if the user is an admin
             const token = jwt.sign({ email: email, isAdmin: user.isAdmin || false }, REMOVED_JWT_SECRET, { expiresIn: '9999 years' });
             res.json({ token });
