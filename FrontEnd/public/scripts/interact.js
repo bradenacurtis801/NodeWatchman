@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const textareaInput = document.getElementById("textareaInput");
   const closeBtn = customScriptModal.querySelector(".close");
   const startCommandBtn = document.getElementById("startCommand");
+  const logoutButton = document.getElementById('logoutBtn');
+
 
   runCustomScriptBtn.addEventListener("click", () => {
     customScriptModal.style.display = "block";
@@ -71,9 +73,29 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-});
-
-startCommandBtn.addEventListener("click", async () => {
+  // Add an event listener for the click event on the logout button
+  logoutButton.addEventListener('click', async function () {
+    console.log("Logging out...");
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem('token');
+  
+    // If a token exists, send a logout request to the server
+    if (token) {
+      await fetch('/logout', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      // Regardless of the server's response, remove the token from localStorage
+      localStorage.removeItem('token');
+    }
+  
+    // Redirect the user to the login page
+    window.location.href = 'login.html';
+  });
+  
+  startCommandBtn.addEventListener("click", async () => {
   const bashCode = document.getElementById("textareaInput").value;
   const selectedMachines = [];
   manager.rows.forEach((row) => {
@@ -84,9 +106,9 @@ startCommandBtn.addEventListener("click", async () => {
     });
   });
   const ipsList = selectedMachines.join(",");
-
+  
   console.log("Sending Bash Script and IPs to server:", bashCode, ipsList);
-
+  
   // Example POST request to a server-side endpoint that executes the bash script
   const url = "http://localhost:5000/execute-script";
   try {
@@ -104,9 +126,9 @@ startCommandBtn.addEventListener("click", async () => {
   } catch (error) {
     console.error("Error executing script:", error);
   }
-});
-
-document
+  });
+  
+  document
   .getElementById("getNodeStatusBtn")
   .addEventListener("click", async () => {
     const ipsString = manager.getIpAll();
@@ -121,12 +143,12 @@ document
         if (iface != "" && mac != "") print iface": "mac;
     }
     '`;
-
+  
     console.log("Sending Node Info to /execute-script:", bashCode, ipsString);
-
+  
     try {
       const executeResult = await executeScript(ipsString, bashCode);
-
+  
       const mappedInfo = executeResult.reduce(
         (acc, { ip, ...rest }) => ({
           ...acc,
@@ -138,7 +160,7 @@ document
         }),
         {}
       );
-
+  
       console.log("Execution Result:", mappedInfo);
       displayBashOutput(Object.values(mappedInfo));
       const mappedArrayFormatted = reformatJsonArray(Object.values(mappedInfo));
@@ -149,15 +171,15 @@ document
       console.error("Error in processing:", error);
     }
   });
-
-function displayBashOutput(mappedArray) {
+  
+  function displayBashOutput(mappedArray) {
   const bashOutputContainer = document.getElementById("BashOutput");
   bashOutputContainer.innerHTML = ""; // Clear existing content
-
+  
   mappedArray.forEach((item, index) => {
     let obj; // This will store the relevant object (either directly or nested)
     let id; // This will store the identifier (IP or custom ID)
-
+  
     // Check if the item is in the first format with a unique key
     if (Object.keys(item).length === 1 && Object.keys(item)[0] !== "ip") {
       id = Object.keys(item)[0];
@@ -167,26 +189,26 @@ function displayBashOutput(mappedArray) {
       obj = item;
       id = obj.ip;
     }
-
+  
     const elementId = `collapse-${index}`;
     const wrapperDiv = document.createElement("div");
     wrapperDiv.classList.add("collapsible-wrapper");
-
+  
     const button = document.createElement("button");
     button.textContent = id + (obj.error ? ` - Error` : ` - Result`);
     button.classList.add("collapsible-btn");
     button.setAttribute("type", "button");
     button.setAttribute("data-target", elementId);
-
+  
     const contentDiv = document.createElement("div");
     contentDiv.id = elementId;
     contentDiv.classList.add("collapsible-content");
     contentDiv.style.display = "none"; // Initially hidden
-
+  
     const pre = document.createElement("pre");
     const code = document.createElement("code");
     code.className = "language-bash"; // Ensure this class is set for Highlight.js
-
+  
     // Handle content based on whether it's an error or a result
     if (obj.error) {
       code.textContent = `Error: ${obj.error}`;
@@ -195,13 +217,13 @@ function displayBashOutput(mappedArray) {
     } else {
       code.textContent = `No detailed information available.`;
     }
-
+  
     pre.appendChild(code);
     contentDiv.appendChild(pre);
     wrapperDiv.appendChild(button);
     wrapperDiv.appendChild(contentDiv);
     bashOutputContainer.appendChild(wrapperDiv);
-
+  
     button.addEventListener("click", function () {
       const target = document.getElementById(this.getAttribute("data-target"));
       if (target.style.display === "none") {
@@ -213,7 +235,9 @@ function displayBashOutput(mappedArray) {
       }
     });
   });
-}
+  }
+});
+
 
 async function applyBoxState(savedStates) {
   try {
