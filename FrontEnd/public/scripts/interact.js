@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const textareaContainer = document.getElementById("textareaContainer");
   const textareaInput = document.getElementById("textareaInput");
   const closeBtn = customScriptModal.querySelector(".close");
-  const startCommandBtn = document.getElementById("startCommand");
+  const startCommandBtn = document.getElementById("startCommandBtn");
   const logoutButton = document.getElementById('logoutBtn');
 
 
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.onclick = (event) => {
-    console.log(event.target);
+    //console.log(event.target);
     if (event.target == customScriptModal && !isMouseDownInsideTextarea) {
       customScriptModal.style.display = "none";
     }
@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let isMouseDownInsideTextarea = false;
 
   window.addEventListener("mousedown", (event) => {
-    console.log(event.target);
+   // console.log(event.target);
     if (event.target == textareaContainer || event.target == textareaInput) {
-      console.log("Mouse down inside textarea");
+     // console.log("Mouse down inside textarea");
       isMouseDownInsideTextarea = true;
     } else isMouseDownInsideTextarea = false;
   });
@@ -92,10 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   
     // Redirect the user to the login page
-    window.location.href = 'login.html';
+    window.location.href = '/LoginPage/login.html';
   });
   
   startCommandBtn.addEventListener("click", async () => {
+  console.log('running start command');
   const bashCode = document.getElementById("textareaInput").value;
   const selectedMachines = [];
   manager.rows.forEach((row) => {
@@ -148,23 +149,14 @@ document.addEventListener("DOMContentLoaded", () => {
   
     try {
       const executeResult = await executeScript(ipsString, bashCode);
-  
-      const mappedInfo = executeResult.reduce(
-        (acc, { ip, ...rest }) => ({
-          ...acc,
-          [generateIdFromIp(ip)]: {
-            ip,
-            ...rest,
-            color: rest.error ? "red" : "green",
-          },
-        }),
-        {}
-      );
+ console.log('pre exe',executeResult); 
+      const mappedInfo = processExecutionResult(executeResult)
   
       console.log("Execution Result:", mappedInfo);
       displayBashOutput(Object.values(mappedInfo));
       const mappedArrayFormatted = reformatJsonArray(Object.values(mappedInfo));
       // Forwarding the response to another endpoint
+      console.log('formateed arr',mappedArrayFormatted);
       const updateResult = await updateMachineState(mappedArrayFormatted);
       console.log("Update Machine State Result:", updateResult);
     } catch (error) {
@@ -244,8 +236,9 @@ async function applyBoxState(savedStates) {
     // Fetch the hardware information from the API
 
     const DC02_HARDWARE = await fetchHardwareInfo();
+	  console.log('dc2hw',DC02_HARDWARE);
     let a = checkBoxPosition(DC02_HARDWARE, savedStates);
-
+    console.log('mismatched',a)
     document.querySelectorAll(".box").forEach((box) => {
       const boxState = savedStates.find((state) => state[box.id]);
 
@@ -347,7 +340,7 @@ function reformatJsonArray(jsonArray, outputFile = null) {
 
   // Reformats jsonArray, focusing on ethernet interface data and filtering out errors
   const reformattedArray = jsonArray
-    .filter((obj) => !obj[Object.keys(obj)[0]].error) // Filter out objects with "error" attribute
+    // .filter((obj) => !obj[Object.keys(obj)[0]].error) // Filter out objects with "error" attribute
     .map((obj) => {
       const key = Object.keys(obj)[0]; // The ID of the machine
       const data = obj[key];
@@ -381,59 +374,51 @@ function reformatJsonArray(jsonArray, outputFile = null) {
   return reformattedArray;
 }
 
-function checkBoxPosition(DC02_HARDWARE, JSON_ARRAY) {
-  const mismatchedBoxes = [];
-
-  const p1_data = DC02_HARDWARE;
-  const p2_data = JSON_ARRAY;
-
-  for (let i = 0; i < p1_data.length; i++) {
-    const boxData1 = p1_data[i];
-    const boxData2 = p2_data[i];
-
-    const boxId1 = Object.keys(boxData1)[0];
-    const boxId2 = Object.keys(boxData2)[0];
-
-    if (boxId1 !== boxId2) {
-      throw new Error(
-        `The names do not match: ${boxId1} in p1_data and ${boxId2} in p2_data at index ${i}`
-      );
-    }
-
-    const boxInfo1 = boxData1[boxId1];
-    const boxInfo2 = boxData2[boxId1];
-
-    if (!boxInfo1.ethernet_interfaces || !boxInfo2.ethernet_interfaces)
-      continue;
-
-    const correctMacs = Object.values(boxInfo1.ethernet_interfaces).map((mac) =>
-      mac.toLowerCase().trim()
-    );
-    const actualMacs = Object.values(boxInfo2.ethernet_interfaces).map((mac) =>
-      mac.toLowerCase().trim()
-    );
-
-    // Check if at least one MAC from correct_macs is found in actual_macs
-    const isMatchFound = correctMacs.some((mac) => actualMacs.includes(mac));
-
-    if (!isMatchFound) {
-      // If no matching MAC is found, append to mismatchedBoxes
-      const mismatchedMac = correctMacs.find(
-        (mac) => !actualMacs.includes(mac)
-      ); // Assuming you still want to report the first non-matching MAC
-      const machineId = findMachineIdByMac(p1_data, mismatchedMac);
-      mismatchedBoxes.push({
-        [boxId1]: {
-          correct_macs: boxInfo1.ethernet_interfaces,
-          actual_macs: boxInfo2.ethernet_interfaces,
-          msg:
-            machineId === 0
-              ? `No machines on the network have the following NICs: ${mismatchedMac}`
-              : `The mac '${mismatchedMac}' is supposed to be in machine ${machineId}`,
-        },
-      });
-    }
+function checkBoxPosition(dcHardware, jsonArray) {
+  if (dcHardware.length !== jsonArray.length) {
+    throw new Error("The lengths of DC02_HARDWARE and JSON_ARRAY do not match.");
   }
+
+  // Convert JSON_ARRAY to a lookup table by box ID for faster access
+  const jsonArrayLookup = jsonArray.reduce((acc, item) => {
+    const key = Object.keys(item)[0];
+    acc[key] = item[key];
+    return acc;
+  }, {});
+
+  const mismatchedBoxes = dcHardware.map(boxData => {
+    const boxId = Object.keys(boxData)[0];
+    const jsonBoxData = jsonArrayLookup[boxId];
+    if (!jsonBoxData) {
+      console.error(`Matching entry for ${boxId} not found in JSON_ARRAY.`);
+      return null; // Skipping unmatched boxData, might adjust based on requirements
+    }
+
+    const ethernetInterfaces1 = boxData[boxId].ethernet_interfaces;
+    const ethernetInterfaces2 = jsonBoxData.ethernet_interfaces;
+
+    if (!ethernetInterfaces1 || !ethernetInterfaces2) return null;
+
+    // Combine MAC address processing steps and compare
+    const correctMacs = Object.values(ethernetInterfaces1).map(mac => mac.toLowerCase().trim());
+    const actualMacs = Object.values(ethernetInterfaces2).map(mac => mac.toLowerCase().trim());
+
+    const isMismatch = !correctMacs.some(mac => actualMacs.includes(mac));
+    if (isMismatch) {
+      const mismatchedMac = actualMacs.find(mac => !correctMacs.includes(mac)) || actualMacs[0]; // Assuming at least one MAC address is present
+      const machineId = findMachineIdByMac(dcHardware, mismatchedMac);
+      return {
+        [boxId]: {
+          correct_macs: ethernetInterfaces1,
+          actual_macs: ethernetInterfaces2,
+          msg: machineId
+            ? `The MAC '${mismatchedMac}' is supposed to be in machine ${machineId}`
+            : `No machines on the network have the following NICs: ${mismatchedMac}`
+        }
+      };
+    }
+    return null;
+  }).filter(box => box !== null); // Remove nulls from mismatches
 
   return mismatchedBoxes;
 }
@@ -453,4 +438,19 @@ function findMachineIdByMac(data, mac) {
     }
   }
   return 0; // Return 0 if no matching machine ID is found to indicate that no network machines have the given NICs
+}
+
+function processExecutionResult(executeResult) {
+  const mappedInfo = executeResult.map(({ ip, ...rest }) => {
+    const id = generateIdFromIp(ip); // Generate ID based on the IP
+    return {
+      [id]: { // Use computed property names to set the key
+        ip,
+        ...rest,
+        color: rest.error ? "red" : "green", // Assign color based on error presence
+      }
+    };
+  });
+
+  return mappedInfo;
 }

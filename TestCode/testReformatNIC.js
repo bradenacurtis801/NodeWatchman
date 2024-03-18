@@ -1,81 +1,5 @@
 const fs = require('fs');
 
-function reformatJsonArray(jsonArray, outputFile = null) {
-    const reformattedArray = jsonArray
-        .filter(obj => !obj[Object.keys(obj)[0]].error) // Filter out objects with "error" attribute
-        .map(obj => {
-            const key = Object.keys(obj)[0];
-            const data = obj[key];
-            if (data.result) {
-                const { cmd, output } = data.result;
-                const ethInterfaces = {};
-                output.split('\n').forEach(line => {
-                    const [iface, mac] = line.split(': ');
-                    ethInterfaces[`MAC (NIC-${Object.keys(ethInterfaces).length + 1}) ${iface}`] = mac;
-                });
-                return {
-                    [key]: {
-                        ip: data.ip,
-                        ethernet_interfaces: ethInterfaces,
-                        color: data.color
-                    }
-                };
-            } else {
-                return obj;
-            }
-        });
-
-    if (outputFile) {
-        fs.writeFileSync(outputFile, JSON.stringify(reformattedArray, null, 2));
-    }
-
-    return reformattedArray;
-}
-
-function reformatJsonArray(inputFile = null, outputFile = null) {
-    let jsonArray;
-
-    if (inputFile) {
-        try {
-            const jsonData = fs.readFileSync(inputFile, 'utf8');
-            jsonArray = JSON.parse(jsonData);
-        } catch (error) {
-            console.error(`Error reading input file: ${error.message}`);
-            return;
-        }
-    } else {
-        console.error('Input file path is required.');
-        return;
-    }
-
-    const reformattedArray = jsonArray.map(obj => {
-        const key = Object.keys(obj)[0];
-        const data = obj[key];
-        if (data.result) {
-            const { cmd, output } = data.result;
-            const ethInterfaces = {};
-            output.split('\n').forEach(line => {
-                const [iface, mac] = line.split(': ');
-                ethInterfaces[`MAC (NIC-${Object.keys(ethInterfaces).length + 1}) ${iface}`] = mac;
-            });
-            return {
-                [key]: {
-                    ip: data.ip,
-                    ethernet_interfaces: ethInterfaces,
-                    color: data.color
-                }
-            };
-        } else {
-            return obj;
-        }
-    });
-
-    if (outputFile) {
-        fs.writeFileSync(outputFile, JSON.stringify(reformattedArray, null, 2));
-    }
-
-    return reformattedArray;
-}
 function reformatFile(inputFilePath, outputFilePath) {
     // Read the file
     fs.readFile(inputFilePath, 'utf8', (err, data) => {
@@ -174,12 +98,101 @@ function reformatJsonIds(inputFilePath, outputFilePath) {
     });
 }
 
+function checkBoxPosition(dcHardware, jsonArray) {
+    if (dcHardware.length !== jsonArray.length) {
+      throw new Error("The lengths of DC02_HARDWARE and JSON_ARRAY do not match.");
+    }
+  
+    // Convert JSON_ARRAY to a lookup table by box ID for faster access
+    const jsonArrayLookup = jsonArray.reduce((acc, item) => {
+      const key = Object.keys(item)[0];
+      acc[key] = item[key];
+      return acc;
+    }, {});
+  
+    const mismatchedBoxes = dcHardware.map(boxData => {
+      const boxId = Object.keys(boxData)[0];
+      const jsonBoxData = jsonArrayLookup[boxId];
+      if (!jsonBoxData) {
+        console.error(`Matching entry for ${boxId} not found in JSON_ARRAY.`);
+        return null; // Skipping unmatched boxData, might adjust based on requirements
+      }
+  
+      const ethernetInterfaces1 = boxData[boxId].ethernet_interfaces;
+      const ethernetInterfaces2 = jsonBoxData.ethernet_interfaces;
+  
+      if (!ethernetInterfaces1 || !ethernetInterfaces2) return null;
+  
+      // Combine MAC address processing steps and compare
+      const correctMacs = Object.values(ethernetInterfaces1).map(mac => mac.toLowerCase().trim());
+      const actualMacs = Object.values(ethernetInterfaces2).map(mac => mac.toLowerCase().trim());
+  
+      const isMismatch = !correctMacs.some(mac => actualMacs.includes(mac));
+      if (isMismatch) {
+        const mismatchedMac = actualMacs.find(mac => !correctMacs.includes(mac)) || actualMacs[0]; // Assuming at least one MAC address is present
+        const machineId = findMachineIdByMac(dcHardware, mismatchedMac);
+        return {
+          [boxId]: {
+            correct_macs: ethernetInterfaces1,
+            actual_macs: ethernetInterfaces2,
+            msg: machineId
+              ? `The MAC '${mismatchedMac}' is supposed to be in machine ${machineId}`
+              : `No machines on the network have the following NICs: ${mismatchedMac}`
+          }
+        };
+      }
+      return null;
+    }).filter(box => box !== null); // Remove nulls from mismatches
+  
+    return mismatchedBoxes;
+  }
+
+function findMachineIdByMac(DC02_DATA, mac) {
+    //  console.log(DC02_DATA[101])
+    for (const entry of DC02_DATA) {
+      const id = Object.keys(entry)[0];
+      const info = entry[id];
+      if (info.ethernet_interfaces) {
+        const macs = Object.values(info.ethernet_interfaces).map((mac) =>
+          mac.toLowerCase().trim()
+        );
+        if (macs.includes(mac)) {
+          return id;
+        }
+      }
+    }
+    return 0; // Return 0 if no matching machine ID is found to indicate that no network machines have the given NICs
+  }
+
+//   console.log(findMachineIdByMac(JSON.parse(fs.readFileSync("./DC02_HARDWARE_INFO_ALL.json", 'utf8')), '74:86:e2:13:9e:dd'));
+
+DC02_DATA_ARRAY_OBJ=JSON.parse(fs.readFileSync('./DC02_HARDWARE_INFO_ALL.json', 'utf8'))
+JSON_ARRAY_OBJ=JSON.parse(fs.readFileSync('./interactive_nodes.json', 'utf8'))
+
+// Function to log the first two and middle two elements of each array object
+const logArrayElements = (array) => {
+    console.log('First Two:');
+    console.log(array[0]);
+    console.log(array[1]);
+
+    console.log('Middle Two:');
+    const middleIndex = Math.floor(array.length / 2);
+    console.log(array[middleIndex]);
+    console.log(array[middleIndex + 1]);
+};
+
+  
+//   console.log('DC02_DATA_ARRAY_OBJ:');
+//   logArrayElements(DC02_DATA_ARRAY_OBJ);
+  
+//   console.log('JSON_ARRAY_OBJ:');
+//   logArrayElements(JSON_ARRAY_OBJ);
+
+console.log(checkBoxPosition(DC02_DATA_ARRAY_OBJ,JSON_ARRAY_OBJ)[0])
 
 
-
-
-// Example usage:
-inputFile='../DC02_MACHINE_HARDWARE/DC02_HARDWARE_INFO_ALL.json'
-outputFile='./testNodeStatusOutput3.json'
-const reformattedArray = reformatJsonIds(inputFile, outputFile);
+// // Example usage:
+// inputFile='../DC02_MACHINE_HARDWARE/DC02_HARDWARE_INFO_ALL.json'
+// outputFile='./testNodeStatusOutput3.json'
+// const reformattedArray = reformatJsonIds(inputFile, outputFile);
 

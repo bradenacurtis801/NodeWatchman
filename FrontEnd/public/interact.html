@@ -1,95 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Box Highlighter</title>
-    <link rel="stylesheet" href="style.css" />
 
-    <!-- Highlight.js styles -->
-    <style>
-      textarea[is="highlighted-code"] {
-        padding: 8px;
-      }
-    </style>
-    <link rel="stylesheet" href="../highlight/styles/obsidian.css" />
-    <script src="../highlight/highlight.min.js"></script>
-    <script>
-      hljs.highlightAll();
-    </script>
-    <script type="module">
-      (async ({ chrome, netscape }) => {
-        // add Safari polyfill if needed
-        if (!chrome && !netscape)
-          await import("https://unpkg.com/@ungap/custom-elements");
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Box Highlighter</title>
+  <link rel="stylesheet" href="style.css" />
 
-        const { default: HighlightedCode } = await import(
-          "https://unpkg.com/highlighted-code"
-        );
+  <!-- Highlight.js styles -->
+  <style>
+    textarea[is="highlighted-code"] {
+      padding: 8px;
+    }
+  </style>
+  <link rel="stylesheet" href="../highlight/styles/obsidian.css" />
+  <script src="../highlight/highlight.min.js"></script>
+  <script>
+    hljs.highlightAll();
+  </script>
+  <script type="module">
+    (async ({ chrome, netscape }) => {
+      // add Safari polyfill if needed
+      if (!chrome && !netscape)
+        await import("https://unpkg.com/@ungap/custom-elements");
 
-        // bootstrap a theme through one of these names
-        // https://github.com/highlightjs/highlight.js/tree/main/src/styles
-        HighlightedCode.useTheme("github-dark");
-      })(self);
-    </script>
-  </head>
+      const { default: HighlightedCode } = await import(
+        "https://unpkg.com/highlighted-code"
+      );
 
-  <body data-page="home">
-    <div id="top-level-buttons" class="top-level-buttons">
-      <!-- Buttons will be added here dynamically -->
-      <button id="getNodeStatusBtn">Update Node Status</button>
-      <button id="runCustomScriptBtn">Run Custom Script</button>
-      <button id="backBtn">Back</button>
-      <button id="logoutBtn">Logout</button>
-    </div>
+      // bootstrap a theme through one of these names
+      // https://github.com/highlightjs/highlight.js/tree/main/src/styles
+      HighlightedCode.useTheme("github-dark");
+    })(self);
+  </script>
+</head>
 
-    <div id="customScriptModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Custom Script Runner</h2>
+<body data-page="home">
+  <div id="top-level-buttons" class="top-level-buttons">
+    <!-- Buttons will be added here dynamically -->
+    <button id="getNodeStatusBtn">Update Node Status</button>
+    <button id="runCustomScriptBtn">Run Custom Script</button>
+    <button id="backBtn">Back</button>
+    <button id="logoutBtn">Logout</button>
+  </div>
 
-        <!-- Tab Menu -->
-        <div class="tab">
-          <button class="tablinks" onclick="openTab(event, 'BashInput')">
-            Bash Input
-          </button>
-          <button class="tablinks" onclick="openTab(event, 'BashOutput')">
-            Bash Output
-          </button>
-        </div>
+  <div id="customScriptModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Custom Script Runner</h2>
 
-        <!-- Bash Input Tab -->
-        <div id="BashInput" class="tabcontent">
-          <textarea
-            is="highlighted-code"
-            id="textareaInput"
-            language="bash"
-            cols="80"
-            rows="12"
-            placeholder="# Your bash script goes here"
-            style="overflow: auto; width: 100%"
-          ></textarea>
-          <button id="startCommandBtn">Start</button>
-        </div>
+      <!-- Tab Menu -->
+      <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'BashInput')">
+          Bash Input
+        </button>
+        <button class="tablinks" onclick="openTab(event, 'BashOutput')">
+          Bash Output
+        </button>
+      </div>
 
-        <!-- Bash Output Tab -->
-        <div id="BashOutput" class="tabcontent bash-output-container" style="display: none">
-          <pre><code>
+      <!-- Bash Input Tab -->
+      <div id="BashInput" class="tabcontent">
+        <div id="selectedMachines"></div>
+        <textarea is="highlighted-code" id="textareaInput" language="bash" cols="80" rows="12"
+          placeholder="# Your bash script goes here" style="overflow: auto; width: 100%"></textarea>
+        <button id="startCommandBtn">Start</button>
+      </div>
+
+      <!-- Bash Output Tab -->
+      <div id="BashOutput" class="tabcontent bash-output-container" style="display: none">
+        <pre><code>
                 <!-- Bash Output -->
             </code></pre>
-        </div>
       </div>
     </div>
+  </div>
 
-    <div class="main-container">
-      <div class="section" id="section-A"></div>
-      <div class="section" id="section-B"></div>
-    </div>
-    <script src="./scripts/config.js"></script>
-    <script src="./scripts/interact.js"></script>
-    <script src="./scripts/api.js"></script>
-    <script src="../boxFactory/boxFactory.js"></script>
-    <!-- <script type="module">
+  <div class="main-container">
+    <div class="section" id="section-A"></div>
+    <div class="section" id="section-B"></div>
+  </div>
+  <script src="./scripts/config.js"></script>
+  <script src="./scripts/interact.js"></script>
+  <script src="./scripts/api.js"></script>
+  <script src="../boxFactory/boxFactory.js"></script>
+  <!-- <script type="module">
       import { dragSelect } from "../dragSelect.js";
       import { debugInfo } from "../debug.js";
 
@@ -102,58 +97,85 @@
       });
     </script> -->
 
-    <!-- TESTING SCRIPT -->
-    <!-- <script src="../../TestCode/testBashOutput.js"></script> -->
-    <!-- END TESTING -->
+  <!-- TESTING SCRIPT -->
+  <!-- <script src="../../TestCode/testBashOutput.js"></script> -->
+  <!-- END TESTING -->
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const manager = new BoxContainerManager();
-        window.manager = manager; // Make it globally accessible
+  <script>
+    function openTab(evt, tabName) {
+      // Use const for variables that do not change 
+      const tabcontent = document.getElementsByClassName("tabcontent");
+      const tablinks = document.getElementsByClassName("tablinks");
 
-        // Add a couple of rows with some racks for demonstration purposes
-        manager.createRowContainer("section-A", "A1");
-        manager.createRowContainer("section-A", "A2");
-        manager.createRowContainer("section-B", "B1");
-        manager.createRowContainer("section-B", "B2");
-
-        // Now, assuming both RowContainer and RackContainer instances have been properly setup
-        // and that boxes have been added to racks in those rows, we update all box behaviors:
-
-        // Get a row and add racks to it
-        const rowA1 = manager.getRow("A1");
-        const rowA2 = manager.getRow("A2");
-        const rowB1 = manager.getRow("B1");
-        const rowB2 = manager.getRow("B2");
-        if (rowA1) {
-          rowA1.addRack("11", 20, SpecializedRackContainer);
-          rowA1.addRack("12", 20, SpecializedRackContainer);
-          rowA1.addRack("13", 20, SpecializedRackContainer);
-          rowA1.addRack("14", 20, SpecializedRackContainer);
-
-          rowA2.addRack("21", 20, SpecializedRackContainer);
-          rowA2.addRack("22", 20, SpecializedRackContainer);
-          rowA2.addRack("23", 20, SpecializedRackContainer);
-          rowA2.addRack("24", 20, SpecializedRackContainer);
-          rowA2.addRack("25", 20, SpecializedRackContainer);
-
-          rowB1.addRack("111", 20, SpecializedRackContainer);
-          rowB1.addRack("112", 20, SpecializedRackContainer);
-          rowB1.addRack("113", 20, SpecializedRackContainer);
-
-          rowB2.addRack("121", 20, SpecializedRackContainer);
-          rowB2.addRack("122", 20, SpecializedRackContainer);
-          rowB2.addRack("123", 20, SpecializedRackContainer);
-          rowB2.addRack("124", 20, SpecializedRackContainer);
-          rowB2.addRack("125", 20, SpecializedRackContainer);
-        } else {
-          console.log("Row A1 does not exist.");
-        }
-
-        //console.log(manager);
-        //const allInfo = manager.getObjAll();
-        //console.log(manager.getIpAll());
+      // Use Array.from() to convert HTMLCollections to arrays. This allows use of forEach 
+      Array.from(tabcontent).forEach((element) => {
+        element.style.display = "none"; // Hide all tab content 
       });
-    </script>
-  </body>
+
+      Array.from(tablinks).forEach((element) => {
+        element.classList.remove("active"); // Remove 'active' class from all tabs 
+      });
+
+      // Display the selected tab content and add 'active' class to the clicked tab 
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.classList.add("active");
+    }
+
+    // Set default open tab (optional) 
+    // Use querySelector to directly click on the default open tab if present 
+    document.querySelector(".tablinks.defaultOpen")?.click();
+
+
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const manager = new BoxContainerManager();
+      window.manager = manager; // Make it globally accessible
+
+      // Add a couple of rows with some racks for demonstration purposes
+      manager.createRowContainer("section-A", "A1");
+      manager.createRowContainer("section-A", "A2");
+      manager.createRowContainer("section-B", "B1");
+      manager.createRowContainer("section-B", "B2");
+
+      // Now, assuming both RowContainer and RackContainer instances have been properly setup
+      // and that boxes have been added to racks in those rows, we update all box behaviors:
+
+      // Get a row and add racks to it
+      const rowA1 = manager.getRow("A1");
+      const rowA2 = manager.getRow("A2");
+      const rowB1 = manager.getRow("B1");
+      const rowB2 = manager.getRow("B2");
+      if (rowA1) {
+        rowA1.addRack("11", 20, SpecializedRackContainer);
+        rowA1.addRack("12", 20, SpecializedRackContainer);
+        rowA1.addRack("13", 20, SpecializedRackContainer);
+        rowA1.addRack("14", 20, SpecializedRackContainer);
+
+        rowA2.addRack("21", 20, SpecializedRackContainer);
+        rowA2.addRack("22", 20, SpecializedRackContainer);
+        rowA2.addRack("23", 20, SpecializedRackContainer);
+        rowA2.addRack("24", 20, SpecializedRackContainer);
+        rowA2.addRack("25", 20, SpecializedRackContainer);
+
+        rowB1.addRack("111", 20, SpecializedRackContainer);
+        rowB1.addRack("112", 20, SpecializedRackContainer);
+        rowB1.addRack("113", 20, SpecializedRackContainer);
+
+        rowB2.addRack("121", 20, SpecializedRackContainer);
+        rowB2.addRack("122", 20, SpecializedRackContainer);
+        rowB2.addRack("123", 20, SpecializedRackContainer);
+        rowB2.addRack("124", 20, SpecializedRackContainer);
+        rowB2.addRack("125", 20, SpecializedRackContainer);
+      } else {
+        console.log("Row A1 does not exist.");
+      }
+
+      //console.log(manager);
+      //const allInfo = manager.getObjAll();
+      //console.log(manager.getIpAll());
+    });
+  </script>
+</body>
+
 </html>

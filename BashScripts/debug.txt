@@ -1,0 +1,1 @@
+Usage: ./execute_on_machines.sh 'machine1_ip,machine2_ip,...' 'command to execute'

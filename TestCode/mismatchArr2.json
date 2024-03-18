@@ -1,0 +1,82 @@
+[
+    {
+        "A1-11-1": {
+            "ip": "10.10.11.1",
+            "error": "No route to host",
+            "color": "red"
+        }
+    },
+    {
+        "A1-11-2": {
+            "ip": "10.10.11.2",
+            "error": "No route to host",
+            "color": "red"
+        }
+    },
+    {
+        "A1-14-13": {
+            "ip": "10.10.14.13",
+            "ethernet_interfaces": {
+                "MAC (NIC-1) enp2s0": "74:86:e2:13:b3:cc52",
+                "MAC (NIC-2) enp0s31f6": "74:86:e2:13:ccb3:52",
+                "MAC (NIC-3) bond0": "74:86:e2:13:b3:52",
+                "MAC (NIC-4) docker0": "02:42:8c:1e:20:47",
+                "MAC (NIC-5) cali53d537fe3d2@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-6) cali1c618a78d4b@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-7) cali30a743b2ea3@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-8) calice570f9e459@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-9) calidddfe6d37de@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-10) calibb5512db08b@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-11) cali4c088219e95@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-12) calib887abd1973@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-13) cali9e382d68cab@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-14) cali67405d627d4@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-15) cali2bc767e8fc5@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-16) cali4a201b850ad@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-17) calia1fa99b4971@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-18) calif40a3a65cd0@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-19) cali5bbbad3962d@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-20) cali2618169cc87@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-21) cali56395ecce85@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-22) cali9a81ffcdbb7@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-23) vxlan.calico": "66:a1:0c:c6:5f:dc",
+                "MAC (NIC-24) calid80a6e02edd@if3": "ee:ee:ee:ee:ee:ee"
+            },
+            "color": "green"
+        }
+    },
+    {
+        "A1-14-14": {
+            "ip": "10.10.14.14",
+            "ethernet_interfaces": {
+                "MAC (NIC-1) enp2s0": "74:86:e2:13:92:0b",
+                "MAC (NIC-2) enp0s31f6": "74:86:e2:13:92:0b",
+                "MAC (NIC-3) bond0": "74:86:e2:13:92:0b",
+                "MAC (NIC-4) docker0": "02:42:71:09:4b:d5",
+                "MAC (NIC-5) calib1adc575761@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-6) cali6733a652d23@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-7) calic6c286ff075@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-8) cali9e78228fea8@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-9) calicedfdc1c299@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-10) calie9853931869@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-11) calid9363c3a35b@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-12) calie2f1fb584f4@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-13) cali2792ec8f30d@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-14) cali1ee08270f25@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-15) cali695266e7fc0@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-16) cali035cea7be0d@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-17) calie2b3eaeefb8@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-18) cali4d0416b6361@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-19) cali853fe0a8f5b@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-20) cali34f7229223c@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-21) caliaf6d8eb9137@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-22) calibe001b84438@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-23) cali8179dbdab73@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-24) califc82fd698f4@if3": "ee:ee:ee:ee:ee:ee",
+                "MAC (NIC-25) vxlan.calico": "66:40:b2:25:56:01",
+                "MAC (NIC-26) calic965d8aec73@if3": "ee:ee:ee:ee:ee:ee"
+            },
+            "color": "green"
+        }
+    }
+]

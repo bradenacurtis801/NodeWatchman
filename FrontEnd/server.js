@@ -7,10 +7,11 @@ app.use(cors()); // Enable CORS for all routes
 // Serve static files from the 'FrontEnd' directory
 app.use(express.static(path.join(__dirname, '.')));
 app.use(express.static('public'))
+app.use(express.static('public/LandingPage'))
 
 // Route to serve the home.html file
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/interact.html'));
+    res.sendFile(path.join(__dirname, 'public/LandingPage/testLandingPage.html'));
 });
 
 const PORT = 5501;
