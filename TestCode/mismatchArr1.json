@@ -1,0 +1,46 @@
+[
+    {
+        "A1-11-1": {
+            "IP": "10.10.11.1",
+            "PDU IP": "10.10.200.11",
+            "PDU Port": "1",
+            "ethernet_interfaces": {
+                "MAC (NIC-1) enp031f6": "74:86:e2:13:b4:56",
+                "MAC (NIC-2) enp2s0": "74:86:e2:13:b2:12"
+            }
+        }
+    },
+    {
+        "A1-11-2": {
+            "IP": "10.10.11.2",
+            "PDU IP": "10.10.200.11",
+            "PDU Port": "2",
+            "ethernet_interfaces": {
+                "MAC (NIC-1) enp031f6": "74:86:e2:13:8b:e0",
+                "MAC (NIC-2) enp2s0": "74:86:e2:13:7e:88"
+            }
+        }
+    },
+    {
+        "A1-14-13": {
+            "IP": "10.10.14.13",
+            "PDU IP": "10.10.200.14",
+            "PDU Port": "13",
+            "ethernet_interfaces": {
+                "MAC (NIC-1) enp031f6": "74:86:e2:13:b3:52",
+                "MAC (NIC-2) enp2s0": "74:86:e2:13:b2:70"
+            }
+        }
+    },
+    {
+        "A1-14-14": {
+            "IP": "10.10.14.14",
+            "PDU IP": "10.10.200.14",
+            "PDU Port": "14",
+            "ethernet_interfaces": {
+                "MAC (NIC-1) enp031f6": "74:86:e2:13:92:0b",
+                "MAC (NIC-2) enp2s0": "74:86:e2:13:91:5f"
+            }
+        }
+    }
+]

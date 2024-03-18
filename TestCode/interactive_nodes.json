@@ -176,12 +176,8 @@
     "A1-12-4": {
       "ip": "10.10.12.4",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:61:df",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:61:df",
-        "MAC (NIC-3) bond0": "74:86:e2:13:61:df",
-        "MAC (NIC-4) docker0": "02:42:1d:99:4e:ae",
-        "MAC (NIC-5) cali611e6ffa1d3@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-6) vxlan.calico": "66:bf:e4:11:0a:61"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.12.4": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -300,10 +296,8 @@
     "A1-12-14": {
       "ip": "10.10.12.14",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b2:1c",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b2:1c",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b2:1c",
-        "MAC (NIC-4) docker0": "02:42:cb:26:ac:d9"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.12.14": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -324,10 +318,8 @@
     "A1-12-16": {
       "ip": "10.10.12.16",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b2:ee",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b2:ee",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b2:ee",
-        "MAC (NIC-4) docker0": "02:42:18:8d:c2:73"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.12.16": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -408,10 +400,8 @@
     "A1-13-3": {
       "ip": "10.10.13.3",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b2:19",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b2:19",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b2:19",
-        "MAC (NIC-4) docker0": "02:42:d2:40:8c:38"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.13.3": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -463,10 +453,8 @@
     "A1-13-8": {
       "ip": "10.10.13.8",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:91:e5",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:91:e5",
-        "MAC (NIC-3) bond0": "74:86:e2:13:91:e5",
-        "MAC (NIC-4) docker0": "02:42:59:f7:4c:cd"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.13.8": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -511,10 +499,8 @@
     "A1-13-12": {
       "ip": "10.10.13.12",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b3:34",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b3:34",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b3:34",
-        "MAC (NIC-4) docker0": "02:42:ef:70:f0:d9"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.13.12": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -523,10 +509,8 @@
     "A1-13-13": {
       "ip": "10.10.13.13",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b1:aa",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b1:aa",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b1:aa",
-        "MAC (NIC-4) docker0": "02:42:b7:3b:7d:68"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.13.13": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -547,10 +531,8 @@
     "A1-13-15": {
       "ip": "10.10.13.15",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:15:03:1c",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:15:03:1c",
-        "MAC (NIC-3) bond0": "74:86:e2:15:03:1c",
-        "MAC (NIC-4) docker0": "02:42:a0:1a:51:57"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.13.15": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -571,10 +553,8 @@
     "A1-13-17": {
       "ip": "10.10.13.17",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b1:d0",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b1:d0",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b1:d0",
-        "MAC (NIC-4) docker0": "02:42:30:68:d9:99"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.13.17": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -662,41 +642,8 @@
     "A1-14-2": {
       "ip": "10.10.14.2",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b4:96",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b4:96",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b4:96",
-        "MAC (NIC-4) docker0": "02:42:a6:87:74:8e",
-        "MAC (NIC-5) flannel.1": "c2:10:84:db:c7:51",
-        "MAC (NIC-6) cni0": "ce:a3:b2:c4:02:96",
-        "MAC (NIC-7) veth5c156061@if2": "2a:f8:ef:3f:85:fa",
-        "MAC (NIC-8) veth8707ddbd@if2": "6a:a5:c5:f4:0a:73",
-        "MAC (NIC-9) vethaa4aab02@if2": "72:a6:f7:27:f0:a1",
-        "MAC (NIC-10) veth2ed220fc@if2": "3a:9e:ab:df:4b:26",
-        "MAC (NIC-11) vethaf7e9cbd@if2": "ea:2e:13:04:8d:1c",
-        "MAC (NIC-12) veth31c19c8d@if2": "2e:46:84:05:7e:cb",
-        "MAC (NIC-13) veth5e030a98@if2": "c2:49:70:4a:9d:09",
-        "MAC (NIC-14) veth8fdbd6f1@if2": "92:2f:ec:4a:e2:8c",
-        "MAC (NIC-15) veth94b7c3ec@if2": "36:45:5b:98:db:42",
-        "MAC (NIC-16) veth6e583510@if2": "ae:cf:56:79:5d:0c",
-        "MAC (NIC-17) veth9d7dcc48@if2": "e6:94:8a:78:fe:76",
-        "MAC (NIC-18) veth72571d40@if2": "fa:37:1b:9e:f4:45",
-        "MAC (NIC-19) vethb366a011@if2": "12:42:be:fb:55:f9",
-        "MAC (NIC-20) vethdd850c74@if2": "4e:c9:23:86:1a:b3",
-        "MAC (NIC-21) veth9751d9a9@if2": "1a:10:38:f5:f9:3c",
-        "MAC (NIC-22) veth01fd1e3c@if2": "f2:03:fb:da:50:56",
-        "MAC (NIC-23) vethdc8c8364@if2": "fe:5b:2f:d6:b1:9f",
-        "MAC (NIC-24) vethaf746049@if2": "12:e9:70:f4:ac:ec",
-        "MAC (NIC-25) veth14b88c6c@if2": "d2:d4:70:23:78:93",
-        "MAC (NIC-26) veth99f60ed1@if2": "ae:7e:90:a7:5e:c6",
-        "MAC (NIC-27) veth3c8568f2@if2": "c2:23:86:e2:e5:92",
-        "MAC (NIC-28) veth0055ff9b@if2": "4e:0d:f4:b6:9c:6f",
-        "MAC (NIC-29) vetha242d822@if2": "36:52:6b:3d:82:fd",
-        "MAC (NIC-30) veth8d6ccade@if2": "f6:8f:a9:32:cf:e7",
-        "MAC (NIC-31) veth6862f160@if2": "82:6c:f7:51:1a:ff",
-        "MAC (NIC-32) veth727757d4@if2": "9e:ab:12:5d:da:c8",
-        "MAC (NIC-33) vetha135f25e@if2": "e6:1a:fe:0d:6a:41",
-        "MAC (NIC-34) veth25997bb6@if2": "36:99:b7:05:c8:97",
-        "MAC (NIC-35) vethfc45738f@if2": "0e:9f:be:84:a3:23"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.14.2": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -806,25 +753,8 @@
     "A1-14-6": {
       "ip": "10.10.14.6",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:9c:2c",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:9c:2c",
-        "MAC (NIC-3) bond0": "74:86:e2:13:9c:2c",
-        "MAC (NIC-4) docker0": "02:42:8b:be:1c:b6",
-        "MAC (NIC-5) flannel.1": "96:c6:d3:9d:65:c0",
-        "MAC (NIC-6) cni0": "1e:57:2b:32:5d:fa",
-        "MAC (NIC-7) veth776a017a@if2": "6e:7b:02:41:08:1a",
-        "MAC (NIC-8) veth9dd6cab8@if2": "0e:47:77:ee:78:88",
-        "MAC (NIC-9) veth8b362c0e@if2": "e6:81:56:c7:de:7e",
-        "MAC (NIC-10) vethbcf47ba7@if2": "a6:83:a3:5d:da:d7",
-        "MAC (NIC-11) vethce4c321e@if2": "ca:2c:4f:46:cc:3f",
-        "MAC (NIC-12) veth03b7c5f6@if2": "6a:ca:d0:5c:e8:45",
-        "MAC (NIC-13) vethf646ad26@if2": "06:22:73:d0:6d:10",
-        "MAC (NIC-14) veth6af83cc7@if2": "e2:b8:2d:fb:f7:9c",
-        "MAC (NIC-15) vethf79d5324@if2": "b6:8a:c2:71:dd:91",
-        "MAC (NIC-16) veth2572c291@if2": "46:07:b7:05:89:6f",
-        "MAC (NIC-17) vethe1d4a56a@if2": "c2:db:6b:62:5f:56",
-        "MAC (NIC-18) veth048498f2@if2": "ba:3d:f0:7e:c9:e3",
-        "MAC (NIC-19) veth330f5cfe@if2": "8a:60:cd:3a:97:e5"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.14.6": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -1056,11 +986,8 @@
     "A2-21-1": {
       "ip": "10.10.21.1",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:9c:ec",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:9c:ec",
-        "MAC (NIC-3) bond0": "74:86:e2:13:9c:ec",
-        "MAC (NIC-4) docker0": "02:42:f4:9d:b3:50",
-        "MAC (NIC-5) veth765ac08@if10": "96:7b:30:ac:36:a6"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.21.1": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -1095,11 +1022,8 @@
     "A2-21-4": {
       "ip": "10.10.21.4",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:10:64:ae",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:10:64:ae",
-        "MAC (NIC-3) bond0": "74:86:e2:10:64:ae",
-        "MAC (NIC-4) docker0": "02:42:12:a7:95:89",
-        "MAC (NIC-5) vethc8da0c3@if14": "42:b2:05:f6:0b:c8"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.21.4": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -1141,11 +1065,8 @@
     "A2-21-8": {
       "ip": "10.10.21.8",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:10:65:1c",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:10:65:1c",
-        "MAC (NIC-3) bond0": "74:86:e2:10:65:1c",
-        "MAC (NIC-4) docker0": "02:42:5a:fe:87:fa",
-        "MAC (NIC-5) veth981e205@if14": "66:3a:59:1c:9f:69"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.21.8": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -1291,11 +1212,8 @@
     "A2-21-20": {
       "ip": "10.10.21.20",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:10:63:3f",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:10:63:3f",
-        "MAC (NIC-3) bond0": "74:86:e2:10:63:3f",
-        "MAC (NIC-4) docker0": "02:42:a8:59:8a:a7",
-        "MAC (NIC-5) vethe3bf283@if10": "56:24:97:2d:62:02"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.21.20": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -1501,11 +1419,8 @@
     "A2-22-18": {
       "ip": "10.10.22.18",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:10:64:b4",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:10:64:b4",
-        "MAC (NIC-3) bond0": "74:86:e2:10:64:b4",
-        "MAC (NIC-4) docker0": "02:42:da:e8:89:be",
-        "MAC (NIC-5) vethea2ddb8@if12": "8e:9c:93:cc:09:09"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.22.18": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -1514,11 +1429,8 @@
     "A2-22-19": {
       "ip": "10.10.22.19",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:10:62:f1",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:10:62:f1",
-        "MAC (NIC-3) bond0": "74:86:e2:10:62:f1",
-        "MAC (NIC-4) docker0": "02:42:86:79:8b:4c",
-        "MAC (NIC-5) veth65094e9@if12": "22:27:e0:68:0e:6e"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.22.19": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -1821,11 +1733,8 @@
     "A2-24-4": {
       "ip": "10.10.24.4",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:09:6f:d8",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:09:6f:d8",
-        "MAC (NIC-3) bond0": "74:86:e2:09:6f:d8",
-        "MAC (NIC-4) docker0": "02:42:f9:23:23:48",
-        "MAC (NIC-5) vethc8bc78f@if12": "f2:b1:fc:c8:53:e4"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.24.4": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -1861,11 +1770,8 @@
     "A2-24-8": {
       "ip": "10.10.24.8",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:10:31:bb",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:10:31:bb",
-        "MAC (NIC-3) bond0": "74:86:e2:10:31:bb",
-        "MAC (NIC-4) docker0": "02:42:9b:86:20:99",
-        "MAC (NIC-5) veth3dcf982@if12": "e6:0d:c4:85:10:20"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.24.8": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -1887,11 +1793,8 @@
     "A2-24-10": {
       "ip": "10.10.24.10",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:10:61:f8",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:10:61:f8",
-        "MAC (NIC-3) bond0": "74:86:e2:10:61:f8",
-        "MAC (NIC-4) docker0": "02:42:46:e4:4b:53",
-        "MAC (NIC-5) vethe924f40@if14": "a2:99:ea:d4:a2:dc"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.24.10": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2059,11 +1962,8 @@
     "A2-25-6": {
       "ip": "10.10.25.6",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b0:56",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b0:56",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b0:56",
-        "MAC (NIC-4) docker0": "02:42:0b:40:08:fd",
-        "MAC (NIC-5) veth1dfecbe@if12": "de:0d:4b:b4:5a:29"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.25.6": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2072,11 +1972,8 @@
     "A2-25-7": {
       "ip": "10.10.25.7",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b1:44",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b1:44",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b1:44",
-        "MAC (NIC-4) docker0": "02:42:d3:d5:bf:9d",
-        "MAC (NIC-5) vethc129f97@if12": "d2:47:11:cf:ef:f6"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.25.7": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2229,11 +2126,8 @@
     "A2-25-20": {
       "ip": "10.10.25.20",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:10:65:62",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:10:65:62",
-        "MAC (NIC-3) bond0": "74:86:e2:10:65:62",
-        "MAC (NIC-4) docker0": "02:42:29:d9:d9:fd",
-        "MAC (NIC-5) vethae0ff5e@if12": "02:99:50:64:7b:94"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.25.20": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2242,10 +2136,8 @@
     "B1-111-1": {
       "ip": "10.10.111.1",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b5:6e",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b5:6e",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b5:6e",
-        "MAC (NIC-4) docker0": "02:42:9e:a4:52:5d"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.111.1": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2297,7 +2189,10 @@
     "B1-111-6": {
       "ip": "10.10.111.6",
       "ethernet_interfaces": {
-        "MAC (NIC-1) client_loop": "send disconnect"
+        "MAC (NIC-1) enp2s0": "74:86:e2:13:a2:12",
+        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:a2:12",
+        "MAC (NIC-3) bond0": "74:86:e2:13:a2:12",
+        "MAC (NIC-4) docker0": "02:42:fe:7d:0f:c4"
       },
       "color": "green"
     }
@@ -2353,10 +2248,8 @@
     "B1-111-13": {
       "ip": "10.10.111.13",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:86:ab",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:86:ab",
-        "MAC (NIC-3) bond0": "74:86:e2:13:86:ab",
-        "MAC (NIC-4) docker0": "02:42:e7:33:e0:f0"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.111.13": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2393,10 +2286,8 @@
     "B1-111-18": {
       "ip": "10.10.111.18",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:8d:7b",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:8d:7b",
-        "MAC (NIC-3) bond0": "74:86:e2:13:8d:7b",
-        "MAC (NIC-4) docker0": "02:42:eb:80:05:41"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.111.18": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2473,10 +2364,8 @@
     "B1-112-5": {
       "ip": "10.10.112.5",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:8e:eb",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:8e:eb",
-        "MAC (NIC-3) bond0": "74:86:e2:13:8e:eb",
-        "MAC (NIC-4) docker0": "02:42:62:f6:d1:5a"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.112.5": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2497,10 +2386,8 @@
     "B1-112-7": {
       "ip": "10.10.112.7",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp0s31f6": "74:86:e2:13:88:41",
-        "MAC (NIC-2) enp2s0": "74:86:e2:13:88:41",
-        "MAC (NIC-3) bond0": "74:86:e2:13:88:41",
-        "MAC (NIC-4) docker0": "02:42:8b:1e:f2:86"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.112.7": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2663,10 +2550,8 @@
     "B1-113-1": {
       "ip": "10.10.113.1",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:62:7e",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:62:7e",
-        "MAC (NIC-3) bond0": "74:86:e2:13:62:7e",
-        "MAC (NIC-4) docker0": "02:42:50:9d:e4:03"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.113.1": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2914,10 +2799,8 @@
     "B2-121-2": {
       "ip": "10.10.121.2",
       "ethernet_interfaces": {
-        "MAC (NIC-1) eno2": "80:e8:2c:e2:ea:b0",
-        "MAC (NIC-2) eno1": "80:e8:2c:e2:ea:b0",
-        "MAC (NIC-3) bond0": "80:e8:2c:e2:ea:b0",
-        "MAC (NIC-4) docker0": "02:42:0e:df:48:cd"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.121.2": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -2986,10 +2869,8 @@
     "B2-121-9": {
       "ip": "10.10.121.9",
       "ethernet_interfaces": {
-        "MAC (NIC-1) eno2": "80:e8:2c:e2:e2:87",
-        "MAC (NIC-2) eno1": "80:e8:2c:e2:e2:87",
-        "MAC (NIC-3) bond0": "80:e8:2c:e2:e2:87",
-        "MAC (NIC-4) docker0": "02:42:90:b0:3e:50"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.121.9": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -3031,9 +2912,8 @@
     "B2-121-14": {
       "ip": "10.10.121.14",
       "ethernet_interfaces": {
-        "MAC (NIC-1) eth1": "80:e8:2c:e2:f1:d0",
-        "MAC (NIC-2) eth0": "80:e8:2c:e2:f1:d0",
-        "MAC (NIC-3) bond0": "80:e8:2c:e2:f1:d0"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.121.14": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -3073,10 +2953,8 @@
     "B2-121-18": {
       "ip": "10.10.121.18",
       "ethernet_interfaces": {
-        "MAC (NIC-1) eno2": "80:e8:2c:e2:e0:6a",
-        "MAC (NIC-2) eno1": "80:e8:2c:e2:e0:6a",
-        "MAC (NIC-3) bond0": "80:e8:2c:e2:e0:6a",
-        "MAC (NIC-4) docker0": "02:42:92:d9:6d:3f"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.121.18": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -3257,10 +3135,8 @@
     "B2-122-20": {
       "ip": "10.10.122.20",
       "ethernet_interfaces": {
-        "MAC (NIC-1) eno2": "80:e8:2c:e2:92:c0",
-        "MAC (NIC-2) eno1": "80:e8:2c:e2:92:c0",
-        "MAC (NIC-3) bond0": "80:e8:2c:e2:92:c0",
-        "MAC (NIC-4) docker0": "02:42:28:95:50:91"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.122.20": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
@@ -3554,42 +3430,8 @@
     "B2-124-5": {
       "ip": "10.10.124.5",
       "ethernet_interfaces": {
-        "MAC (NIC-1) eno2": "80:e8:2c:e2:f5:fe",
-        "MAC (NIC-2) eno1": "80:e8:2c:e2:f5:fe",
-        "MAC (NIC-3) bond0": "80:e8:2c:e2:f5:fe",
-        "MAC (NIC-4) docker0": "02:42:75:9e:e7:62",
-        "MAC (NIC-5) calif9fc27ae78e@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-6) cali6e4912e55ca@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-7) calicb22c97e798@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-8) cali2f6d8b47d67@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-9) cali0361ce86388@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-10) calic7aa87d6186@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-11) cali5f72ec767e7@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-12) cali51fbcd95f1c@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-13) cali0bfd6224e58@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-14) cali49b0edd77d8@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-15) vxlan.calico": "66:a4:80:55:b5:02",
-        "MAC (NIC-16) caliacfd2cca8b8@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-17) calid098a5cd0da@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-18) cali2be7c38ea88@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-19) cali580faf9754e@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-20) calid353e879385@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-21) cali49e28f2532e@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-22) calie14d36cbea8@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-23) calia525aab4387@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-24) cali5d6257fedb7@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-25) cali8bfb8acc696@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-26) caliae2dd62ad04@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-27) cali4975c062b65@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-28) cali0248dba5c74@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-29) cali52832613104@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-30) cali75ab1466f23@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-31) calid4c885959d6@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-32) cali9e27f74e96b@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-33) cali58a379b4517@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-34) cali44b2966651d@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-35) cali5353bd70fa6@if3": "ee:ee:ee:ee:ee:ee",
-        "MAC (NIC-36) cali5ceef244d80@if3": "ee:ee:ee:ee:ee:ee"
+        "MAC (NIC-1) sign_and_send_pubkey": "signing failed for RSA \"/home/datacare/.ssh/id_rsa\" from agent",
+        "MAC (NIC-2) ubuntu@10.10.124.5": "Permission denied (publickey).\r"
       },
       "color": "green"
     }
