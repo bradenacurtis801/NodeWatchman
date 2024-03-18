@@ -18,7 +18,7 @@ function isTokenExpired(token) {
     if (!token || isTokenExpired(token)) {
       alert('Session expired. Please log in again.');
       localStorage.removeItem('token'); // Remove the expired or invalid token
-      window.location.href = 'login.html';
+      window.location.href = '/LoginPage/login.html';
       return true; // Indicate that the token has expired
     }
     return false; // Token is still valid

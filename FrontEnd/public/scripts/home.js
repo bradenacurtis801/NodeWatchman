@@ -153,7 +153,7 @@ if (refreshButton) {
   const logoutButton = document.getElementById('logoutBtn');
   if (logoutButton) {
     logoutButton.addEventListener('click', async function () {
-      window.location.href = 'public/login.html';
+      window.location.href = '/LoginPage/login.html';
       const token = localStorage.getItem('token');
       if (token) {
         await fetch('/logout', {
