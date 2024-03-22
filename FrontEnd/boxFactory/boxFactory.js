@@ -3,20 +3,21 @@ class BoxContainerManager {
         this.rows = []; // Now stores RowContainer instances
         this.rowMap = {}; // Efficiently maps row labels to RowContainer instances
         this.root = document.getElementById('boxFactoryRoot');
-        this.initializeContainer();
+        if (!this.root) {
+            console.error('Root container not found');
+            return;
+        }
+        // this.initializeContainer();
+        this.createHeader();
     }
 
     initializeContainer() {
         // Similar to RackContainer but adapted for row-level organization
-        if (!this.root) {
-            console.error(`Section with ID '${this.sectionId}' not found.`);
-            return;
-        }
-
+        console.log('root', this.root)
         // Assuming rowContainer is the main container for this row
-        // this.container = document.createElement('div');
-        // this.container.className = 'box-manager-container';
-        // this.root.appendChild(this.container);
+        this.container = document.createElement('div');
+        this.container.className = 'box-manager-container';
+        this.root.appendChild(this.container);
 
         this.createHeader();
     }
@@ -43,21 +44,34 @@ class BoxContainerManager {
         header.appendChild(clearBtn);
     }
     createRowContainer(sectionId, rowLabel, RowContainerClass = RowContainerBase, ...additionalArgs) {
-        // Ensure the row label is unique to avoid duplicates
+        // Check if the row already exists to prevent duplicates
         if (this.rowMap[rowLabel]) {
             console.warn(`Row ${rowLabel} already exists.`);
-            return; // Stop execution if the row already exists
+            return;
         }
 
-        // Dynamically create an instance of the provided RowContainerClass
-        // The constructor of RowContainerClass should be designed to accept sectionId and rowLabel as its first two parameters
-        // followed by any additional arguments that might be specific to the specialized class
+        // Find or create the section for the new row
+        let section = this.root.querySelector(`#${sectionId}`);
+        if (!section) {
+            section = document.createElement('div');
+            section.className = 'section';
+            section.id = sectionId;
+            this.root.appendChild(section); // Append the section directly to the root
+        }
+    
+        // Instantiate the RowContainer with the provided class and additional arguments
         const rowContainerInstance = new RowContainerClass(sectionId, rowLabel, ...additionalArgs);
-        this.container.appendChild(rowContainerInstance.container);
-        // Store the newly created instance in both rows array and rowMap for quick access
-        this.rows.push(rowContainerInstance);
-        this.rowMap[rowLabel] = rowContainerInstance;
+    
+        // Check if rowContainerInstance properly created its container
+        if (rowContainerInstance.container) {
+            section.appendChild(rowContainerInstance.container); // Append the row container to the newly created or existing section
+            this.rows.push(rowContainerInstance);
+            this.rowMap[rowLabel] = rowContainerInstance;
+        } else {
+            console.error("Failed to create or access row container.");
+        }
     }
+    
 
     getRow(rowLabel) {
         // Return the row if it exists, otherwise return undefined
@@ -91,7 +105,7 @@ class BoxContainerManager {
     selectAllBoxes() {
         this.rows.forEach(row => row.selectAllRowBoxes());
     }
-    
+
     clearAllSelection() {
         this.rows.forEach(row => row.clearRowSelection())
     }
@@ -103,7 +117,16 @@ class RowContainerBase {
         this.sectionId = sectionId;
         this.rowLabel = rowLabel;
         this.racks = []; // This will store RackContainer instances
-        this.initializeContainer();
+
+        // Directly initialize the container for the row, no need for an additional 'rowContainer'.
+        this.container = document.createElement('div');
+        this.container.className = 'row-container';
+        this.container.setAttribute('data-row', this.rowLabel);
+
+        // You might not need 'sectionContainer' here unless it's used differently than shown.
+        // If each row is directly within a 'section', that should be handled in BoxContainerManager.
+
+        this.createHeader(); // Create the header as part of the row container initialization.
     }
 
     initializeContainer() {
@@ -123,9 +146,7 @@ class RowContainerBase {
     createHeader() {
         const header = document.createElement('div');
         header.className = 'row-container-header';
-        // Dynamically create the header text to include row and rack labels
-        header.textContent = `Section: ${this.rowLabel}`;
-        this.container.appendChild(header);
+        header.textContent = `Section: ${this.sectionId}, Row: ${this.rowLabel}`;
 
         // Create and append "Select All" button
         const selectAllBtn = document.createElement('button');
@@ -138,9 +159,13 @@ class RowContainerBase {
         clearBtn.textContent = 'Clear';
         clearBtn.addEventListener('click', () => this.clearRowSelection());
         header.appendChild(clearBtn);
+
+        // Append the header directly to the row's container.
+        this.container.appendChild(header);
     }
 
-    addRack(rackLabel, defaultBoxCount = 20, RackContainerClass=RackContainerBase, ...additionalArgs) {
+
+    addRack(rackLabel, defaultBoxCount = 20, RackContainerClass = RackContainerBase, ...additionalArgs) {
         // Dynamically create an instance of the provided RackContainerClass
         // The constructor of RackContainerClass should be designed to accept sectionId, rowLabel, and rackLabel as its first three parameters
         // followed by any additional arguments that might be specific to the specialized class
@@ -180,7 +205,7 @@ class RowContainerBase {
     selectAllRowBoxes() {
         this.racks.forEach(rack => rack.selectAllRackBoxes());
     }
-    
+
     clearRowSelection() {
         this.racks.forEach(rack => rack.clearRackSelection());
     }
@@ -205,7 +230,7 @@ class RackContainerBase {
             console.error(`Section with ID '${this.sectionId}' not found.`);
             return;
         }
-    
+
         let rowContainer = section.querySelector(`.${this.rowLabel}-row-container`);
         if (!rowContainer) {
             rowContainer = document.createElement('div');
@@ -213,11 +238,11 @@ class RackContainerBase {
             rowContainer.setAttribute('data-row', this.rowLabel);
             section.appendChild(rowContainer);
         }
-    
+
         this.container = document.createElement('div');
         this.container.className = 'rack-container';
         rowContainer.appendChild(this.container);
-    
+
         this.createHeader();
         this.createBoxesContainer();
     }
@@ -237,7 +262,7 @@ class RackContainerBase {
 
     createDefaultBoxes() {
         for (let i = 1; i <= this.defaultBoxCount; i++) {
-            this.addBox(i, { });
+            this.addBox(i, {});
         }
     }
 
@@ -256,7 +281,7 @@ class RackContainerBase {
         if (newCount > currentCount) {
             // Add more boxes if newCount is greater than currentCount
             for (let i = currentCount + 1; i <= newCount; i++) {
-                this.addBox(i, {click: () => console.log(`Box ${i} clicked`)});
+                this.addBox(i, { click: () => console.log(`Box ${i} clicked`) });
             }
         } else if (newCount < currentCount) {
             // Remove boxes if newCount is less than currentCount
@@ -392,7 +417,7 @@ class SpecializedRackContainer extends RackContainerBase {
             ...eventHandlers,
             click: (event) => {
                 // Assuming the box object is stored in the dataset or accessible directly
-        	const currentIndex = this.boxes.findIndex(box => box.element === event.currentTarget);
+                const currentIndex = this.boxes.findIndex(box => box.element === event.currentTarget);
                 this.toggleSelection(event.currentTarget, this.boxes[currentIndex]);
                 console.log(`Specialized box ${index} clicked`);
                 eventHandlers.click?.(event);

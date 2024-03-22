@@ -28,8 +28,8 @@ Thumbs.db
 .prettierrc
 
 # ignore database files
-db/
+#db/
 machineState.json
 rbm_nodes.json
-users.json
+#users.json
 
