@@ -38,6 +38,8 @@
 <body data-page="home">
   <div id="top-level-buttons" class="top-level-buttons">
     <!-- Buttons will be added here dynamically -->
+    <button id="selectAllBtn">Select All</button>
+    <button id="clearAllBtn">Clear All</button>
     <button id="getNodeStatusBtn">Update Node Status</button>
     <button id="runCustomScriptBtn">Run Custom Script</button>
     <button id="backBtn">Back</button>
@@ -76,9 +78,9 @@
     </div>
   </div>
 
-  <div class="main-container">
-    <div class="section" id="section-A"></div>
-    <div class="section" id="section-B"></div>
+  <div class="main-container" id="boxFactoryRoot">
+    <!-- <div class="section" id="section-A"></div>
+    <div class="section" id="section-B"></div> -->
   </div>
   <script src="./scripts/config.js"></script>
   <script src="./scripts/interact.js"></script>
@@ -128,6 +130,7 @@
 
   </script>
   <script>
+    
     document.addEventListener("DOMContentLoaded", () => {
       const manager = new BoxContainerManager();
       window.manager = manager; // Make it globally accessible

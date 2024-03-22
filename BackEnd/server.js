@@ -157,7 +157,7 @@ app.post('/register', async (req, res) => {
         await fs.writeFile(PENDING_REGISTRATIONS_FILE, JSON.stringify(pendingRegistrations, null, 2));
 
         // Send approval request to admin with email information
-        const approvalLink = `http://10.10.1.20:${config.BACKEND_SERVER_PORT}/approve/${userId}`;
+        const approvalLink = `http://10.10.250.101:${config.BACKEND_SERVER_PORT}/approve/${userId}`;
         const mailOptions = {
             from: 'datacare234@gmail.com',
             to: 'bradenacurtis801@gmail.com',
