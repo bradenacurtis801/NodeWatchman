@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const textareaInput = document.getElementById("textareaInput");
   const closeBtn = customScriptModal.querySelector(".close");
   const startCommandBtn = document.getElementById("startCommandBtn");
-  const logoutButton = document.getElementById('logoutBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const selectAllBtn = document.getElementById('selectAllBtn');
+  const clearAllBtn = document.getElementById('clearAllBtn');
 
 
   runCustomScriptBtn.addEventListener("click", () => {
@@ -74,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   // Add an event listener for the click event on the logout button
-  logoutButton.addEventListener('click', async function () {
+  logoutBtn.addEventListener('click', async function () {
     console.log("Logging out...");
     // Retrieve the token from localStorage
     const token = localStorage.getItem('token');
@@ -94,6 +96,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Redirect the user to the login page
     window.location.href = '/LoginPage/login.html';
   });
+
+  selectAllBtn.addEventListener("click", () => {
+    console.log(manager.selectAllBoxes(),'selectAllBtn clicked')
+    // manager.selectAllBtn()
+  })
+
+  clearAllBtn.addEventListener("click", () => {
+    console.log(manager.clearAllSelection(),'clearAllBtn clicked')
+    // manager.clearAllBtn()
+  })
   
   startCommandBtn.addEventListener("click", async () => {
   console.log('running start command');
@@ -229,6 +241,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   }
 });
+
+
 
 
 async function applyBoxState(savedStates) {

@@ -6,6 +6,11 @@
 
 .section {
   width: 48%;
+  border: 2px solid black;
+  padding: 50px;
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content: center; 
 }
 
 .parent-box,
@@ -13,6 +18,7 @@
   border: 2px solid black;
   margin-right: 10px; /* Space between boxes of the same row */
   padding: 10px;
+  margin: 10px;
   flex: 0 0 auto; /* Prevent stretching */
 }
 
@@ -43,8 +49,8 @@
 }
 
 .row-container {
-  display: flex; /* Align parent-boxes horizontally */
-  flex-wrap: wrap; /* Allow wrapping to next line */
+  /* display: flex; 
+  flex-wrap: wrap; */
   margin-bottom: 10px;
   margin-bottom: 50px;
 }
