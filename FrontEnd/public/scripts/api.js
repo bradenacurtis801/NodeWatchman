@@ -56,6 +56,8 @@ async function executeScript(ipsString, bashCode) {
       // Assuming applyBoxState correctly handles the array structure of data
       if (Array.isArray(data)) {
         applyBoxState(data);
+        
+	    return data;
       } else console.error('data object is not an array:', data);
     } catch (error) {
       console.error("Error loading state:", error);
