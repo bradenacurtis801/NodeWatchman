@@ -1,0 +1,23 @@
+{
+  "apps": [
+    {
+      "name": "backend",
+      "script": "./BackEnd/server.js",
+      "cwd": "./BackEnd",
+      "watch": true
+    },
+    {
+      "name": "frontend",
+      "script": "./FrontEnd/server.js",
+      "cwd": "./FrontEnd",
+      "watch": true
+    },
+    {
+      "name": "ssh-server",
+      "script": "./SSH-Server/server.js",
+      "cwd": "./SSH-Server",
+      "watch": true
+    }
+  ]
+}
+

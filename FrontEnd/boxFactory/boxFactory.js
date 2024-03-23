@@ -1,62 +1,58 @@
+
+    function addButton(container, text, id, onClick) {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.className = 'button-86';
+        button.id = id;
+        button.addEventListener('click', onClick);
+        container.appendChild(button);
+    }
+
 class BoxContainerManager {
     constructor() {
-        this.rows = []; // Now stores RowContainer instances
-        this.rowMap = {}; // Efficiently maps row labels to RowContainer instances
+        this.rows = [];
+        this.rowMap = {};
         this.root = document.getElementById('boxFactoryRoot');
         if (!this.root) {
             console.error('Root container not found');
             return;
         }
-        // this.initializeContainer();
-        this.createHeader();
-    }
-
-    initializeContainer() {
-        // Similar to RackContainer but adapted for row-level organization
-        console.log('root', this.root)
-        // Assuming rowContainer is the main container for this row
-        this.container = document.createElement('div');
-        this.container.className = 'box-manager-container';
-        this.root.appendChild(this.container);
-
         this.createHeader();
     }
 
     createHeader() {
-        const header = document.createElement('div');
-        header.className = 'manager-container-header';
-        // Dynamically create the header text to include row and rack labels
-        header.textContent = ``;
-        this.root.appendChild(header);
+        const rootHeader = document.createElement('div');
+        rootHeader.className = '';
+        rootHeader.id = 'sectionHeader'
+        rootHeader.textContent = '';
+        this.root.appendChild(rootHeader);
 
-        // Create and append "Select All" button
-        const selectAllBtn = document.createElement('button');
-        selectAllBtn.className = ''
-        selectAllBtn.id = 'selectAllBtn'
-        selectAllBtn.textContent = 'Select All';
-        selectAllBtn.addEventListener('click', () => this.selectAllBoxes());
-        header.appendChild(selectAllBtn);
-
-        // Create and append "Clear" button
-        const clearBtn = document.createElement('button');
-        clearBtn.textContent = 'Clear';
-        clearBtn.addEventListener('click', () => this.clearAllSelection());
-        header.appendChild(clearBtn);
+        addButton(rootHeader, 'Select All', 'selectAllBtn', () => this.selectAllBoxes());
+        addButton(rootHeader, 'Clear', 'clearAllBtn', () => this.clearAllSelection());
     }
+
     createRowContainer(sectionId, rowLabel, RowContainerClass = RowContainerBase, ...additionalArgs) {
         // Check if the row already exists to prevent duplicates
         if (this.rowMap[rowLabel]) {
             console.warn(`Row ${rowLabel} already exists.`);
             return;
         }
-
+    
+        // Find or create the section-container for the new row
+        let sectionContainer = this.root.querySelector('.section-container');
+        if (!sectionContainer) {
+            sectionContainer = document.createElement('div');
+            sectionContainer.className = 'section-container';
+            this.root.appendChild(sectionContainer); // Append the section-container directly to the root
+        }
+    
         // Find or create the section for the new row
-        let section = this.root.querySelector(`#${sectionId}`);
+        let section = sectionContainer.querySelector(`#${sectionId}`);
         if (!section) {
             section = document.createElement('div');
             section.className = 'section';
             section.id = sectionId;
-            this.root.appendChild(section); // Append the section directly to the root
+            sectionContainer.appendChild(section); // Append the section to the section-container
         }
     
         // Instantiate the RowContainer with the provided class and additional arguments
@@ -108,6 +104,14 @@ class BoxContainerManager {
 
     clearAllSelection() {
         this.rows.forEach(row => row.clearRowSelection())
+    }
+
+    getMachineCount() {
+        return this.getObjAll().length
+    }
+
+    getRunningMachines() {
+        
     }
 
 }
@@ -212,7 +216,7 @@ class RowContainerBase {
 
 }
 
-class RackContainerBase {
+class RackContainerBase{
     constructor(sectionId, rowLabel, rackLabel, defaultBoxCount = 20) {
         this.sectionId = sectionId;
         this.rowLabel = rowLabel;
@@ -451,5 +455,7 @@ class SpecializedRackContainer extends RackContainerBase {
         console.log(this.selectedBoxes);
     }
 }
+
+
 
 
