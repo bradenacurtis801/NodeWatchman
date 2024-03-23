@@ -8,7 +8,7 @@ app.use(cors()); // Enable CORS for all routes
 app.use(express.static(path.join(__dirname, '.')));
 app.use(express.static('public'))
 app.use(express.static('public/LandingPage'))
-
+console.log(path.join(__dirname, '.'))
 // Route to serve the home.html file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/LandingPage/testLandingPage.html'));

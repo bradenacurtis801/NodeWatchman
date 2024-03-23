@@ -1,5 +1,12 @@
-document.addEventListener("DOMContentLoaded", () => {
-  loadBoxState();
+document.addEventListener("DOMContentLoaded", async () => {
+  let boxState
+  try {
+    boxState = await loadBoxState();
+  } catch (error) {
+    // Handle errors here
+    console.error(error);
+  }
+	console.log('boxState',boxState)
   const runCustomScriptBtn = document.getElementById("runCustomScriptBtn");
   const customScriptModal = document.getElementById("customScriptModal");
   const textareaContainer = document.getElementById("textareaContainer");
@@ -97,15 +104,15 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = '/LoginPage/login.html';
   });
 
-  selectAllBtn.addEventListener("click", () => {
-    console.log(manager.selectAllBoxes(),'selectAllBtn clicked')
-    // manager.selectAllBtn()
-  })
+  // selectAllBtn.addEventListener("click", () => {
+  //   console.log(manager.selectAllBoxes(),'selectAllBtn clicked')
+  //   // manager.selectAllBtn()
+  // })
 
-  clearAllBtn.addEventListener("click", () => {
-    console.log(manager.clearAllSelection(),'clearAllBtn clicked')
-    // manager.clearAllBtn()
-  })
+  // clearAllBtn.addEventListener("click", () => {
+  //   console.log(manager.clearAllSelection(),'clearAllBtn clicked')
+  //   // manager.clearAllBtn()
+  // })
   
   startCommandBtn.addEventListener("click", async () => {
   console.log('running start command');
