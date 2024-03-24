@@ -1,3 +1,16 @@
+const os = require('os');
+
+function checkOS() {
+  const operatingSystem = os.type();
+
+  if (operatingSystem === 'Linux') {
+    console.log(`The operating system is: ${operatingSystem}`);
+  } else {
+    throw new Error('This script is only supported on Linux operating systems.');
+  }
+}
+checkOS();
+
 const express = require('express');
 const path = require('path');
 const app = express();

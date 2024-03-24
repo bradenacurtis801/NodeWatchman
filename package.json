@@ -1,12 +1,14 @@
 {
   "dependencies": {
+    "axios": "^1.6.8",
+    "cheerio": "^1.0.0-rc.12",
     "config": "^3.3.11",
+    "puppeteer": "^22.6.0",
     "uuid": "^9.0.1"
   },
   "name": "nodewatchman",
   "version": "1.0.0",
   "main": "temp.js",
-  "devDependencies": {},
   "scripts": {
     "start-backend": "node ./BackEnd/server.js",
     "start-frontend": "node ./FrontEnd/server.js",
