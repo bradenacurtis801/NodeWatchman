@@ -436,8 +436,7 @@
         "MAC (NIC-20) veth4695ae5b@if2": "5e:ab:fb:04:e6:28",
         "MAC (NIC-21) vethe579cea4@if2": "96:da:df:83:05:f0",
         "MAC (NIC-22) vethf6df14b9@if2": "4a:ce:61:3f:7e:30",
-        "MAC (NIC-23) veth2b43e5c7@if2": "4a:ba:b4:5d:cc:28",
-        "MAC (NIC-24) veth2a34a4f7@if2": "ee:bf:61:6b:c1:80"
+        "MAC (NIC-23) veth2b43e5c7@if2": "4a:ba:b4:5d:cc:28"
       },
       "color": "green"
     }
@@ -1496,8 +1495,7 @@
         "MAC (NIC-1) enp2s0": "74:86:e2:10:68:39",
         "MAC (NIC-2) enp0s31f6": "74:86:e2:10:68:39",
         "MAC (NIC-3) bond0": "74:86:e2:10:68:39",
-        "MAC (NIC-4) docker0": "02:42:c5:79:1e:ff",
-        "MAC (NIC-5) vethb077b82@if10": "62:ca:b2:6e:02:d6"
+        "MAC (NIC-4) docker0": "02:42:c5:79:1e:ff"
       },
       "color": "green"
     }
@@ -1633,8 +1631,7 @@
         "MAC (NIC-1) enp2s0": "74:86:e2:13:9a:e1",
         "MAC (NIC-2) enp0s31f6": "74:86:e2:13:9a:e1",
         "MAC (NIC-3) bond0": "74:86:e2:13:9a:e1",
-        "MAC (NIC-4) docker0": "02:42:96:8b:4f:e0",
-        "MAC (NIC-5) vethbbd9b2e@if12": "02:fd:56:63:83:6a"
+        "MAC (NIC-4) docker0": "02:42:96:8b:4f:e0"
       },
       "color": "green"
     }
@@ -2346,10 +2343,8 @@
   {
     "B1-111-6": {
       "ip": "10.10.111.6",
-      "ethernet_interfaces": {
-        "MAC (NIC-3) ubuntu@10.10.111.6": "Permission denied (publickey,password).\r"
-      },
-      "color": "green"
+      "error": "No route to host",
+      "color": "red"
     }
   },
   {
@@ -2381,8 +2376,13 @@
   {
     "B1-111-10": {
       "ip": "10.10.111.10",
-      "error": "No route to host",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) enp2s0": "74:86:e2:13:b3:d1",
+        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b3:d1",
+        "MAC (NIC-3) bond0": "74:86:e2:13:b3:d1",
+        "MAC (NIC-4) docker0": "02:42:7b:91:a9:2e"
+      },
+      "color": "green"
     }
   },
   {
@@ -2607,8 +2607,13 @@
   {
     "B1-112-12": {
       "ip": "10.10.112.12",
-      "error": "No route to host",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) enp2s0": "74:86:e2:13:85:ff",
+        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:85:ff",
+        "MAC (NIC-3) bond0": "74:86:e2:13:85:ff",
+        "MAC (NIC-4) docker0": "02:42:7b:a6:f1:e2"
+      },
+      "color": "green"
     }
   },
   {
@@ -2832,7 +2837,7 @@
         "MAC (NIC-17) eno2": "80:e8:2c:e2:f4:bf",
         "MAC (NIC-18) eno1": "80:e8:2c:e2:f4:bf",
         "MAC (NIC-19) bond0": "80:e8:2c:e2:f4:bf",
-        "MAC (NIC-20) docker0": "02:42:d2:62:35:17"
+        "MAC (NIC-20) docker0": "02:42:0c:2d:49:49"
       },
       "color": "green"
     }
@@ -2853,10 +2858,7 @@
     "B1-113-13": {
       "ip": "10.10.113.13",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:92:19",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:92:19",
-        "MAC (NIC-3) bond0": "74:86:e2:13:92:19",
-        "MAC (NIC-4) docker0": "02:42:ea:5b:46:cb"
+        "MAC (NIC-1) kex_exchange_identification": "read"
       },
       "color": "green"
     }
@@ -2974,9 +2976,11 @@
     "B2-121-3": {
       "ip": "10.10.121.3",
       "ethernet_interfaces": {
-        "MAC (NIC-1) eno2": "80:e8:2c:e2:e2:26",
-        "MAC (NIC-2) eno1": "80:e8:2c:e2:e2:26",
-        "MAC (NIC-3) bond0": "80:e8:2c:e2:e2:26"
+        "MAC (NIC-2) @    WARNING": "REMOTE HOST IDENTIFICATION HAS CHANGED!     @\r",
+        "MAC (NIC-17) eno2": "80:e8:2c:e2:e2:26",
+        "MAC (NIC-18) eno1": "80:e8:2c:e2:e2:26",
+        "MAC (NIC-19) bond0": "80:e8:2c:e2:e2:26",
+        "MAC (NIC-20) docker0": "02:42:56:c9:ed:4e"
       },
       "color": "green"
     }
@@ -3034,10 +3038,10 @@
     "B2-121-9": {
       "ip": "10.10.121.9",
       "ethernet_interfaces": {
-        "MAC (NIC-1) eno2": "80:e8:2c:e2:e2:87",
-        "MAC (NIC-2) eno1": "80:e8:2c:e2:e2:87",
-        "MAC (NIC-3) bond0": "80:e8:2c:e2:e2:87",
-        "MAC (NIC-4) docker0": "02:42:90:b0:3e:50"
+        "MAC (NIC-2) @    WARNING": "REMOTE HOST IDENTIFICATION HAS CHANGED!     @\r",
+        "MAC (NIC-17) eno2": "80:e8:2c:e2:e2:87",
+        "MAC (NIC-18) eno1": "80:e8:2c:e2:e2:87",
+        "MAC (NIC-19) bond0": "80:e8:2c:e2:e2:87"
       },
       "color": "green"
     }
@@ -3052,15 +3056,23 @@
   {
     "B2-121-11": {
       "ip": "10.10.121.11",
-      "error": "No route to host",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) eno2": "80:e8:2c:e2:e1:27",
+        "MAC (NIC-2) eno1": "80:e8:2c:e2:e1:27",
+        "MAC (NIC-3) bond0": "80:e8:2c:e2:e1:27"
+      },
+      "color": "green"
     }
   },
   {
     "B2-121-12": {
       "ip": "10.10.121.12",
-      "error": "No route to host",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) eno2": "80:e8:2c:e2:94:05",
+        "MAC (NIC-2) eno1": "80:e8:2c:e2:94:05",
+        "MAC (NIC-3) bond0": "80:e8:2c:e2:94:05"
+      },
+      "color": "green"
     }
   },
   {
@@ -3339,9 +3351,9 @@
         "MAC (NIC-1) eno2": "80:e8:2c:e2:8f:4d",
         "MAC (NIC-2) eno1": "80:e8:2c:e2:8f:4d",
         "MAC (NIC-3) bond0": "80:e8:2c:e2:8f:4d",
-        "MAC (NIC-4) virbr0": "52:54:00:8a:d9:0d",
-        "MAC (NIC-5) virbr0-nic": "52:54:00:8a:d9:0d",
-        "MAC (NIC-6) docker0": "02:42:47:97:5b:49"
+        "MAC (NIC-4) docker0": "02:42:3e:08:53:85",
+        "MAC (NIC-5) virbr0": "52:54:00:8a:d9:0d",
+        "MAC (NIC-6) virbr0-nic": "52:54:00:8a:d9:0d"
       },
       "color": "green"
     }
@@ -3409,7 +3421,7 @@
         "MAC (NIC-1) eno2": "80:e8:2c:e2:e2:78",
         "MAC (NIC-2) eno1": "80:e8:2c:e2:e2:78",
         "MAC (NIC-3) bond0": "80:e8:2c:e2:e2:78",
-        "MAC (NIC-4) docker0": "02:42:72:08:b5:ba"
+        "MAC (NIC-4) docker0": "02:42:2c:cc:c9:79"
       },
       "color": "green"
     }
@@ -3428,7 +3440,7 @@
         "MAC (NIC-1) eth1": "80:e8:2c:e2:e2:01",
         "MAC (NIC-2) eth0": "80:e8:2c:e2:e2:01",
         "MAC (NIC-3) bond0": "80:e8:2c:e2:e2:01",
-        "MAC (NIC-4) docker0": "02:42:01:09:8f:61"
+        "MAC (NIC-4) docker0": "02:42:b4:c3:d6:3c"
       },
       "color": "green"
     }
@@ -3828,7 +3840,9 @@
         "MAC (NIC-6) cni0": "86:c8:e9:6a:42:c1",
         "MAC (NIC-7) vethcaa2eca2@if2": "42:ef:7c:8e:af:40",
         "MAC (NIC-8) veth7280bf9c@if2": "92:66:17:c6:a3:c1",
-        "MAC (NIC-9) veth667ee5c4@if2": "6e:c5:29:88:ff:65"
+        "MAC (NIC-9) veth667ee5c4@if2": "6e:c5:29:88:ff:65",
+        "MAC (NIC-10) vethe4ff3afb@if2": "92:0d:11:f3:04:b7",
+        "MAC (NIC-11) veth4f398b28@if2": "46:ee:9a:f4:33:59"
       },
       "color": "green"
     }
@@ -3846,7 +3860,8 @@
         "MAC (NIC-7) veth3a958ef8@if2": "b2:1c:96:43:74:2a",
         "MAC (NIC-8) veth61af4706@if2": "0e:c1:39:00:20:7a",
         "MAC (NIC-9) veth95f85e57@if2": "86:08:1b:90:de:c9",
-        "MAC (NIC-10) veth74c7d81a@if2": "a6:4f:6b:ab:4d:48"
+        "MAC (NIC-10) veth74c7d81a@if2": "a6:4f:6b:ab:4d:48",
+        "MAC (NIC-11) veth1ed30e74@if2": "76:04:9f:61:12:7b"
       },
       "color": "green"
     }
@@ -3858,7 +3873,14 @@
         "MAC (NIC-1) eno2": "80:e8:2c:e2:f1:50",
         "MAC (NIC-2) eno1": "80:e8:2c:e2:f1:50",
         "MAC (NIC-3) bond0": "80:e8:2c:e2:f1:50",
-        "MAC (NIC-4) docker0": "02:42:50:98:95:ab"
+        "MAC (NIC-4) docker0": "02:42:50:98:95:ab",
+        "MAC (NIC-5) flannel.1": "06:10:d6:5b:04:71",
+        "MAC (NIC-6) cni0": "12:5e:ad:97:d0:64",
+        "MAC (NIC-7) veth14925ebc@if2": "b2:cb:b2:68:c6:df",
+        "MAC (NIC-8) vethdc8b5998@if2": "72:4a:60:f4:3e:dc",
+        "MAC (NIC-9) veth584307d2@if2": "66:d5:c5:50:95:57",
+        "MAC (NIC-10) veth039a2fa9@if2": "12:e9:2f:51:cb:f2",
+        "MAC (NIC-11) vethf5126d42@if2": "86:77:22:46:9f:7f"
       },
       "color": "green"
     }
@@ -3870,7 +3892,15 @@
         "MAC (NIC-1) eno2": "80:e8:2c:e2:96:09",
         "MAC (NIC-2) eno1": "80:e8:2c:e2:96:09",
         "MAC (NIC-3) bond0": "80:e8:2c:e2:96:09",
-        "MAC (NIC-4) docker0": "02:42:3f:be:6d:9b"
+        "MAC (NIC-4) docker0": "02:42:3f:be:6d:9b",
+        "MAC (NIC-5) flannel.1": "5e:0a:03:60:c7:1d",
+        "MAC (NIC-6) cni0": "1a:d1:f4:aa:f7:b7",
+        "MAC (NIC-7) veth2ba8d5e3@if2": "76:9c:93:0e:ae:96",
+        "MAC (NIC-8) veth8df78ec3@if2": "4e:d5:65:79:d7:73",
+        "MAC (NIC-9) veth77d073cb@if2": "5e:d7:ae:3d:bc:26",
+        "MAC (NIC-10) veth53c762b4@if2": "a6:5e:26:71:14:3a",
+        "MAC (NIC-11) veth03046547@if2": "d2:b7:fc:35:cf:92",
+        "MAC (NIC-12) vethe03d27a5@if2": "26:14:11:5f:15:f7"
       },
       "color": "green"
     }
@@ -3882,7 +3912,15 @@
         "MAC (NIC-1) eno2": "80:e8:2c:e2:e0:04",
         "MAC (NIC-2) eno1": "80:e8:2c:e2:e0:04",
         "MAC (NIC-3) bond0": "80:e8:2c:e2:e0:04",
-        "MAC (NIC-4) docker0": "02:42:d7:aa:42:6b"
+        "MAC (NIC-4) docker0": "02:42:d7:aa:42:6b",
+        "MAC (NIC-5) flannel.1": "de:0d:d2:95:2b:ac",
+        "MAC (NIC-6) cni0": "e6:4c:aa:13:1d:19",
+        "MAC (NIC-7) veth8a46ef24@if2": "5e:a6:74:14:4a:5c",
+        "MAC (NIC-8) veth379d62b8@if2": "3e:7c:64:b2:33:b7",
+        "MAC (NIC-9) vethe86f4056@if2": "32:0c:57:3a:af:d5",
+        "MAC (NIC-10) vethade620b5@if2": "12:aa:3c:bf:da:fd",
+        "MAC (NIC-11) veth7ff02960@if2": "de:1f:f3:8c:30:2c",
+        "MAC (NIC-12) veth6764b5c5@if2": "1a:ed:70:09:a9:5a"
       },
       "color": "green"
     }
@@ -3958,7 +3996,8 @@
         "MAC (NIC-1) eno2": "80:e8:2c:e2:90:62",
         "MAC (NIC-2) eno1": "80:e8:2c:e2:90:62",
         "MAC (NIC-3) bond0": "80:e8:2c:e2:90:62",
-        "MAC (NIC-4) docker0": "02:42:d9:2f:68:f3"
+        "MAC (NIC-4) docker0": "02:42:d9:2f:68:f3",
+        "MAC (NIC-5) vethed8029e@if16": "e2:b9:51:46:d5:6f"
       },
       "color": "green"
     }
@@ -4002,11 +4041,10 @@
     "B2-125-6": {
       "ip": "10.10.125.6",
       "ethernet_interfaces": {
-        "MAC (NIC-1) Warning": "Permanently added '10.10.125.6' (ED25519) to the list of known hosts.\r",
-        "MAC (NIC-2) eno2": "80:e8:2c:e2:dd:86",
-        "MAC (NIC-3) eno1": "80:e8:2c:e2:dd:86",
-        "MAC (NIC-4) bond0": "80:e8:2c:e2:dd:86",
-        "MAC (NIC-5) docker0": "02:42:7b:45:46:7e"
+        "MAC (NIC-1) eno2": "80:e8:2c:e2:dd:86",
+        "MAC (NIC-2) eno1": "80:e8:2c:e2:dd:86",
+        "MAC (NIC-3) bond0": "80:e8:2c:e2:dd:86",
+        "MAC (NIC-4) docker0": "02:42:7b:45:46:7e"
       },
       "color": "green"
     }
@@ -4014,29 +4052,49 @@
   {
     "B2-125-7": {
       "ip": "10.10.125.7",
-      "error": "No route to host",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) eno2": "80:e8:2c:e2:df:45",
+        "MAC (NIC-2) eno1": "80:e8:2c:e2:df:45",
+        "MAC (NIC-3) bond0": "80:e8:2c:e2:df:45",
+        "MAC (NIC-4) docker0": "02:42:a6:d6:a0:85"
+      },
+      "color": "green"
     }
   },
   {
     "B2-125-8": {
       "ip": "10.10.125.8",
-      "error": "No route to host",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) eno2": "80:e8:2c:e2:df:ab",
+        "MAC (NIC-2) eno1": "80:e8:2c:e2:df:ab",
+        "MAC (NIC-3) bond0": "80:e8:2c:e2:df:ab",
+        "MAC (NIC-4) docker0": "02:42:f1:f1:81:45"
+      },
+      "color": "green"
     }
   },
   {
     "B2-125-9": {
       "ip": "10.10.125.9",
-      "error": "Connection timed out",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) eno2": "80:e8:2c:e2:df:d6",
+        "MAC (NIC-2) eno1": "80:e8:2c:e2:df:d6",
+        "MAC (NIC-3) bond0": "80:e8:2c:e2:df:d6",
+        "MAC (NIC-4) docker0": "02:42:c1:30:08:59"
+      },
+      "color": "green"
     }
   },
   {
     "B2-125-10": {
       "ip": "10.10.125.10",
-      "error": "Connection timed out",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) eno2": "80:e8:2c:e2:8e:4e",
+        "MAC (NIC-2) eno1": "80:e8:2c:e2:8e:4e",
+        "MAC (NIC-3) bond0": "80:e8:2c:e2:8e:4e",
+        "MAC (NIC-4) docker0": "02:42:ec:20:7c:52"
+      },
+      "color": "green"
     }
   },
   {
@@ -4070,7 +4128,7 @@
   {
     "B2-125-15": {
       "ip": "10.10.125.15",
-      "error": "Connection timed out",
+      "error": "No route to host",
       "color": "red"
     }
   },
@@ -4085,11 +4143,10 @@
     "B2-125-17": {
       "ip": "10.10.125.17",
       "ethernet_interfaces": {
-        "MAC (NIC-1) Warning": "Permanently added '10.10.125.17' (ED25519) to the list of known hosts.\r",
-        "MAC (NIC-2) eno2": "80:e8:2c:e0:27:ef",
-        "MAC (NIC-3) eno1": "80:e8:2c:e0:27:ef",
-        "MAC (NIC-4) bond0": "80:e8:2c:e0:27:ef",
-        "MAC (NIC-5) docker0": "02:42:9d:26:02:4c"
+        "MAC (NIC-1) eno2": "80:e8:2c:e0:27:ef",
+        "MAC (NIC-2) eno1": "80:e8:2c:e0:27:ef",
+        "MAC (NIC-3) bond0": "80:e8:2c:e0:27:ef",
+        "MAC (NIC-4) docker0": "02:42:9d:26:02:4c"
       },
       "color": "green"
     }
@@ -4110,11 +4167,10 @@
     "B2-125-19": {
       "ip": "10.10.125.19",
       "ethernet_interfaces": {
-        "MAC (NIC-1) Warning": "Permanently added '10.10.125.19' (ED25519) to the list of known hosts.\r",
-        "MAC (NIC-2) eno2": "80:e8:2c:e2:d4:73",
-        "MAC (NIC-3) eno1": "80:e8:2c:e2:d4:73",
-        "MAC (NIC-4) bond0": "80:e8:2c:e2:d4:73",
-        "MAC (NIC-5) docker0": "02:42:a8:92:6b:a5"
+        "MAC (NIC-1) eno2": "80:e8:2c:e2:d4:73",
+        "MAC (NIC-2) eno1": "80:e8:2c:e2:d4:73",
+        "MAC (NIC-3) bond0": "80:e8:2c:e2:d4:73",
+        "MAC (NIC-4) docker0": "02:42:a8:92:6b:a5"
       },
       "color": "green"
     }

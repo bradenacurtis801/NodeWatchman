@@ -110,10 +110,6 @@ class BoxContainerManager {
         return this.getObjAll().length
     }
 
-    getRunningMachines() {
-        
-    }
-
 }
 
 class RowContainerBase {
@@ -326,6 +322,7 @@ class Box {
         this.ip = this.generateMachineIP();
         this.element = this.createElement();
         this.setEventHandlers(eventHandlers);
+        this.isRunning = false
     }
 
     generateMachineIP() {
@@ -385,6 +382,14 @@ class Box {
         Object.entries(properties).forEach(([key, value]) => {
             this[key] = value;
         });
+    }
+
+    getStatus() {
+        return this.isRunning
+    }
+
+    setStatus(val) {
+        this.isRunning = val
     }
 }
 
