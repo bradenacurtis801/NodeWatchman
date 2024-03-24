@@ -1,5 +1,5 @@
 #!/bin/bash
-
+sudo apt install jq
 # Improved function to parse output and create JSON object using jq
 parse_output_to_json() {
     local ip="$1"

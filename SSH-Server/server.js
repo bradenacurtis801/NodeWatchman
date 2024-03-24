@@ -1,31 +1,32 @@
 const os = require('os');
+
+function checkOS() {
+  const operatingSystem = os.type();
+
+  if (operatingSystem === 'Linux') {
+    console.log(`The operating system is: ${operatingSystem}`);
+  } else {
+    throw new Error('This script is only supported on Linux operating systems.');
+  }
+}
+// checkOS();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const { spawn } = require('child_process');
 const cors = require('cors');
 const { exec } = require('child_process');
 const fs = require('fs').promises; // Import the fs module at the top of your script
-
-
-// Check if the script is running in WSL by checking for WSL-specific environment variables
-// const isWSL = process.env.WSL_DISTRO_NAME;
-
-// if (!isWSL && os.platform() !== 'linux') {
-//   console.error('Error: This script must be run in a Linux terminal or a WSL environment.');
-//   process.exit(1); // Exit the script with an error code
-// }
+const config = require('../Config/config.js')
+const getNH_RigStatus = require('../SSH-Server/utils/nicehash_api.js');
 
 const app = express();
 app.use(express.json()); // For parsing application/json
-const port = 5000;
+const port = 5001;
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 app.use(cors()); // Enable CORS for all routes
-
-
-
-// POST endpoint to execute the script
 
 // POST endpoint to execute the script
 app.post('/execute-script', async (req, res) => {
@@ -95,8 +96,21 @@ app.post('/execute-script', async (req, res) => {
     });
 });
 
+app.get('/get-nh-rig-status', async (req, res) => {
+    console.log('Received request on /get-nh-rig-status');
+    const baseUrl = 'https://api2.nicehash.com/main/api/v2/mining/external/bc1qnp2jkflt6xvzt5nclzguhy44jkmmfh5869qn9d/rigs2';
+    try {
+      const allRigsDetails = await getNH_RigStatus(baseUrl);
+      res.json(allRigsDetails);
+      console.log(allRigsDetails);
+    } catch (error) {
+      console.error('An error occurred:', error);
+      res.status(500).send('An error occurred while fetching NiceHash rig statuses.');
+    }
+  });
 
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Server running at http://localhost:${port}`);
+
+app.listen(config.SSH_SERVER_PORT, '0.0.0.0', () => {
+    console.log(`Server running at http://localhost:${config.SSH_SERVER_PORT}`);
 });
 

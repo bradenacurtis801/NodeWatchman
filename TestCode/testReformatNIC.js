@@ -166,8 +166,6 @@ function findMachineIdByMac(DC02_DATA, mac) {
 
 //   console.log(findMachineIdByMac(JSON.parse(fs.readFileSync("./DC02_HARDWARE_INFO_ALL.json", 'utf8')), '74:86:e2:13:9e:dd'));
 
-DC02_DATA_ARRAY_OBJ=JSON.parse(fs.readFileSync('./DC02_HARDWARE_INFO_ALL.json', 'utf8'))
-JSON_ARRAY_OBJ=JSON.parse(fs.readFileSync('./interactive_nodes.json', 'utf8'))
 
 // Function to log the first two and middle two elements of each array object
 const logArrayElements = (array) => {
@@ -188,9 +186,29 @@ const logArrayElements = (array) => {
 //   console.log('JSON_ARRAY_OBJ:');
 //   logArrayElements(JSON_ARRAY_OBJ);
 
-console.log(checkBoxPosition(DC02_DATA_ARRAY_OBJ,JSON_ARRAY_OBJ)[0])
+// DC02_DATA_ARRAY_OBJ=JSON.parse(fs.readFileSync('./DC02_HARDWARE_INFO_ALL.json', 'utf8'))
+// JSON_ARRAY_OBJ=JSON.parse(fs.readFileSync('./interactive_nodes.json', 'utf8'))
 
 
+// console.log(checkBoxPosition(DC02_DATA_ARRAY_OBJ,JSON_ARRAY_OBJ)[0])
+const os = require('os');
+// Get OS type
+
+function checkOS() {
+  const operatingSystem = os.type();
+
+  if (operatingSystem === 'Linux') {
+    console.log(`The operating system is: ${operatingSystem}`);
+  } else {
+    throw new Error('This script is only supported on Linux operating systems.');
+  }
+}
+
+try {
+  checkOS();
+} catch (error) {
+  console.error(`Error: ${error.message}`);
+}
 // // Example usage:
 // inputFile='../DC02_MACHINE_HARDWARE/DC02_HARDWARE_INFO_ALL.json'
 // outputFile='./testNodeStatusOutput3.json'
