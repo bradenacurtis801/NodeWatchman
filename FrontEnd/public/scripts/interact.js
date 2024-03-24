@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log("Sending Bash Script and IPs to server:", bashCode, ipsList);
   
   // Example POST request to a server-side endpoint that executes the bash script
-  const url = "http://localhost:5000/execute-script";
+  const url = "http://localhost:5001/execute-script";
   try {
     const response = await fetch(url, {
       method: "POST",
