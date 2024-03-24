@@ -1,6 +1,15 @@
+body {
+  min-height: 100vh; /* 100% of the viewport height */
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+    justify-content: center;
+    /* border: 2px solid black; */
+}
+
 .main-container {
   display: flex; /* Use flexbox to make sections side by side */
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     justify-content: center;
     border: 2px solid black;
 }
@@ -18,14 +27,18 @@
   border: 2px solid black;
   padding: 50px;
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   justify-content: center;
 }
 
-div#sectionHeader {
+/* REFACTOR */
+/* //////////////////////////////////////// */
+div#sectionHeader,#total-running-machines{
   display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
+/* //////////////////////////////////////// */
 .parent-box,
 .rack-container {
   border: 2px solid black;
@@ -55,6 +68,8 @@ div#sectionHeader {
   display: inline-block;
   border: 1px solid grey;
   text-align: center;
+  height: 20px;
+  width: 20px;
   padding: 10px;
   cursor: pointer;
   flex: 0 0 auto;
@@ -70,7 +85,7 @@ div#sectionHeader {
 }
 
 .row-container {
-  /* display: flex; 
+  /* display: flex;
   flex-wrap: wrap; */
   margin-bottom: 10px;
   margin-bottom: 50px;
@@ -385,7 +400,7 @@ textarea {
 }
 
 .box_mismatch {
-  border: 5px solid rgb(255, 0, 0);
+  outline: 5px solid rgb(255, 0, 0);
   /* Adjust the border width as needed */
 }
 
@@ -476,7 +491,7 @@ body {
 }
 */
 
-/* 
+/*
 <button class="button-86" role="button">Button 86</button>
 
 CSS */

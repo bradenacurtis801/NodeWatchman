@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
+
+  // REFACTOR CODE //
+  /////////////////////////////////////////////////////
   let boxState
   try {
     boxState = await loadBoxState();
@@ -6,7 +9,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Handle errors here
     console.error(error);
   }
-	console.log('boxState',boxState)
+	// console.log('boxState',boxState)
+  
+  function updateTotalMachines(runningMachines, totalMachines) {
+    const runningMachinesPlaceholder = document.getElementById("running-machines-placeholder");
+    const totalMachinesPlaceholder = document.getElementById("total-machines-placeholder");
+    
+    // Update the placeholders with the actual values or '*' if they don't have a value
+    runningMachinesPlaceholder.textContent = runningMachines !== undefined ? runningMachines : '*';
+    totalMachinesPlaceholder.textContent = totalMachines !== undefined ? totalMachines : '*';
+  }
+  const runningMachines = countRunningMachines(boxState)
+  const totalMachines = manager.getMachineCount()
+  updateTotalMachines(runningMachines, totalMachines)
+  //////////////////////////////////////////////////////
+
   const runCustomScriptBtn = document.getElementById("runCustomScriptBtn");
   const customScriptModal = document.getElementById("customScriptModal");
   const textareaContainer = document.getElementById("textareaContainer");
@@ -474,4 +491,21 @@ function processExecutionResult(executeResult) {
   });
 
   return mappedInfo;
+}
+
+function countRunningMachines(jsonData) {
+  let greenCounter = 0;
+
+  // Iterate over each object in the array
+  jsonData.forEach(obj => {
+      // Iterate over the properties of each object
+      Object.values(obj).forEach(value => {
+          // Check if the color property is "green"
+          if (value.color === "green") {
+              greenCounter++;
+          }
+      });
+  });
+
+  return greenCounter;
 }
