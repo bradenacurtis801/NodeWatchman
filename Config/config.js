@@ -7,7 +7,7 @@ const config = {
     FRONTEND_SERVER_PORT: '5500',
 
     SSH_SERVER_IP: 'localhost',
-    SSH_SERVER_PORT: '5000'
+    SSH_SERVER_PORT: '5001'
   };
   
 module.exports = config;  
