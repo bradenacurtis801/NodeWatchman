@@ -1,4 +1,16 @@
 const os = require('os');
+
+function checkOS() {
+  const operatingSystem = os.type();
+
+  if (operatingSystem === 'Linux') {
+    console.log(`The operating system is: ${operatingSystem}`);
+  } else {
+    throw new Error('This script is only supported on Linux operating systems.');
+  }
+}
+checkOS();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const { spawn } = require('child_process');
@@ -17,7 +29,7 @@ const fs = require('fs').promises; // Import the fs module at the top of your sc
 
 const app = express();
 app.use(express.json()); // For parsing application/json
-const port = 5000;
+const port = 5001;
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
