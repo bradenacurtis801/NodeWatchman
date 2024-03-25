@@ -1,169 +1,163 @@
-COMPUTED VALUES:
-additionalArguments:
-  - "--serversTransport.insecureSkipVerify=true"
-  - "--log.leveL=DEBUG"
-additionalVolumeMounts: []
-affinity: {}
-autoscaling:
-  enabled: false
-certResolvers: {}
-commonLabels: {}
-deployment:
-  additionalContainers: []
-  additionalVolumes: []
-  annotations: {}
-  dnsConfig: {}
-  enabled: true
-  imagePullSecrets: []
-  initContainers: []
-  kind: Deployment
-  labels: {}
-  lifecycle: {}
-  minReadySeconds: 0
-  podAnnotations: {}
-  podLabels: {}
-  replicas: 3
-  runtimeClassName: null
-  shareProcessNamespace: false
-  terminationGracePeriodSeconds: 60
-env:
-- name: POD_NAME
-  valueFrom:
-    fieldRef:
-      fieldPath: metadata.name
-- name: POD_NAMESPACE
-  valueFrom:
-    fieldRef:
-      fieldPath: metadata.namespace
-envFrom: []
-experimental:
-  kubernetesGateway:
-    enabled: false
-  plugins: {}
-extraObjects: []
-globalArguments:
-- "--global.checknewversion=false"
-- "--global.sendanonymoususage=false"
-hostNetwork: false
-image:
-  pullPolicy: IfNotPresent
-  registry: docker.io
-  repository: traefik
-  tag: ""
-ingressClass:
-  enabled: true
-  isDefaultClass: true
-ingressRoute:
-  dashboard:
-    enabled: false
-livenessProbe:
-  failureThreshold: 3
-  initialDelaySeconds: 2
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 2
-logs:
-  access:
-    enabled: false
-    fields:
-      general:
-        defaultmode: keep
-        names: {}
-      headers:
-        defaultmode: drop
-        names: {}
-    filters: {}
-  general:
-    level: ERROR
-metrics:
-  prometheus:
-    entryPoint: metrics
-nodeSelector: {}
-persistence:
-  accessMode: ReadWriteOnce
-  annotations: {}
-  enabled: false
-  name: data
-  path: /data
-  size: 128Mi
-podDisruptionBudget:
-  enabled: false
-podSecurityContext:
-  fsGroupChangePolicy: OnRootMismatch
-  runAsGroup: 65532
-  runAsNonRoot: true
-  runAsUser: 65532
-podSecurityPolicy:
-  enabled: false
-ports:
-  metrics:
-    expose: false
-    exposeInternal: false
-    exposedPort: 9100
-    port: 9100
-    protocol: TCP
-  traefik:
-    expose: false
-    exposeInternal: false
-    exposedPort: 9000
-    port: 9000
-    protocol: TCP
-  web:
-    redirectTo: 
-      port: websecure
-  websecure:
-    tls:
-      enabled: true
-priorityClassName: ""
-providers:
-  kubernetesCRD:
-    enabled: true
-    ingressClass: traefik-test
-  kubernetesIngress:
-    enabled: true
-    publishedService:
-      enabled: false
-rbac:
-  enabled: true
-
-readinessProbe:
-  failureThreshold: 1
-  initialDelaySeconds: 2
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 2
-resources: {}
-securityContext:
-  allowPrivilegeEscalation: false
-  capabilities:
-    drop:
-    - ALL
-  readOnlyRootFilesystem: true
-service:
-  enabled: true
-  type: LoadBalancer
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  namespace: nicehash
   annotations:
-    traefik.ingress.kubernetes.io/service-loadbalancer-ip: "10.10.50.101"
-    traefik.ingress.kubernetes.io/service-loadbalancer-source-range: ""
-    traefik.ingress.kubernetes.io/service-external-ip: ""
-    metallb.universe.tf/address-pool: traefik-pool
-  labels: {}
-  spec: 
-    loadBalancerIp: 10.10.50.101
-    loadBalancerSourceRanges: []
-    externalIPs: []
-serviceAccount:
-  name: ""
-serviceAccountAnnotations: {}
-startupProbe: null
-tlsOptions: {}
-tlsStore: {}
-tolerations: []
-topologySpreadConstraints: []
-tracing: {}
-updateStrategy:
-  rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 0
-  type: RollingUpdate
-volumes: []
+    deprecated.daemonset.template.generation: '4'
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"apps/v1","kind":"DaemonSet","metadata":{"annotations":{},"name":"mining-pod","namespace":"nicehash"},"spec":{"selector":{"matchLabels":{"app":"mining-pod"}},"template":{"metadata":{"labels":{"app":"mining-pod"}},"spec":{"containers":[{"image":"dockerhubnh/nicehash:latest","name":"mining-container"}],"priorityClassName":"low-priority","runtimeClassName":"nvidia","tolerations":[{"effect":"NoExecute","key":"mining-pod","operator":"Exists"}]}}}}
+  creationTimestamp: '2024-03-24T21:21:45Z'
+  generation: 4
+  managedFields:
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:deprecated.daemonset.template.generation: {}
+            f:kubectl.kubernetes.io/last-applied-configuration: {}
+        f:spec:
+          f:revisionHistoryLimit: {}
+          f:selector: {}
+          f:template:
+            f:metadata:
+              f:labels:
+                .: {}
+                f:app: {}
+            f:spec:
+              f:containers:
+                k:{"name":"mining-container"}:
+                  .: {}
+                  f:image: {}
+                  f:imagePullPolicy: {}
+                  f:name: {}
+                  f:resources: {}
+                  f:terminationMessagePath: {}
+                  f:terminationMessagePolicy: {}
+              f:dnsPolicy: {}
+              f:priorityClassName: {}
+              f:restartPolicy: {}
+              f:runtimeClassName: {}
+              f:schedulerName: {}
+              f:securityContext: {}
+              f:terminationGracePeriodSeconds: {}
+              f:tolerations: {}
+          f:updateStrategy:
+            f:rollingUpdate:
+              .: {}
+              f:maxSurge: {}
+              f:maxUnavailable: {}
+            f:type: {}
+      manager: kubectl-client-side-apply
+      operation: Update
+      time: '2024-03-24T21:21:45Z'
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:template:
+            f:metadata:
+              f:annotations:
+                .: {}
+                f:cattle.io/timestamp: {}
+              f:namespace: {}
+            f:spec:
+              f:containers:
+                k:{"name":"mining-container"}:
+                  f:env:
+                    .: {}
+                    k:{"name":"MINING_ADDRESS"}:
+                      .: {}
+                      f:name: {}
+                      f:value: {}
+                    k:{"name":"MINING_WORKER_NAME"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:fieldRef: {}
+                    k:{"name":"NVIDIA_VISIBLE_DEVICES"}:
+                      .: {}
+                      f:name: {}
+                      f:value: {}
+                  f:resources:
+                    f:limits:
+                      .: {}
+                      f:nvidia.com/gpu: {}
+                    f:requests:
+                      .: {}
+                      f:nvidia.com/gpu: {}
+      manager: agent
+      operation: Update
+      time: '2024-03-24T21:37:32Z'
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:currentNumberScheduled: {}
+          f:desiredNumberScheduled: {}
+          f:numberAvailable: {}
+          f:numberReady: {}
+          f:numberUnavailable: {}
+          f:observedGeneration: {}
+          f:updatedNumberScheduled: {}
+      manager: k3s
+      operation: Update
+      subresource: status
+      time: '2024-03-24T21:37:37Z'
+  name: mining-pod
+  namespace: default
+  resourceVersion: '22198'
+  uid: eac2cb8d-6ddf-4fa0-b338-25b4fa5a822c
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: mining-pod
+  template:
+    metadata:
+      annotations:
+        cattle.io/timestamp: '2024-03-24T21:37:33Z'
+      creationTimestamp: null
+      labels:
+        app: mining-pod
+      namespace: default
+    spec:
+      containers:
+        - env:
+            - name: MINING_WORKER_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: MINING_ADDRESS
+              value: bc1qddzh2765dfrrn4t2k9ff9n7zkzfqzw9lytmjp8
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: all
+          image: dockerhubnh/nicehash:latest
+          imagePullPolicy: Always
+          name: mining-container
+          resources:
+            limits:
+              nvidia.com/gpu: '2'
+            requests:
+              nvidia.com/gpu: '2'
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      priorityClassName: low-priority
+      restartPolicy: Always
+      runtimeClassName: nvidia
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: mining-pod
+          operator: Exists
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate

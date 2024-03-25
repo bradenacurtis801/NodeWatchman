@@ -1,0 +1,16 @@
+[
+  {
+    "ip": "10.10.21.1",
+    "result": {
+      "cmd": "sleep 10\n",
+      "output": ""
+    }
+  },
+  {
+    "ip": "10.10.21.2",
+    "result": {
+      "cmd": "sleep 10\n",
+      "output": ""
+    }
+  }
+]

@@ -7,6 +7,7 @@
         button.addEventListener('click', onClick);
         container.appendChild(button);
     }
+    
 
 class BoxContainerManager {
     constructor() {
@@ -96,6 +97,22 @@ class BoxContainerManager {
             allIps.push(...row.getIpRow());
         });
         return allIps;
+    }
+
+    getSelectedBoxesAll() {
+        let selectedBoxesAll = [];
+        this.rows.forEach(row => {
+            selectedBoxesAll.push(...row.getSelectedBoxesRow())
+        });
+        return selectedBoxesAll
+    }
+
+    getSelectedBoxesIps() {
+        // Use getSelectedBoxesAll to get all selected boxes
+        const selectedBoxes = this.getSelectedBoxesAll();
+        // Map over these boxes to extract the 'ip' property
+        const selectedIps = selectedBoxes.map(box => box.ip);
+        return selectedIps;
     }
 
     selectAllBoxes() {
@@ -201,6 +218,14 @@ class RowContainerBase {
         });
         return ipRow;
     }
+    
+    getSelectedBoxesRow() {
+        let selectedBoxesRow = [];
+        this.racks.forEach(rack => {
+            selectedBoxesRow.push(...rack.getSelectedBoxesRack())
+        });
+        return selectedBoxesRow
+    }
 
     selectAllRowBoxes() {
         this.racks.forEach(rack => rack.selectAllRackBoxes());
@@ -210,6 +235,7 @@ class RowContainerBase {
         this.racks.forEach(rack => rack.clearRackSelection());
     }
 
+
 }
 
 class RackContainerBase{
@@ -217,7 +243,7 @@ class RackContainerBase{
         this.sectionId = sectionId;
         this.rowLabel = rowLabel;
         this.rackLabel = rackLabel;
-        this.selectedBoxes = new Set(); // To track selected boxes
+        this._selectedBoxesRack = new Set(); // To track selected boxes
         this.defaultBoxCount = defaultBoxCount;
         this.boxes = []; // Store box instances
         this.initializeContainer();
@@ -296,6 +322,8 @@ class RackContainerBase{
         return this.boxes;
     }
 
+    
+
     getInfoRack() {
         const rackInfo = [];
         this.boxes.forEach(box => {
@@ -311,7 +339,96 @@ class RackContainerBase{
         });
         return rackInfo;
     }
+
+    getSelectedBoxesRack() {
+        return this._selectedBoxesRack
+    }
 }
+
+class SpecializedRackContainer extends RackContainerBase {
+    constructor(sectionId, rowLabel, rackLabel, defaultBoxCount) {
+        super(sectionId, rowLabel, rackLabel, defaultBoxCount);
+        // Additional initialization for SpecializedRackContainer
+    }
+
+    createHeader() {
+        const header = document.createElement('div');
+        header.className = 'box-container-header';
+        // Dynamically create the header text to include row and rack labels
+        header.textContent = `Row: ${this.rowLabel} Rack: ${this.rackLabel}`;
+        this.container.appendChild(header);
+
+        // Create and append "Select All" button
+        const selectAllBtn = document.createElement('button');
+        selectAllBtn.textContent = 'Select All';
+        selectAllBtn.addEventListener('click', () => this.selectAllRackBoxes());
+        header.appendChild(selectAllBtn);
+
+        // Create and append "Clear" button
+        const clearBtn = document.createElement('button');
+        clearBtn.textContent = 'Clear';
+        clearBtn.addEventListener('click', () => this.clearRackSelection());
+        header.appendChild(clearBtn);
+    }
+
+    // Override addBox to include specialized behavior
+    addBox(index, eventHandlers = {}) {
+        const boxObject = super.addBox(index, {
+            ...eventHandlers,
+            click: (event) => {
+                // Find the box object as before
+                const currentIndex = this.boxes.findIndex(box => box.element === event.currentTarget);
+                const box = this.boxes[currentIndex];
+                box.toggleSelected(); // Toggle selection state using the Box's method
+                if (box.isSelected()) {
+                    // DEBUGGING LINE
+                    //////////////////////////////////////////////////////
+                    // console.log('adding box to selected list:', box)
+                    //////////////////////////////////////////////////////
+
+                    this._selectedBoxesRack.add(box);
+
+                    // DEBUGGING LINE
+                    //////////////////////////////////////////////////////
+                    // console.log('added to list:', this.selectedBoxes)
+                    //////////////////////////////////////////////////////
+                } else {
+                    this._selectedBoxesRack.delete(box);
+                }
+
+                // DEBUGGING LINE
+                //////////////////////////////////////////////////////
+                // console.log(`Specialized box ${index} clicked ;)`);
+                //////////////////////////////////////////////////////
+
+                eventHandlers.click?.(event);
+            }
+        });
+    }
+
+    selectAllRackBoxes() {
+        this.boxes.forEach(box => {
+            // Only select boxes that aren't already selected
+            if (!box.isSelected()) {
+                box.toggleSelected(); // This updates both the class and the selected state
+                this._selectedBoxesRack.add(box); // Keep track of selected boxes
+                
+            }
+        });
+    }
+
+    clearRackSelection() {
+        this.boxes.forEach(box => {
+            box.clearSelection();
+        });
+        this._selectedBoxesRack.clear();
+        // DEBUGGING LINE
+        //////////////////////////////////////////////////////
+        // console.log(this.selectedBoxes);
+        //////////////////////////////////////////////////////
+    }
+}
+
 
 class Box {
     constructor(rowLabel, rackLabel, index, eventHandlers = {}) {
@@ -322,7 +439,8 @@ class Box {
         this.ip = this.generateMachineIP();
         this.element = this.createElement();
         this.setEventHandlers(eventHandlers);
-        this.isRunning = false
+        this._isRunning = false
+        this._isSelected = false;
     }
 
     generateMachineIP() {
@@ -366,6 +484,16 @@ class Box {
         this.setEventHandlers(eventHandlers);
     }
 
+    toggleSelected() {
+        this._isSelected = !this._isSelected;
+        if (this._isSelected) {
+            this.element.classList.add('drag-selected');
+        } else {
+            this.element.classList.remove('drag-selected');
+        }
+        console.log(`Box ${this.id} selected: ${this._isSelected}`);
+    }
+
     getInfo() {
         const info = {};
         // Iterate over all properties of the instance
@@ -385,81 +513,26 @@ class Box {
     }
 
     getStatus() {
-        return this.isRunning
+        return this._isRunning
     }
 
     setStatus(val) {
-        this.isRunning = val
-    }
-}
-
-class SpecializedRackContainer extends RackContainerBase {
-    constructor(sectionId, rowLabel, rackLabel, defaultBoxCount) {
-        super(sectionId, rowLabel, rackLabel, defaultBoxCount);
-        // Additional initialization for SpecializedRackContainer
+        this._isRunning = val
     }
 
-    createHeader() {
-        const header = document.createElement('div');
-        header.className = 'box-container-header';
-        // Dynamically create the header text to include row and rack labels
-        header.textContent = `Row: ${this.rowLabel} Rack: ${this.rackLabel}`;
-        this.container.appendChild(header);
-
-        // Create and append "Select All" button
-        const selectAllBtn = document.createElement('button');
-        selectAllBtn.textContent = 'Select All';
-        selectAllBtn.addEventListener('click', () => this.selectAllRackBoxes());
-        header.appendChild(selectAllBtn);
-
-        // Create and append "Clear" button
-        const clearBtn = document.createElement('button');
-        clearBtn.textContent = 'Clear';
-        clearBtn.addEventListener('click', () => this.clearRackSelection());
-        header.appendChild(clearBtn);
+    isSelected() {
+        return this._isSelected
     }
 
-    // Override addBox to include specialized behavior
-    addBox(index, eventHandlers = {}) {
-        // Assuming super.addBox adds the box object to this.boxes
-        const boxObject = super.addBox(index, {
-            ...eventHandlers,
-            click: (event) => {
-                // Assuming the box object is stored in the dataset or accessible directly
-                const currentIndex = this.boxes.findIndex(box => box.element === event.currentTarget);
-                this.toggleSelection(event.currentTarget, this.boxes[currentIndex]);
-                console.log(`Specialized box ${index} clicked`);
-                eventHandlers.click?.(event);
-            }
-        });
-    }
-
-    toggleSelection(boxElement, boxObject) {
-        const isSelected = boxElement.classList.toggle('drag-selected');
-        if (isSelected) {
-            this.selectedBoxes.add(boxObject); // Use the box object for selection tracking
-        } else {
-            this.selectedBoxes.delete(boxObject);
+    clearSelection() {
+        if (this._isSelected) { // Check if the box is currently selected
+            this._isSelected = false; // Update the selection state to false
+            this.element.classList.remove('drag-selected'); // Visually unselect the box
+            console.log(`Box ${this.id} selection cleared`);
         }
-        console.log(this.selectedBoxes);
-    }
-
-    selectAllRackBoxes() {
-        this.boxes.forEach(box => {
-            box.element.classList.add('drag-selected');
-            this.selectedBoxes.add(box); // Directly add the box object
-            console.log(this.selectedBoxes);
-        });
-    }
-
-    clearRackSelection() {
-        this.selectedBoxes.forEach(box => {
-            box.element.classList.remove('drag-selected');
-        });
-        this.selectedBoxes.clear();
-        console.log(this.selectedBoxes);
     }
 }
+
 
 
 
