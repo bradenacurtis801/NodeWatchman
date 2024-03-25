@@ -9,12 +9,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Handle errors here
     console.error(error);
   }
-	// console.log('boxState',boxState)
-  
+  // console.log('boxState',boxState)
+
   function updateTotalMachines(runningMachines, totalMachines) {
     const runningMachinesPlaceholder = document.getElementById("running-machines-placeholder");
     const totalMachinesPlaceholder = document.getElementById("total-machines-placeholder");
-    
+
     // Update the placeholders with the actual values or '*' if they don't have a value
     runningMachinesPlaceholder.textContent = runningMachines !== undefined ? runningMachines : '*';
     totalMachinesPlaceholder.textContent = totalMachines !== undefined ? totalMachines : '*';
@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const textareaInput = document.getElementById("textareaInput");
   const closeBtn = customScriptModal.querySelector(".close");
   const startCommandBtn = document.getElementById("startCommandBtn");
+  const updateNodesBtn = document.getElementById("getNodeStatusBtn");
   const logoutBtn = document.getElementById('logoutBtn');
   const selectAllBtn = document.getElementById('selectAllBtn');
   const clearAllBtn = document.getElementById('clearAllBtn');
@@ -54,9 +55,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   let isMouseDownInsideTextarea = false;
 
   window.addEventListener("mousedown", (event) => {
-   // console.log(event.target);
+    // console.log(event.target);
     if (event.target == textareaContainer || event.target == textareaInput) {
-     // console.log("Mouse down inside textarea");
+      // console.log("Mouse down inside textarea");
       isMouseDownInsideTextarea = true;
     } else isMouseDownInsideTextarea = false;
   });
@@ -81,22 +82,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Set default open tab (optional)
-    // Use querySelector to directly click on the default open tab if present
-    document.querySelector(".tablinks.defaultOpen")?.click();
+  // Use querySelector to directly click on the default open tab if present
+  document.querySelector(".tablinks.defaultOpen")?.click();
 
   function displaySelectedMachines() {
     const selectedMachinesDiv = document.getElementById("selectedMachines");
     selectedMachinesDiv.innerHTML = ""; // Clear previous content
+    const selectedIPs = manager.getSelectedBoxesIps();
 
     // Use the manager object to find selected machines
-    manager.rows.forEach((row) => {
-      row.racks.forEach((rack) => {
-        rack.selectedBoxes.forEach((box) => {
-          const machineDiv = document.createElement("div");
-          machineDiv.textContent = `Machine IP: ${box.ip}`;
-          selectedMachinesDiv.appendChild(machineDiv);
-        });
-      });
+    selectedIPs.forEach(ip => {
+      const machineDiv = document.createElement("div");
+      machineDiv.textContent = `Machine IP: ${ip}`; // Use the IP directly
+      selectedMachinesDiv.appendChild(machineDiv);
     });
   }
   // Add an event listener for the click event on the logout button
@@ -104,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log("Logging out...");
     // Retrieve the token from localStorage
     const token = localStorage.getItem('token');
-  
+
     // If a token exists, send a logout request to the server
     if (token) {
       await fetch('/logout', {
@@ -116,7 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Regardless of the server's response, remove the token from localStorage
       localStorage.removeItem('token');
     }
-  
+
     // Redirect the user to the login page
     window.location.href = '/LoginPage/login.html';
   });
@@ -130,46 +128,59 @@ document.addEventListener("DOMContentLoaded", async () => {
   //   console.log(manager.clearAllSelection(),'clearAllBtn clicked')
   //   // manager.clearAllBtn()
   // })
-  
-  startCommandBtn.addEventListener("click", async () => {
-  console.log('running start command');
-  const bashCode = document.getElementById("textareaInput").value;
-  const selectedMachines = [];
-  manager.rows.forEach((row) => {
-    row.racks.forEach((rack) => {
-      rack.selectedBoxes.forEach((box) => {
-        selectedMachines.push(box.ip);
-      });
+
+  let commandExecutions = {
+    completed: [],
+    pending: []
+};
+
+startCommandBtn.addEventListener("click", async () => {
+    console.log('running start command');
+    const bashCode = document.getElementById("textareaInput").value;
+    const ipsString = manager.getSelectedBoxesIps();
+
+    console.log("Sending Bash Script and IPs to server:", bashCode, ipsString);
+
+    const executeCommand = async () => {
+        try {
+            const result = await executeScript(ipsString, bashCode);
+            console.log("Execution Result:", result);
+            displayBashOutput(result);
+            console.log("after");
+            return {status: 'completed', result};
+        } catch (error) {
+            console.error("Error executing script:", error);
+            throw {status: 'failed', error}; // Include status in thrown error for consistency
+        }
+    };
+
+    // Function to handle moving the command from pending to completed
+    const handleCompletion = (index, result) => {
+        commandExecutions.completed.push({index, ...result}); // Add to completed with index for tracking
+        commandExecutions.pending = commandExecutions.pending.filter(item => item !== index); // Remove from pending
+    };
+
+    // Add the command to pending
+    const commandIndex = commandExecutions.pending.length + commandExecutions.completed.length;
+    commandExecutions.pending.push(commandIndex);
+
+    executeCommand().then(result => {
+        console.log(`Command ${commandIndex} completed`, result);
+        handleCompletion(commandIndex, result);
+    }).catch(error => {
+        console.error(`Command ${commandIndex} failed`, error);
+        handleCompletion(commandIndex, error);
     });
-  });
-  const ipsList = selectedMachines.join(",");
+
+    console.log(`Command ${commandIndex} is being executed`);
+    console.log('current commands:', commandExecutions);
+});
+
   
-  console.log("Sending Bash Script and IPs to server:", bashCode, ipsList);
-  
-  // Example POST request to a server-side endpoint that executes the bash script
-  const url = "http://localhost:5001/execute-script";
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ips: ipsList, script: bashCode }),
-    });
-    const result = await response.json();
-    console.log("Execution Result:", result);
-    displayBashOutput(result);
-    console.log("after");
-  } catch (error) {
-    console.error("Error executing script:", error);
-  }
-  });
-  
-  document
-  .getElementById("getNodeStatusBtn")
-  .addEventListener("click", async () => {
-    const ipsString = manager.getIpAll();
-    const bashCode = `
+
+  updateNodesBtn.addEventListener("click", async () => {
+      const ipsString = manager.getIpAll();
+      const bashCode = `
     ip addr | awk '
     $1 ~ /^[0-9]+:/ { 
         if (iface != "" && mac != "") print iface": "mac;
@@ -180,89 +191,97 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (iface != "" && mac != "") print iface": "mac;
     }
     '`;
-  
-    console.log("Sending Node Info to /execute-script:", bashCode, ipsString);
-  
-    try {
-      const executeResult = await executeScript(ipsString, bashCode);
- console.log('pre exe',executeResult); 
-      const mappedInfo = processExecutionResult(executeResult)
-  
-      console.log("Execution Result:", mappedInfo);
-      displayBashOutput(Object.values(mappedInfo));
-      const mappedArrayFormatted = reformatJsonArray(Object.values(mappedInfo));
-      // Forwarding the response to another endpoint
-      console.log('formateed arr',mappedArrayFormatted);
-      const updateResult = await updateMachineState(mappedArrayFormatted);
-      console.log("Update Machine State Result:", updateResult);
-    } catch (error) {
-      console.error("Error in processing:", error);
-    }
-  });
-  
-  function displayBashOutput(mappedArray) {
-  const bashOutputContainer = document.getElementById("BashOutput");
-  bashOutputContainer.innerHTML = ""; // Clear existing content
-  
-  mappedArray.forEach((item, index) => {
-    let obj; // This will store the relevant object (either directly or nested)
-    let id; // This will store the identifier (IP or custom ID)
-  
-    // Check if the item is in the first format with a unique key
-    if (Object.keys(item).length === 1 && Object.keys(item)[0] !== "ip") {
-      id = Object.keys(item)[0];
-      obj = item[id];
-    } else {
-      // Assume it's in the second format
-      obj = item;
-      id = obj.ip;
-    }
-  
-    const elementId = `collapse-${index}`;
-    const wrapperDiv = document.createElement("div");
-    wrapperDiv.classList.add("collapsible-wrapper");
-  
-    const button = document.createElement("button");
-    button.textContent = id + (obj.error ? ` - Error` : ` - Result`);
-    button.classList.add("collapsible-btn");
-    button.setAttribute("type", "button");
-    button.setAttribute("data-target", elementId);
-  
-    const contentDiv = document.createElement("div");
-    contentDiv.id = elementId;
-    contentDiv.classList.add("collapsible-content");
-    contentDiv.style.display = "none"; // Initially hidden
-  
-    const pre = document.createElement("pre");
-    const code = document.createElement("code");
-    code.className = "language-bash"; // Ensure this class is set for Highlight.js
-  
-    // Handle content based on whether it's an error or a result
-    if (obj.error) {
-      code.textContent = `Error: ${obj.error}`;
-    } else if (obj.result && obj.result.cmd) {
-      code.textContent = `IP: ${id}\nCommand:\n${obj.result.cmd}\nOutput:\n${obj.result.output}`;
-    } else {
-      code.textContent = `No detailed information available.`;
-    }
-  
-    pre.appendChild(code);
-    contentDiv.appendChild(pre);
-    wrapperDiv.appendChild(button);
-    wrapperDiv.appendChild(contentDiv);
-    bashOutputContainer.appendChild(wrapperDiv);
-  
-    button.addEventListener("click", function () {
-      const target = document.getElementById(this.getAttribute("data-target"));
-      if (target.style.display === "none") {
-        target.style.display = "block";
-        // Apply highlighting when the content is shown
-        hljs.highlightElement(code); // Make sure to highlight after appending
-      } else {
-        target.style.display = "none";
+
+      console.log("Sending Node Info to /execute-script:", bashCode, ipsString);
+      // return
+      try {
+        const executeResult = await executeScript(ipsString, bashCode);
+        console.log('pre exe', executeResult);
+        const mappedInfo = processExecutionResult(executeResult)
+
+        console.log("Execution Result:", mappedInfo);
+        displayBashOutput(Object.values(mappedInfo));
+        const mappedArrayFormatted = reformatJsonArray(Object.values(mappedInfo));
+        // Forwarding the response to another endpoint
+        console.log('formateed arr', mappedArrayFormatted);
+        const updateResult = await updateMachineState(mappedArrayFormatted);
+        console.log("Update Machine State Result:", updateResult);
+      } catch (error) {
+        console.error("Error in processing:", error);
       }
     });
-  });
+
+
+
+
+
+
+
+
+
+  function displayBashOutput(mappedArray) {
+    const bashOutputContainer = document.getElementById("BashOutput");
+    bashOutputContainer.innerHTML = ""; // Clear existing content
+
+    mappedArray.forEach((item, index) => {
+      let obj; // This will store the relevant object (either directly or nested)
+      let id; // This will store the identifier (IP or custom ID)
+
+      // Check if the item is in the first format with a unique key
+      if (Object.keys(item).length === 1 && Object.keys(item)[0] !== "ip") {
+        id = Object.keys(item)[0];
+        obj = item[id];
+      } else {
+        // Assume it's in the second format
+        obj = item;
+        id = obj.ip;
+      }
+
+      const elementId = `collapse-${index}`;
+      const wrapperDiv = document.createElement("div");
+      wrapperDiv.classList.add("collapsible-wrapper");
+
+      const button = document.createElement("button");
+      button.textContent = id + (obj.error ? ` - Error` : ` - Result`);
+      button.classList.add("collapsible-btn");
+      button.setAttribute("type", "button");
+      button.setAttribute("data-target", elementId);
+
+      const contentDiv = document.createElement("div");
+      contentDiv.id = elementId;
+      contentDiv.classList.add("collapsible-content");
+      contentDiv.style.display = "none"; // Initially hidden
+
+      const pre = document.createElement("pre");
+      const code = document.createElement("code");
+      code.className = "language-bash"; // Ensure this class is set for Highlight.js
+
+      // Handle content based on whether it's an error or a result
+      if (obj.error) {
+        code.textContent = `Error: ${obj.error}`;
+      } else if (obj.result && obj.result.cmd) {
+        code.textContent = `IP: ${id}\nCommand:\n${obj.result.cmd}\nOutput:\n${obj.result.output}`;
+      } else {
+        code.textContent = `No detailed information available.`;
+      }
+
+      pre.appendChild(code);
+      contentDiv.appendChild(pre);
+      wrapperDiv.appendChild(button);
+      wrapperDiv.appendChild(contentDiv);
+      bashOutputContainer.appendChild(wrapperDiv);
+
+      button.addEventListener("click", function () {
+        const target = document.getElementById(this.getAttribute("data-target"));
+        if (target.style.display === "none") {
+          target.style.display = "block";
+          // Apply highlighting when the content is shown
+          hljs.highlightElement(code); // Make sure to highlight after appending
+        } else {
+          target.style.display = "none";
+        }
+      });
+    });
   }
 });
 
@@ -274,9 +293,9 @@ async function applyBoxState(savedStates) {
     // Fetch the hardware information from the API
 
     const DC02_HARDWARE = await fetchHardwareInfo();
-	  console.log('dc2hw',DC02_HARDWARE);
+    console.log('dc2hw', DC02_HARDWARE);
     let a = checkBoxPosition(DC02_HARDWARE, savedStates);
-    console.log('mismatched',a)
+    console.log('mismatched', a)
     document.querySelectorAll(".box").forEach((box) => {
       const boxState = savedStates.find((state) => state[box.id]);
 
@@ -498,13 +517,13 @@ function countRunningMachines(jsonData) {
 
   // Iterate over each object in the array
   jsonData.forEach(obj => {
-      // Iterate over the properties of each object
-      Object.values(obj).forEach(value => {
-          // Check if the color property is "green"
-          if (value.color === "green") {
-              greenCounter++;
-          }
-      });
+    // Iterate over the properties of each object
+    Object.values(obj).forEach(value => {
+      // Check if the color property is "green"
+      if (value.color === "green") {
+        greenCounter++;
+      }
+    });
   });
 
   return greenCounter;
