@@ -26,5 +26,5 @@ app.get('/', (req, res) => {
 
 
 app.listen(config.FRONTEND_SERVER_PORT, () => {
-    console.log(`Server running on http://localhost:${config.FRONTEND_SERVER_PORT}`);
+    console.log(`Server started on port ${config.FRONTEND_SERVER_PORT}`);
 });
