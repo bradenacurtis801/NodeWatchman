@@ -1,15 +1,8 @@
-const os = require('os');
-
-function checkOS() {
-  const operatingSystem = os.type();
-
-  if (operatingSystem === 'Linux') {
-    console.log(`The operating system is: ${operatingSystem}`);
-  } else {
-    throw new Error('This script is only supported on Linux operating systems.');
-  }
-}
-// checkOS();
+// CHECK IF COMPUTER OS IS COMPATIBLE
+//////////////////////////////////////////////////
+const checkOS = require('../Utils/chk_os.js');
+checkOS();
+//////////////////////////////////////////////////
 
 const express = require('express');
 const bodyParser = require('body-parser');

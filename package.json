@@ -3,11 +3,12 @@
     "axios": "^1.6.8",
     "cheerio": "^1.0.0-rc.12",
     "config": "^3.3.11",
+    "pm2": "^5.3.1",
     "puppeteer": "^22.6.0",
     "uuid": "^9.0.1"
   },
   "name": "nodewatchman",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "temp.js",
   "scripts": {
     "start-backend": "node ./BackEnd/server.js",
