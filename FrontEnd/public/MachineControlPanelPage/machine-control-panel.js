@@ -2,14 +2,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // REFACTOR CODE //
   /////////////////////////////////////////////////////
-  let boxState
-  try {
-    boxState = await loadBoxState();
-  } catch (error) {
-    // Handle errors here
-    console.error(error);
-  }
-  // console.log('boxState',boxState)
 
   function updateTotalMachines(runningMachines, totalMachines) {
     const runningMachinesPlaceholder = document.getElementById("running-machines-placeholder");
@@ -19,9 +11,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     runningMachinesPlaceholder.textContent = runningMachines !== undefined ? runningMachines : '*';
     totalMachinesPlaceholder.textContent = totalMachines !== undefined ? totalMachines : '*';
   }
-  const runningMachines = countRunningMachines(boxState)
-  const totalMachines = manager.getMachineCount()
-  updateTotalMachines(runningMachines, totalMachines)
+
+  async function initializeBoxState() {
+    let boxState;
+    try {
+      boxState = await loadBoxState();
+      // Proceed with operations that depend on boxState
+      const runningMachines = countRunningMachines(boxState);
+      const totalMachines = manager.getMachineCount();
+      updateTotalMachines(runningMachines, totalMachines);
+    } catch (error) {
+      console.error(error);
+      // Handle error, possibly updating the UI to reflect the failure
+    }
+  }
+
+  // Call initializeBoxState without awaiting it, allowing the DOMContentLoaded event to complete.
+  initializeBoxState();
   //////////////////////////////////////////////////////
 
   const runCustomScriptBtn = document.getElementById("runCustomScriptBtn");
@@ -34,7 +40,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const logoutBtn = document.getElementById('logoutBtn');
   const selectAllBtn = document.getElementById('selectAllBtn');
   const clearAllBtn = document.getElementById('clearAllBtn');
-
 
   runCustomScriptBtn.addEventListener("click", () => {
     customScriptModal.style.display = "block";
@@ -176,15 +181,15 @@ startCommandBtn.addEventListener("click", async () => {
     console.log('current commands:', commandExecutions);
 });
 
-  
+
 
   updateNodesBtn.addEventListener("click", async () => {
       const ipsString = manager.getIpAll();
       const bashCode = `
     ip addr | awk '
-    $1 ~ /^[0-9]+:/ { 
+    $1 ~ /^[0-9]+:/ {
         if (iface != "" && mac != "") print iface": "mac;
-        iface = $2; sub(/:$/, "", iface); mac = ""; 
+        iface = $2; sub(/:$/, "", iface); mac = "";
     }
     $1 == "link/ether" { mac = $2; }
     END {
@@ -293,7 +298,6 @@ async function applyBoxState(savedStates) {
     // Fetch the hardware information from the API
 
     const DC02_HARDWARE = await fetchHardwareInfo();
-    console.log('dc2hw', DC02_HARDWARE);
     let a = checkBoxPosition(DC02_HARDWARE, savedStates);
     console.log('mismatched', a)
     document.querySelectorAll(".box").forEach((box) => {
@@ -366,9 +370,9 @@ function generateIdFromIp(ip) {
 function reformatJsonArray(jsonArray, outputFile = null) {
   /*
     Transforms the input JSON array by filtering out entries with errors and reformatting the ethernet interface data.
-    
+
     Example Transformation:
-    
+
     Before:
     [{
       "machine1": {
@@ -381,7 +385,7 @@ function reformatJsonArray(jsonArray, outputFile = null) {
         "color": "green"
       }
     }]
-    
+
     After:
     [{
       "machine1": {

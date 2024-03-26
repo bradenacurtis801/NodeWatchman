@@ -2,16 +2,24 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
     event.preventDefault(); // Prevent the form from submitting the traditional way
     
     const formData = new FormData(event.target);
-    const email = formData.get('username');
+    const email = formData.get('username'); // Assuming 'username' is the field name for email
     const password = formData.get('password');
     const confirmPassword = document.getElementById('confirmPassword').value;
-    const bodyData = { email, password };
-    console.log('bodydata', bodyData);
 
+    // Check if any of the fields are empty
+    if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
+        alert('Please fill out all fields.');
+        return; // Stop further execution if any field is empty
+    }
+
+    // Check if passwords match
     if (password !== confirmPassword) {
         alert('Passwords do not match. Please try again.');
-        return;
+        return; // Stop further execution if passwords do not match
     }
+
+    const bodyData = { email, password };
+    console.log('bodydata', bodyData);
 
     try {
         const response = await fetch(`http://${config.BACKEND_SERVER_IP}/register`, {
@@ -25,12 +33,9 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
         if (contentType && contentType.indexOf("application/json") !== -1) {
             const responseData = await response.json(); // Safely parsing the JSON
 
-            if (response.ok) {
-                alert('Registration successful!');
-                window.location.href = './login.html'; // Redirect to login page after successful registration
-            } else if (response.status === 202 && responseData.message === 'Sign-up request submitted. Please wait for administrator approval.') {
+            if (response.status === 202 && responseData.message === 'Sign-up request submitted. Please wait for administrator approval.') {
                 alert('Sign-up request submitted. Please wait for administrator approval.');
-                window.location.href = './login.html'
+                window.location.href = './login.html';
             } else {
                 // Handle other server-side messages
                 alert(responseData.message || 'Registration failed. Please try again.');
@@ -47,6 +52,5 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
 });
 
 document.getElementById('loginBtn').addEventListener('click', function() {
-    window.location.href = './login.html'; // Navigate to login.html
+    window.location.href = '../LoginPage/login.html'; // Navigate to login.html
 });
-
