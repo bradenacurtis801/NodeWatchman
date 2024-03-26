@@ -13,7 +13,6 @@ function isTokenExpired(token) {
   
   function checkAndHandleTokenExpiration() {
     // USED FOR TESTING UNCOMMENT LINE BELOW FOR PRODUCTION
-    return false
     const token = localStorage.getItem('token');
     if (!token || isTokenExpired(token)) {
       alert('Session expired. Please log in again.');

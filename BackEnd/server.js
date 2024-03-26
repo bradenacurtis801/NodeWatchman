@@ -1,17 +1,8 @@
-const os = require('os');
-
-function checkOS() {
-  const operatingSystem = os.type();
-
-  if (operatingSystem === 'Linux') {
-    console.log(`The operating system is: ${operatingSystem}`);
-  } else {
-    throw new Error('This script is only supported on Linux operating systems.');
-  }
-}
+// CHECK IF COMPUTER OS IS COMPATIBLE
+//////////////////////////////////////////////////
+const checkOS = require('../Utils/chk_os.js');
 checkOS();
-
-
+//////////////////////////////////////////////////
 
 const express = require('express');
 const fs = require('fs').promises; 
@@ -322,6 +313,7 @@ app.post('/interact/update-machine-state', async (req, res) => {
 
 app.get('/interact/load-machine-state', async (req, res) => {
     try {
+        console.log('here')
         let dataFile = INTERACTIVE_NODES_FILE;
 
         const data = await fs.readFile(dataFile, 'utf8');
