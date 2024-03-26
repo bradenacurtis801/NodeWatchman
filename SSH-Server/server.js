@@ -104,6 +104,6 @@ app.get('/get-nh-rig-status', async (req, res) => {
 
 
 app.listen(config.SSH_SERVER_PORT, '0.0.0.0', () => {
-    console.log(`Server running at http://localhost:${config.SSH_SERVER_PORT}`);
+    console.log(`Server started on port ${config.SSH_SERVER_PORT}`);
 });
 
