@@ -21,7 +21,8 @@ console.log('server.js dir:', __dirname)
 
 // Route to serve the home.html file
 app.get('/', (req, res) => {
-    res.redirect('/LoginPage/login.html');
+   // res.redirect('/LoginPage/login.html');
+   res.redirect('/MachineControlPanelPage/machine-control-panel.html');
 });
 
 
