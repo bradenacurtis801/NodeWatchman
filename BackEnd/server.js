@@ -3,6 +3,7 @@
 const checkOS = require('../Utils/chk_os.js');
 checkOS();
 //////////////////////////////////////////////////
+console.log("Current Working Directory:", process.cwd());
 
 const express = require('express');
 const fs = require('fs').promises; 
@@ -19,7 +20,7 @@ const { v4: uuidv4 } = require('uuid');
 const { readUsersFromFile, writeUsersToFile } = require('./userdb_models');
 
 const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
-const MACHINE_STATE_FILE = './/db/machineState.json';
+const MACHINE_STATE_FILE = './db/machineState.json';
 const USERS_FILE = './db/users.json';
 const RBM_NODES_FILE = './db/rbm_nodes.json';
 const INTERACTIVE_NODES_FILE = './db/interactive_nodes.json';
@@ -353,6 +354,7 @@ app.get('/interact/dc02-hardware-info', async (req, res) => {
 });
 
 function authenticateToken(req, res, next) {
+    return
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     console.log(token)

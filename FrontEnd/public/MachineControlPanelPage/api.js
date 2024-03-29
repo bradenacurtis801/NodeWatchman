@@ -1,7 +1,7 @@
-_config = dev
+//_config = dev
 
 // uncomment to use production env variables
-// _config = prod
+ _config = prod
 
 async function executeScript(ipsString, bashCode) {
     const executeScriptUrl = `http://${_config.SSH_SERVER}/execute-script`;
