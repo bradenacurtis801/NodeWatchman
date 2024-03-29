@@ -1,16 +1,23 @@
 [
   {
-    "ip": "10.10.21.1",
+    "ip": "10.10.112.11",
     "result": {
-      "cmd": "sleep 10\n",
-      "output": ""
+      "cmd": "sudo reboot",
+      "output": "Connection to 10.10.112.11 closed by remote host.\r"
     }
   },
   {
-    "ip": "10.10.21.2",
+    "ip": "10.10.112.16",
     "result": {
-      "cmd": "sleep 10\n",
-      "output": ""
+      "cmd": "sudo reboot",
+      "output": "Connection to 10.10.112.16 closed by remote host.\r"
+    }
+  },
+  {
+    "ip": "10.10.112.17",
+    "result": {
+      "cmd": "sudo reboot",
+      "output": "Connection to 10.10.112.17 closed by remote host.\r"
     }
   }
 ]

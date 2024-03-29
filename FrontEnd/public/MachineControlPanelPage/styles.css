@@ -1,10 +1,12 @@
 body {
+  background-color: #1a1a1a; /* Dark gray background */
+  color: #ffffff; /* White text color for better contrast */
   min-height: 100vh; /* 100% of the viewport height */
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-    justify-content: center;
-    /* border: 2px solid black; */
+  justify-content: center;
+  /* border: 2px solid black; */
 }
 
 .main-container {
@@ -340,9 +342,9 @@ input:checked+.slider:before {
 }
 
 .drag-selected {
-  border: 5px solid black;
-  margin: -5px;
-  /* Compensates for the outline size */
+  border: 2px solid #11e1ff;
+  /* match border thickness to outline width. */
+  margin: -2px;
 }
 
 /* TEMPORARY */
@@ -360,7 +362,7 @@ input:checked+.slider:before {
 }
 
 .modal-content {
-  background-color: #fefefe;
+  background-color: #000000e0;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
