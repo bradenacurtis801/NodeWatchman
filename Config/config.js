@@ -10,5 +10,5 @@ const config = {
     SSH_SERVER_PORT: '5000'
   };
   
-module.exports = config;  
+  export default config;  
   

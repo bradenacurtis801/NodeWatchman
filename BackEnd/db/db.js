@@ -1,14 +1,19 @@
-const { Pool } = require('pg');
+// db.js
 
-// Configure the PostgreSQL connection pool
+import pg from 'pg';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: '../.env' });
+
+const { Pool } = pg; // Destructure Pool from pg
+
 const pool = new Pool({
-    user: 'your_username',
-    host: 'your_database_host',
-    database: 'your_database_name',
-    password: 'your_database_password',
-    port: 5432, // PostgreSQL default port
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT, // PostgreSQL default port
     ssl: false // Set to true if using SSL
 });
 
-// Export the connection pool
-module.exports = pool;
+export default pool;

@@ -1,4 +1,4 @@
-const os = require('os');
+import os from 'os';
 
 function checkOS() {
     // UNCOMMENT FOR DEBUGGING PURPOSES
@@ -14,4 +14,4 @@ function checkOS() {
     }
   }
 
-module.exports = checkOS
+export default checkOS
