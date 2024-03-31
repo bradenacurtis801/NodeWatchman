@@ -399,7 +399,8 @@
         "MAC (NIC-13) veth96181fef@if2": "c6:78:8c:91:48:72",
         "MAC (NIC-14) veth6b5ca77f@if2": "46:65:40:8b:61:3e",
         "MAC (NIC-15) veth5632551@if21": "4a:b8:a8:33:77:65",
-        "MAC (NIC-16) vethbdbc67c7@if2": "5a:1d:d1:ac:3d:19"
+        "MAC (NIC-16) vethbdbc67c7@if2": "5a:1d:d1:ac:3d:19",
+        "MAC (NIC-17) vethea1be37f@if2": "66:6b:1a:2f:fc:b4"
       },
       "color": "green"
     }
@@ -422,7 +423,8 @@
         "MAC (NIC-12) vethe365ecf5@if2": "46:96:da:89:d6:60",
         "MAC (NIC-13) vethcfae104b@if2": "76:2b:ba:33:30:bf",
         "MAC (NIC-14) veth718754d9@if2": "aa:07:ad:67:8d:07",
-        "MAC (NIC-15) vethabbdf29b@if2": "82:6a:ea:f9:b2:0c"
+        "MAC (NIC-15) vethabbdf29b@if2": "82:6a:ea:f9:b2:0c",
+        "MAC (NIC-16) veth19bddd31@if2": "a2:71:1d:8f:20:ba"
       },
       "color": "green"
     }
@@ -447,7 +449,8 @@
         "MAC (NIC-14) vethe05b2ba1@if2": "52:af:66:b9:ab:08",
         "MAC (NIC-15) veth17afadb@if20": "92:c9:bb:43:7d:e9",
         "MAC (NIC-16) veth43a2c1cd@if2": "be:5b:14:e6:ac:52",
-        "MAC (NIC-17) veth913ad386@if2": "8e:5c:72:8c:8d:09"
+        "MAC (NIC-17) veth913ad386@if2": "8e:5c:72:8c:8d:09",
+        "MAC (NIC-18) vethe9e1eeaf@if2": "b6:50:01:e5:fc:f7"
       },
       "color": "green"
     }
@@ -3681,30 +3684,8 @@
   {
     "B1-111-1": {
       "ip": "10.10.111.1",
-      "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:b5:6e",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b5:6e",
-        "MAC (NIC-3) bond0": "74:86:e2:13:b5:6e",
-        "MAC (NIC-4) docker0": "02:42:58:43:bd:de",
-        "MAC (NIC-5) flannel.1": "62:ad:53:c5:56:25",
-        "MAC (NIC-6) cni0": "5a:9d:47:99:d7:b3",
-        "MAC (NIC-7) veth8d02828a@if2": "0e:94:ca:08:d3:8d",
-        "MAC (NIC-8) vetha5dbd0bb@if2": "86:35:0d:e4:26:ee",
-        "MAC (NIC-9) vethef93bcae@if2": "76:28:2b:b8:46:22",
-        "MAC (NIC-10) vethf73840e5@if2": "fa:78:de:b0:0d:45",
-        "MAC (NIC-11) veth01dfa982@if2": "32:75:ed:4f:dc:34",
-        "MAC (NIC-12) veth13bebe43@if2": "c2:33:57:64:8f:7d",
-        "MAC (NIC-13) veth5673b030@if2": "f2:e0:5b:ce:c9:8b",
-        "MAC (NIC-14) veth1f430d24@if2": "8a:7e:3b:b8:00:5e",
-        "MAC (NIC-15) veth9150312b@if2": "9a:51:e7:f9:35:4c",
-        "MAC (NIC-16) vethaedebda7@if2": "0e:76:34:5d:ff:c3",
-        "MAC (NIC-17) veth7058677e@if2": "6a:61:dc:a8:3f:2c",
-        "MAC (NIC-18) veth2108663d@if2": "56:c6:a6:c1:a3:59",
-        "MAC (NIC-19) veth3d2ad0b2@if2": "e2:a2:5d:10:53:ef",
-        "MAC (NIC-20) veth846a216e@if2": "22:0c:6b:d5:89:5b",
-        "MAC (NIC-21) vethfa8f48c2@if2": "96:8a:59:82:f2:f1"
-      },
-      "color": "green"
+      "error": "No route to host",
+      "color": "red"
     }
   },
   {
@@ -3742,7 +3723,8 @@
         "MAC (NIC-22) veth9995f85d@if2": "be:1c:be:64:80:46",
         "MAC (NIC-23) vethb8f1e980@if2": "36:a8:32:42:1a:44",
         "MAC (NIC-24) vethef647e74@if2": "ea:ff:52:9a:5e:69",
-        "MAC (NIC-25) vethad7dc9b5@if2": "ae:3d:42:d4:24:ec"
+        "MAC (NIC-25) vethad7dc9b5@if2": "ae:3d:42:d4:24:ec",
+        "MAC (NIC-26) vethf6f51ce8@if2": "72:49:82:fc:1b:ed"
       },
       "color": "green"
     }
@@ -3762,45 +3744,18 @@
   {
     "B1-111-5": {
       "ip": "10.10.111.5",
-      "ethernet_interfaces": {
-        "MAC (NIC-1) enp2s0": "74:86:e2:13:8b:62",
-        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:8b:62",
-        "MAC (NIC-3) bond0": "74:86:e2:13:8b:62",
-        "MAC (NIC-4) docker0": "02:42:53:4d:fa:50",
-        "MAC (NIC-5) flannel.1": "ba:08:df:87:af:f6",
-        "MAC (NIC-6) cni0": "9e:58:d7:43:4c:6b",
-        "MAC (NIC-7) veth36935458@if2": "de:8e:d0:46:f2:58",
-        "MAC (NIC-8) veth05661cf2@if2": "5a:d7:71:05:d5:aa",
-        "MAC (NIC-9) veth2775ef91@if2": "be:ab:de:4a:5c:d7",
-        "MAC (NIC-10) veth3af598ca@if2": "02:7b:8e:48:88:93",
-        "MAC (NIC-11) vethdf16c29b@if2": "42:57:f3:e5:a4:bc",
-        "MAC (NIC-12) veth95707379@if2": "5e:47:ee:44:05:6f",
-        "MAC (NIC-13) veth6966309c@if2": "36:f5:d0:71:4f:dd",
-        "MAC (NIC-14) veth43aae28d@if2": "0a:4a:0a:09:2f:1f",
-        "MAC (NIC-15) veth70aeba0@if20": "96:7a:c0:f7:85:73",
-        "MAC (NIC-16) veth43fe721e@if2": "ee:28:22:8f:34:e5",
-        "MAC (NIC-17) vethc1593625@if2": "a6:96:2a:64:93:83",
-        "MAC (NIC-18) veth1c2e22d1@if2": "ba:8c:7d:5e:2d:5e",
-        "MAC (NIC-19) veth03049867@if2": "de:ee:0a:a8:55:68",
-        "MAC (NIC-20) veth6871bafc@if2": "96:af:62:fb:5f:c7",
-        "MAC (NIC-21) vethec7b024b@if2": "0e:3b:4b:8f:cd:35",
-        "MAC (NIC-22) vethed186109@if2": "9a:ba:48:d7:07:22",
-        "MAC (NIC-23) veth93b8edec@if2": "62:34:0d:89:fc:7a",
-        "MAC (NIC-24) veth5e6508a7@if2": "c2:20:01:7e:2d:17",
-        "MAC (NIC-25) veth2c2e8dcd@if2": "8a:1b:64:87:08:fa"
-      },
-      "color": "green"
+      "error": "No route to host",
+      "color": "red"
     }
   },
   {
     "B1-111-6": {
       "ip": "10.10.111.6",
       "ethernet_interfaces": {
-        "MAC (NIC-1) Warning": "Permanently added '10.10.111.6' (ED25519) to the list of known hosts.\r",
-        "MAC (NIC-2) enp2s0": "74:86:e2:13:a2:12",
-        "MAC (NIC-3) enp0s31f6": "74:86:e2:13:a2:12",
-        "MAC (NIC-4) bond0": "74:86:e2:13:a2:12",
-        "MAC (NIC-5) docker0": "02:42:d3:1a:59:68"
+        "MAC (NIC-1) enp2s0": "74:86:e2:13:a2:12",
+        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:a2:12",
+        "MAC (NIC-3) bond0": "74:86:e2:13:a2:12",
+        "MAC (NIC-4) docker0": "02:42:d3:1a:59:68"
       },
       "color": "green"
     }
@@ -3812,7 +3767,7 @@
         "MAC (NIC-1) enp2s0": "74:86:e2:10:6c:99",
         "MAC (NIC-2) enp0s31f6": "74:86:e2:10:6c:99",
         "MAC (NIC-3) bond0": "74:86:e2:10:6c:99",
-        "MAC (NIC-4) docker0": "02:42:a6:49:b0:c1"
+        "MAC (NIC-4) docker0": "02:42:5b:d4:20:a8"
       },
       "color": "green"
     }
@@ -3821,11 +3776,10 @@
     "B1-111-8": {
       "ip": "10.10.111.8",
       "ethernet_interfaces": {
-        "MAC (NIC-1) Warning": "Permanently added '10.10.111.8' (ED25519) to the list of known hosts.\r",
-        "MAC (NIC-2) enp2s0": "74:86:e2:13:8b:52",
-        "MAC (NIC-3) enp0s31f6": "74:86:e2:13:8b:52",
-        "MAC (NIC-4) bond0": "74:86:e2:13:8b:52",
-        "MAC (NIC-5) docker0": "02:42:3a:ce:a6:1e"
+        "MAC (NIC-1) enp2s0": "74:86:e2:13:8b:52",
+        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:8b:52",
+        "MAC (NIC-3) bond0": "74:86:e2:13:8b:52",
+        "MAC (NIC-4) docker0": "02:42:cc:1c:30:d0"
       },
       "color": "green"
     }
@@ -3856,7 +3810,8 @@
         "MAC (NIC-20) vethd7ff8881@if2": "de:3a:42:41:ce:e2",
         "MAC (NIC-21) veth0dd5fe55@if2": "8e:3a:b6:fa:8a:4c",
         "MAC (NIC-22) veth807c9c3b@if2": "c6:51:3e:c6:ce:33",
-        "MAC (NIC-23) vethf817fbb9@if2": "62:13:89:5d:3c:b8"
+        "MAC (NIC-23) vethf817fbb9@if2": "62:13:89:5d:3c:b8",
+        "MAC (NIC-24) veth89812e0e@if2": "72:9c:6d:fc:af:2b"
       },
       "color": "green"
     }
@@ -3887,7 +3842,8 @@
         "MAC (NIC-20) vethdf4866a8@if2": "d2:38:f4:6f:2c:eb",
         "MAC (NIC-21) vethe59619be@if2": "ee:34:46:1f:b9:f6",
         "MAC (NIC-22) vethf27b5ca4@if2": "ae:ad:cc:ff:cd:4a",
-        "MAC (NIC-23) vetheca93bad@if2": "86:f1:81:e0:c1:66"
+        "MAC (NIC-23) vetheca93bad@if2": "86:f1:81:e0:c1:66",
+        "MAC (NIC-24) vethd56693ad@if2": "8a:81:8e:67:97:78"
       },
       "color": "green"
     }
@@ -3902,8 +3858,14 @@
   {
     "B1-111-12": {
       "ip": "10.10.111.12",
-      "error": "No route to host",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) Warning": "Permanently added '10.10.111.12' (ED25519) to the list of known hosts.\r",
+        "MAC (NIC-2) enp2s0": "74:86:e2:10:65:a3",
+        "MAC (NIC-3) enp0s31f6": "74:86:e2:10:65:a3",
+        "MAC (NIC-4) bond0": "74:86:e2:10:65:a3",
+        "MAC (NIC-5) docker0": "02:42:ac:a1:6e:23"
+      },
+      "color": "green"
     }
   },
   {
@@ -3931,7 +3893,8 @@
         "MAC (NIC-19) veth0f64329f@if2": "2e:02:51:6d:bd:8f",
         "MAC (NIC-20) veth2db1cc22@if2": "ee:60:a0:db:83:96",
         "MAC (NIC-21) vethdbda25e0@if2": "66:01:af:bc:27:00",
-        "MAC (NIC-22) vethe9d5c48f@if2": "36:46:1c:3a:1c:58"
+        "MAC (NIC-22) vethe9d5c48f@if2": "36:46:1c:3a:1c:58",
+        "MAC (NIC-23) veth52bb2bb5@if2": "36:53:4c:74:fa:17"
       },
       "color": "green"
     }
@@ -3968,25 +3931,29 @@
     "B1-111-18": {
       "ip": "10.10.111.18",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp0s31f6": "74:86:e2:13:8d:7b",
-        "MAC (NIC-2) enp2s0": "74:86:e2:13:8d:7b",
+        "MAC (NIC-1) enp2s0": "74:86:e2:13:8d:7b",
+        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:8d:7b",
         "MAC (NIC-3) bond0": "74:86:e2:13:8d:7b",
-        "MAC (NIC-4) docker0": "02:42:8c:f3:72:e3",
+        "MAC (NIC-4) docker0": "02:42:af:4f:0c:fd",
         "MAC (NIC-5) flannel.1": "82:80:00:ea:f2:8d",
-        "MAC (NIC-6) cni0": "ea:10:97:bc:22:ce",
-        "MAC (NIC-7) veth39048d51@if2": "2a:d5:68:7f:fc:3d",
-        "MAC (NIC-8) veth3e3b9d43@if2": "9a:b6:14:83:c7:b7",
-        "MAC (NIC-9) veth526e64ff@if2": "86:c4:9f:33:05:3e",
-        "MAC (NIC-10) vethb2b49e12@if2": "be:be:82:a6:ea:07",
-        "MAC (NIC-11) veth3d7bdcac@if2": "9a:82:3c:1c:e0:5c",
-        "MAC (NIC-12) vethf8d1a463@if2": "82:83:a2:d5:b5:b4",
-        "MAC (NIC-13) vethe1f97ff4@if2": "8e:0e:39:81:1b:68",
-        "MAC (NIC-14) veth5e0530d9@if2": "2a:d0:a4:1e:de:c9",
-        "MAC (NIC-15) veth8a0cbaf2@if2": "d6:fa:a5:03:fb:59",
-        "MAC (NIC-16) veth48c0c4ac@if2": "f6:99:b4:bf:ec:c4",
-        "MAC (NIC-17) veth9e04cacd@if2": "4a:3f:e8:cc:cb:89",
-        "MAC (NIC-18) veth8abd14b4@if2": "b2:e6:c4:07:ca:4b",
-        "MAC (NIC-19) veth707aee17@if2": "ea:c5:be:8a:f8:90"
+        "MAC (NIC-6) cni0": "4e:39:e8:33:3b:47",
+        "MAC (NIC-7) veth5390b3ff@if2": "ba:85:ed:f9:e8:f9",
+        "MAC (NIC-8) veth3f4b4a6e@if2": "f6:7a:4c:5a:e3:54",
+        "MAC (NIC-9) veth051ecd1d@if2": "ba:89:68:a3:87:8e",
+        "MAC (NIC-10) veth8d7a0f28@if2": "92:52:bb:72:48:29",
+        "MAC (NIC-11) veth01593941@if2": "da:b5:30:57:e8:f2",
+        "MAC (NIC-12) veth0eca6593@if2": "aa:54:65:21:f5:f9",
+        "MAC (NIC-13) veth52d4f93b@if2": "8e:9d:2f:64:6b:64",
+        "MAC (NIC-14) vethf894f12b@if2": "7a:2d:61:7a:2d:4b",
+        "MAC (NIC-15) veth4644a051@if2": "02:51:56:62:d6:a2",
+        "MAC (NIC-16) vethfda6cabc@if2": "02:58:42:79:52:52",
+        "MAC (NIC-17) vetha246204c@if2": "26:0e:0d:b3:c5:99",
+        "MAC (NIC-18) vethd1bd5087@if2": "ee:b0:3e:a7:2b:be",
+        "MAC (NIC-19) veth337b0aba@if2": "9a:1f:96:b2:55:47",
+        "MAC (NIC-20) veth6270ff6d@if2": "6e:c3:bc:53:50:16",
+        "MAC (NIC-21) veth0110a0d2@if2": "ce:81:b9:64:8d:b2",
+        "MAC (NIC-22) veth0f513c2d@if2": "1e:69:cd:e2:df:b3",
+        "MAC (NIC-23) veth47985a51@if2": "62:e8:64:05:35:27"
       },
       "color": "green"
     }
@@ -4015,7 +3982,9 @@
         "MAC (NIC-18) veth362ec44a@if2": "c2:b5:d3:4e:12:93",
         "MAC (NIC-19) vetha5a3fe9c@if2": "ae:4b:53:2f:df:a6",
         "MAC (NIC-20) veth028c8fe5@if2": "f6:e2:98:e1:5d:94",
-        "MAC (NIC-21) veth22c03866@if2": "26:51:a6:07:e6:61"
+        "MAC (NIC-21) veth22c03866@if2": "26:51:a6:07:e6:61",
+        "MAC (NIC-22) veth54c3e1f4@if2": "86:b4:c2:67:03:21",
+        "MAC (NIC-23) vethd372cc99@if2": "86:55:78:a9:c2:29"
       },
       "color": "green"
     }
@@ -4046,7 +4015,8 @@
         "MAC (NIC-20) veth959272ea@if2": "ee:4a:1e:c4:45:a9",
         "MAC (NIC-21) vethca5376a1@if2": "26:5f:4a:8c:d9:b7",
         "MAC (NIC-22) veth03d84669@if2": "7a:95:b1:2f:72:8e",
-        "MAC (NIC-23) veth053d8f84@if2": "e6:c6:1b:9e:6e:97"
+        "MAC (NIC-23) veth053d8f84@if2": "e6:c6:1b:9e:6e:97",
+        "MAC (NIC-24) veth4001b4c1@if2": "2a:18:89:e7:08:81"
       },
       "color": "green"
     }
@@ -4073,7 +4043,11 @@
         "MAC (NIC-16) veth57cdd6b2@if2": "02:30:06:89:d0:6f",
         "MAC (NIC-17) veth0358d18b@if2": "9a:e3:20:6e:f7:e9",
         "MAC (NIC-18) vethdb38ca60@if2": "12:65:10:bc:73:b3",
-        "MAC (NIC-19) vethd4aee565@if2": "32:18:33:b5:27:0e"
+        "MAC (NIC-19) vethd4aee565@if2": "32:18:33:b5:27:0e",
+        "MAC (NIC-20) veth1925f829@if2": "e2:e0:d6:4e:1d:97",
+        "MAC (NIC-21) veth7fcfcfc7@if2": "9e:f9:5a:75:e9:39",
+        "MAC (NIC-22) veth1e0ce373@if2": "9e:8e:3d:59:58:b8",
+        "MAC (NIC-23) veth892211ab@if2": "8e:bb:58:37:71:62"
       },
       "color": "green"
     }
@@ -4091,7 +4065,12 @@
         "MAC (NIC-7) vethd88254e9@if2": "ea:c5:ed:b0:e7:78",
         "MAC (NIC-8) veth376a7cee@if2": "d2:0a:0e:9b:99:d1",
         "MAC (NIC-9) veth843e9157@if2": "36:c2:bb:d3:06:18",
-        "MAC (NIC-10) veth4bebe426@if2": "96:6c:f3:9c:3f:13"
+        "MAC (NIC-10) veth4bebe426@if2": "96:6c:f3:9c:3f:13",
+        "MAC (NIC-11) veth1b029f63@if2": "26:15:8f:7f:2a:88",
+        "MAC (NIC-12) veth95628540@if2": "82:00:e6:20:1a:9e",
+        "MAC (NIC-13) veth616a1528@if2": "42:6a:05:50:7d:2f",
+        "MAC (NIC-14) vethcc7b5b1e@if2": "b6:e1:c9:90:84:8e",
+        "MAC (NIC-15) veth992990d7@if2": "62:a5:4a:50:4b:b6"
       },
       "color": "green"
     }
@@ -4116,7 +4095,11 @@
         "MAC (NIC-14) vethaf3cc242@if2": "ea:0c:1c:78:6f:97",
         "MAC (NIC-15) veth7df72e5c@if2": "46:b3:82:64:15:e7",
         "MAC (NIC-16) veth21d940d3@if2": "ba:6a:35:90:07:d8",
-        "MAC (NIC-17) veth4c894841@if2": "f2:29:61:14:46:d9"
+        "MAC (NIC-17) veth4c894841@if2": "f2:29:61:14:46:d9",
+        "MAC (NIC-18) vethc47ee8e5@if2": "b2:21:94:98:89:43",
+        "MAC (NIC-19) vethb14608e9@if2": "c2:18:ef:c7:c7:b8",
+        "MAC (NIC-20) vethbd1241ba@if2": "26:98:af:e2:97:18",
+        "MAC (NIC-21) veth50a4dd27@if2": "52:0c:65:82:fb:9a"
       },
       "color": "green"
     }
@@ -4145,7 +4128,14 @@
         "MAC (NIC-11) veth4e234523@if2": "22:08:33:27:89:7f",
         "MAC (NIC-12) veth0793a6ae@if2": "72:7f:c4:08:78:ba",
         "MAC (NIC-13) vethb72a9f46@if2": "ea:91:b3:4e:6b:22",
-        "MAC (NIC-14) vethaad85cd4@if2": "92:6e:89:d3:bf:d1"
+        "MAC (NIC-14) vethaad85cd4@if2": "92:6e:89:d3:bf:d1",
+        "MAC (NIC-15) veth2f38195b@if2": "52:56:ed:35:79:7f",
+        "MAC (NIC-16) veth41be02c6@if2": "ae:e6:17:00:57:71",
+        "MAC (NIC-17) vethed18eff8@if2": "2a:c3:a8:69:09:48",
+        "MAC (NIC-18) veth25b756a2@if2": "16:bd:20:34:4d:47",
+        "MAC (NIC-19) veth27113c38@if2": "be:24:5d:4d:ff:6a",
+        "MAC (NIC-20) veth818e2f71@if2": "82:94:e3:0a:d9:1e",
+        "MAC (NIC-21) veth46afaf29@if2": "b2:bc:be:b6:f7:7c"
       },
       "color": "green"
     }
@@ -4168,7 +4158,13 @@
         "MAC (NIC-12) veth2d55bab4@if2": "be:7a:0b:38:26:25",
         "MAC (NIC-13) veth577001e0@if2": "be:fd:2d:38:fa:f2",
         "MAC (NIC-14) vetha188f713@if2": "76:bb:cc:17:68:92",
-        "MAC (NIC-15) veth5cc736d9@if2": "32:59:d8:9a:5a:e5"
+        "MAC (NIC-15) veth5cc736d9@if2": "32:59:d8:9a:5a:e5",
+        "MAC (NIC-16) veth7d6a3e98@if2": "36:b2:20:c3:4f:3c",
+        "MAC (NIC-17) veth7cfcd7ab@if2": "9e:21:a3:da:5c:95",
+        "MAC (NIC-18) veth4c20bddb@if2": "be:41:e3:12:2e:b2",
+        "MAC (NIC-19) veth1679090f@if2": "ae:78:9b:b0:ec:ae",
+        "MAC (NIC-20) vetha252bac7@if2": "ca:70:e5:39:6a:74",
+        "MAC (NIC-21) vethf0a94493@if2": "de:f0:f4:26:f0:1a"
       },
       "color": "green"
     }
@@ -4190,7 +4186,14 @@
         "MAC (NIC-11) veth9710e0b1@if2": "be:a4:ac:23:5b:b9",
         "MAC (NIC-12) vethb7c59457@if2": "1a:01:a3:47:8b:ed",
         "MAC (NIC-13) veth9fc9cf28@if2": "7a:02:f9:ef:24:73",
-        "MAC (NIC-14) veth90ae4b08@if2": "ee:80:59:f6:60:8c"
+        "MAC (NIC-14) veth90ae4b08@if2": "ee:80:59:f6:60:8c",
+        "MAC (NIC-15) veth98d101fe@if2": "b2:77:bf:f8:4e:eb",
+        "MAC (NIC-16) veth760d9dfd@if2": "da:ab:e3:09:14:bd",
+        "MAC (NIC-17) vethe047960e@if2": "26:b2:8e:02:90:0d",
+        "MAC (NIC-18) vethbe83c3d8@if2": "da:20:07:2d:a8:05",
+        "MAC (NIC-19) vethc1a9ed03@if2": "02:f6:89:0e:d8:50",
+        "MAC (NIC-20) veth12585b33@if2": "ce:11:d9:2b:16:b0",
+        "MAC (NIC-21) veth75ac20aa@if2": "0e:1d:27:2b:1e:3b"
       },
       "color": "green"
     }
@@ -4226,7 +4229,12 @@
         "MAC (NIC-12) veth6822cb58@if2": "ce:5a:ce:b5:90:66",
         "MAC (NIC-13) veth52677c43@if2": "3e:85:75:6f:73:70",
         "MAC (NIC-14) veth4950596b@if2": "2a:cb:e3:b2:28:19",
-        "MAC (NIC-15) veth2a294591@if2": "ba:fe:e9:5d:63:14"
+        "MAC (NIC-15) veth2a294591@if2": "ba:fe:e9:5d:63:14",
+        "MAC (NIC-16) veth40d8e10e@if2": "42:1a:d1:4a:8d:c7",
+        "MAC (NIC-17) veth260b1f98@if2": "e6:79:d2:3d:84:3a",
+        "MAC (NIC-18) vethe952fba8@if2": "26:96:33:c2:09:e3",
+        "MAC (NIC-19) vethdc133519@if2": "fe:c3:c6:31:fa:31",
+        "MAC (NIC-20) vethee1202e1@if2": "3e:cd:b5:41:4e:47"
       },
       "color": "green"
     }
@@ -4248,7 +4256,13 @@
         "MAC (NIC-11) vetha66c0a67@if2": "1a:2d:04:87:bd:ed",
         "MAC (NIC-12) veth09fe51fc@if2": "f6:6e:ca:c5:e0:6a",
         "MAC (NIC-13) veth8396f352@if2": "d6:2f:0b:1a:3d:a8",
-        "MAC (NIC-14) vethf28b8792@if2": "b2:45:d6:de:12:4a"
+        "MAC (NIC-14) vethf28b8792@if2": "b2:45:d6:de:12:4a",
+        "MAC (NIC-15) veth38344acf@if2": "66:02:ab:64:a2:27",
+        "MAC (NIC-16) vethc5bf2602@if2": "1e:a2:d2:66:cb:04",
+        "MAC (NIC-17) veth28780d15@if2": "92:52:43:59:f6:db",
+        "MAC (NIC-18) vethb2414eab@if2": "7e:36:dd:43:be:b6",
+        "MAC (NIC-19) veth92d7daa9@if2": "72:c7:ff:94:ac:f0",
+        "MAC (NIC-20) veth13a03ab4@if2": "8a:20:8e:da:1c:12"
       },
       "color": "green"
     }
@@ -4260,17 +4274,24 @@
         "MAC (NIC-1) enp2s0": "74:86:e2:13:88:a1",
         "MAC (NIC-2) enp0s31f6": "74:86:e2:13:88:a1",
         "MAC (NIC-3) bond0": "74:86:e2:13:88:a1",
-        "MAC (NIC-4) docker0": "02:42:04:a6:26:99",
+        "MAC (NIC-4) docker0": "02:42:a2:b2:cb:e6",
         "MAC (NIC-5) flannel.1": "de:2a:5b:9a:41:9c",
-        "MAC (NIC-6) cni0": "7e:1a:ac:64:1d:30",
-        "MAC (NIC-7) veth752e0dcb@if2": "e6:9a:7c:dc:a1:70",
-        "MAC (NIC-8) vethd8f7e4df@if2": "3a:c7:dd:e4:af:f5",
-        "MAC (NIC-9) vetha8f657de@if2": "1a:8d:ec:51:fe:4c",
-        "MAC (NIC-10) veth3423d7d2@if2": "2a:c1:28:e2:eb:61",
-        "MAC (NIC-11) veth9e18493a@if2": "ea:01:7b:7b:ae:68",
-        "MAC (NIC-12) veth168225a1@if2": "16:a3:a5:04:52:99",
-        "MAC (NIC-13) vethbb42ab95@if2": "76:c5:73:95:2b:ba",
-        "MAC (NIC-14) veth59590f0d@if2": "56:77:82:a5:2f:b4"
+        "MAC (NIC-6) cni0": "86:13:e3:d1:58:22",
+        "MAC (NIC-7) vethe073f2c2@if2": "4e:f0:97:06:ce:bc",
+        "MAC (NIC-8) vethfda0cc8d@if2": "ce:b9:ae:66:78:3b",
+        "MAC (NIC-9) vethb9a0f96c@if2": "1a:e1:33:99:d1:89",
+        "MAC (NIC-10) veth7aa35f94@if2": "c6:5e:24:34:07:34",
+        "MAC (NIC-11) vethd6e3712a@if2": "6e:f1:d3:fa:3f:35",
+        "MAC (NIC-12) veth06a03606@if2": "66:ae:33:08:50:e4",
+        "MAC (NIC-13) vethea2d1955@if2": "ae:ca:9a:90:8d:79",
+        "MAC (NIC-14) veth2855e166@if2": "32:58:ae:ec:ef:20",
+        "MAC (NIC-15) vethb8c4e659@if2": "9e:04:e7:be:d6:69",
+        "MAC (NIC-16) vethf92c5c6f@if2": "f2:cd:a0:45:9d:60",
+        "MAC (NIC-17) veth982c3cca@if2": "fa:25:67:05:d7:53",
+        "MAC (NIC-18) veth94eefa9e@if2": "8e:a9:25:e7:db:5a",
+        "MAC (NIC-19) vethf642011e@if2": "ba:5e:09:d3:d6:4d",
+        "MAC (NIC-20) vethc2bf82bb@if2": "02:83:8c:a4:65:e3",
+        "MAC (NIC-21) veth630caccb@if2": "3a:46:9a:d2:f7:e6"
       },
       "color": "green"
     }
@@ -4293,7 +4314,14 @@
         "MAC (NIC-12) vethd597ca21@if2": "4e:28:05:08:ce:53",
         "MAC (NIC-13) veth7e3d27a2@if2": "36:e9:14:a4:e8:44",
         "MAC (NIC-14) veth431109a@if17": "0e:96:4b:84:f8:d0",
-        "MAC (NIC-15) veth995feff3@if2": "42:20:6a:7a:fa:be"
+        "MAC (NIC-15) veth995feff3@if2": "42:20:6a:7a:fa:be",
+        "MAC (NIC-16) vetha9152ad5@if2": "da:33:56:ed:dd:72",
+        "MAC (NIC-17) vethe2464421@if2": "32:eb:93:01:eb:b9",
+        "MAC (NIC-18) veth8b908e89@if2": "1a:ec:a5:4e:6e:24",
+        "MAC (NIC-19) veth203bf0c2@if2": "ae:3a:a7:9d:a0:c7",
+        "MAC (NIC-20) veth241331cc@if2": "32:0f:83:9f:c9:f7",
+        "MAC (NIC-21) vethf418d2c3@if2": "1a:78:af:97:3d:70",
+        "MAC (NIC-22) veth62e1737b@if2": "8e:3b:d7:98:e4:8c"
       },
       "color": "green"
     }
@@ -4315,7 +4343,13 @@
         "MAC (NIC-11) veth379bee92@if2": "4e:4e:72:40:20:04",
         "MAC (NIC-12) veth89254ae1@if2": "9a:d0:fa:fd:f0:1a",
         "MAC (NIC-13) veth39a6e96f@if2": "12:9b:ce:1a:f8:71",
-        "MAC (NIC-14) vethc0e3ee28@if2": "4e:ec:4b:9a:ed:cd"
+        "MAC (NIC-14) vethc0e3ee28@if2": "4e:ec:4b:9a:ed:cd",
+        "MAC (NIC-15) vethe22e1442@if2": "b6:de:54:4f:95:d9",
+        "MAC (NIC-16) vethe1f9795d@if2": "aa:d9:79:56:30:9e",
+        "MAC (NIC-17) veth6e967c16@if2": "b6:be:b1:23:db:f2",
+        "MAC (NIC-18) veth8c990622@if2": "da:d3:93:0d:8e:43",
+        "MAC (NIC-19) vethbedf487e@if2": "8a:81:ad:cc:71:99",
+        "MAC (NIC-20) veth5ddb5e6a@if2": "72:b6:e3:b8:bf:ed"
       },
       "color": "green"
     }
@@ -4337,7 +4371,13 @@
         "MAC (NIC-11) vethdd610b9c@if2": "6e:ed:5a:4b:cc:dc",
         "MAC (NIC-12) vethcdadd234@if2": "f6:95:41:b0:9e:96",
         "MAC (NIC-13) veth11ca3fd4@if2": "de:37:18:a8:21:82",
-        "MAC (NIC-14) veth5c549fd7@if2": "6a:73:40:e8:33:c1"
+        "MAC (NIC-14) veth5c549fd7@if2": "6a:73:40:e8:33:c1",
+        "MAC (NIC-15) veth1a48ea2e@if2": "46:74:e4:32:a0:01",
+        "MAC (NIC-16) veth6e5ae4fa@if2": "6a:8a:51:9c:d2:cd",
+        "MAC (NIC-17) veth7a27f704@if2": "ba:4e:a2:65:8e:75",
+        "MAC (NIC-18) veth8b652597@if2": "26:73:85:fd:12:c3",
+        "MAC (NIC-19) vethc6707cae@if2": "52:be:92:1c:30:8a",
+        "MAC (NIC-20) veth37bcabe6@if2": "fa:34:dc:51:df:18"
       },
       "color": "green"
     }
@@ -4359,7 +4399,13 @@
         "MAC (NIC-11) veth627fb144@if2": "e2:a6:0e:b6:68:1a",
         "MAC (NIC-12) veth4d373344@if2": "0a:cb:8a:4b:bf:8b",
         "MAC (NIC-13) veth9e1d1ae4@if2": "76:b3:19:97:ef:d7",
-        "MAC (NIC-14) veth0fce33a0@if2": "da:c3:ad:c4:97:2f"
+        "MAC (NIC-14) veth0fce33a0@if2": "da:c3:ad:c4:97:2f",
+        "MAC (NIC-15) veth2cb4525f@if2": "7e:ff:34:f6:79:9b",
+        "MAC (NIC-16) veth95cc1b8c@if2": "be:52:f1:18:e5:5c",
+        "MAC (NIC-17) vethb9cb8583@if2": "4a:5d:c3:91:bd:8d",
+        "MAC (NIC-18) veth8b43da55@if2": "ce:a3:b1:5a:d5:64",
+        "MAC (NIC-19) vethca645b88@if2": "8a:5b:8a:a8:c3:62",
+        "MAC (NIC-20) veth7c39491c@if2": "fe:c7:23:e3:93:11"
       },
       "color": "green"
     }
@@ -4371,17 +4417,23 @@
         "MAC (NIC-1) enp2s0": "74:86:e2:13:88:ea",
         "MAC (NIC-2) enp0s31f6": "74:86:e2:13:88:ea",
         "MAC (NIC-3) bond0": "74:86:e2:13:88:ea",
-        "MAC (NIC-4) docker0": "02:42:6c:7a:a9:f9",
+        "MAC (NIC-4) docker0": "02:42:3c:b7:76:25",
         "MAC (NIC-5) flannel.1": "9a:ce:a9:cc:17:d9",
-        "MAC (NIC-6) cni0": "1a:f1:d8:df:69:b3",
-        "MAC (NIC-7) veth2403450e@if2": "1e:3b:76:18:13:1f",
-        "MAC (NIC-8) vethb58bbdde@if2": "4e:16:24:53:15:d6",
-        "MAC (NIC-9) veth6a3e7aef@if2": "c2:2b:71:ac:7d:8d",
-        "MAC (NIC-10) vethe843b684@if2": "96:88:20:b6:1a:51",
-        "MAC (NIC-11) veth4c77c6a4@if2": "fa:d3:12:36:83:93",
-        "MAC (NIC-12) veth97bcb55c@if2": "fe:fa:45:1c:b4:e2",
-        "MAC (NIC-13) veth35d2f1d2@if2": "16:37:05:1c:23:4f",
-        "MAC (NIC-14) veth05dae074@if2": "e6:a9:43:2a:3b:81"
+        "MAC (NIC-6) cni0": "be:f4:4e:af:68:2d",
+        "MAC (NIC-7) veth57dd18ec@if2": "52:a2:30:83:62:c8",
+        "MAC (NIC-8) vethc3f19385@if2": "36:ab:46:0e:f9:c4",
+        "MAC (NIC-9) vethe67db844@if2": "42:34:f6:d4:85:d3",
+        "MAC (NIC-10) veth66d70c75@if2": "66:f3:02:90:dc:ac",
+        "MAC (NIC-11) veth99d23aa9@if2": "6a:6b:56:60:2e:38",
+        "MAC (NIC-12) veth14b9ed35@if2": "a2:5a:2a:d6:36:51",
+        "MAC (NIC-13) vethb812e689@if2": "be:d1:5c:e4:95:05",
+        "MAC (NIC-14) vethee22de48@if2": "86:d6:7d:ad:16:4c",
+        "MAC (NIC-15) veth38abca7e@if2": "f2:dd:08:ef:23:50",
+        "MAC (NIC-16) veth37f95eeb@if2": "c6:09:1b:e9:53:aa",
+        "MAC (NIC-17) veth434ed154@if2": "d6:6e:27:e1:1c:1c",
+        "MAC (NIC-18) vethf7f59c40@if2": "f2:19:42:d7:f9:61",
+        "MAC (NIC-19) vethf7c15ca2@if2": "0e:95:9b:9f:f5:60",
+        "MAC (NIC-20) veth194824f5@if2": "62:c6:bc:3f:3a:eb"
       },
       "color": "green"
     }
@@ -4390,20 +4442,26 @@
     "B1-112-17": {
       "ip": "10.10.112.17",
       "ethernet_interfaces": {
-        "MAC (NIC-1) enp0s31f6": "74:86:e2:13:b5:97",
-        "MAC (NIC-2) enp2s0": "74:86:e2:13:b5:97",
+        "MAC (NIC-1) enp2s0": "74:86:e2:13:b5:97",
+        "MAC (NIC-2) enp0s31f6": "74:86:e2:13:b5:97",
         "MAC (NIC-3) bond0": "74:86:e2:13:b5:97",
-        "MAC (NIC-4) docker0": "02:42:46:92:81:ab",
+        "MAC (NIC-4) docker0": "02:42:2f:45:c3:78",
         "MAC (NIC-5) flannel.1": "86:46:5c:10:9a:52",
-        "MAC (NIC-6) cni0": "2e:4f:75:db:0b:8f",
-        "MAC (NIC-7) veth91622335@if2": "7a:bc:45:c2:1b:c5",
-        "MAC (NIC-8) veth5facdfa0@if2": "e2:fe:88:9e:aa:3d",
-        "MAC (NIC-9) vetha6c69bc3@if2": "b6:b2:4a:54:15:57",
-        "MAC (NIC-10) veth342e8c83@if2": "22:90:2e:d1:4d:b4",
-        "MAC (NIC-11) veth4b3fb2b1@if2": "82:3e:f1:0f:a3:ff",
-        "MAC (NIC-12) vethf65a07d7@if2": "02:7a:e1:40:55:38",
-        "MAC (NIC-13) vethfb501254@if2": "7a:3f:ee:ec:25:9b",
-        "MAC (NIC-14) vethf6cb218e@if2": "d2:03:77:e3:87:72"
+        "MAC (NIC-6) cni0": "36:4b:b9:f9:7a:03",
+        "MAC (NIC-7) veth802f2edc@if2": "36:ca:c6:cc:fe:9e",
+        "MAC (NIC-8) vethb00671a2@if2": "72:1e:c2:a9:c9:65",
+        "MAC (NIC-9) veth019f2b90@if2": "8a:06:8b:a0:da:0b",
+        "MAC (NIC-10) veth8b064677@if2": "3e:44:4b:68:e8:f6",
+        "MAC (NIC-11) veth8339ef5d@if2": "b6:a2:0d:7e:4f:31",
+        "MAC (NIC-12) veth69d29c82@if2": "da:b3:9b:83:db:e6",
+        "MAC (NIC-13) veth756f8d25@if2": "12:cc:d8:5f:9d:f2",
+        "MAC (NIC-14) veth8de20934@if2": "aa:34:77:97:cf:21",
+        "MAC (NIC-15) veth5a210a5a@if2": "1a:9f:d3:f4:38:87",
+        "MAC (NIC-16) veth12342c1c@if2": "6e:63:f0:92:4a:ee",
+        "MAC (NIC-17) vethca7bf5b7@if2": "6e:73:4c:64:bf:49",
+        "MAC (NIC-18) vethe94f67ae@if2": "ce:7b:93:38:34:e6",
+        "MAC (NIC-19) veth7376fa8d@if2": "ee:5c:c7:4d:78:ae",
+        "MAC (NIC-20) veth81630e61@if2": "4a:86:a9:a0:a0:b1"
       },
       "color": "green"
     }
@@ -4426,7 +4484,11 @@
         "MAC (NIC-12) veth65dffc76@if2": "2a:29:b1:0e:68:98",
         "MAC (NIC-13) veth8cfbd78b@if2": "5e:13:cb:0a:07:05",
         "MAC (NIC-14) veth9e98f393@if2": "72:4d:88:a8:4d:37",
-        "MAC (NIC-15) veth54a4e6a9@if2": "46:c9:69:b4:d3:20"
+        "MAC (NIC-15) veth54a4e6a9@if2": "46:c9:69:b4:d3:20",
+        "MAC (NIC-16) vethb1b4d713@if2": "da:29:67:7b:50:0f",
+        "MAC (NIC-17) veth4745d79f@if2": "76:93:c1:05:36:61",
+        "MAC (NIC-18) vethc0dbd5ef@if2": "16:40:a0:f2:8b:c7",
+        "MAC (NIC-19) veth23990778@if2": "7a:b9:03:79:7d:c9"
       },
       "color": "green"
     }
@@ -4460,7 +4522,15 @@
         "MAC (NIC-11) veth6d417488@if2": "5e:c7:79:da:f4:1f",
         "MAC (NIC-12) veth9d4d249c@if2": "0e:3d:f7:eb:9e:ed",
         "MAC (NIC-13) vethb7de7bbb@if2": "b2:12:7e:f3:25:d5",
-        "MAC (NIC-14) veth4602dbc0@if2": "ae:28:15:a8:8f:53"
+        "MAC (NIC-14) veth4602dbc0@if2": "ae:28:15:a8:8f:53",
+        "MAC (NIC-15) veth262a6fe9@if2": "1e:12:4b:1c:54:ec",
+        "MAC (NIC-16) veth91dfef35@if2": "d2:37:52:0f:7a:c5",
+        "MAC (NIC-17) veth66992e90@if2": "72:c8:8c:44:6b:9c",
+        "MAC (NIC-18) veth34ba708f@if2": "e6:b4:ee:6b:f1:12",
+        "MAC (NIC-19) vethb211ca9b@if2": "d2:66:0c:b4:53:72",
+        "MAC (NIC-20) veth3c875ffb@if2": "8e:93:3d:64:eb:ad",
+        "MAC (NIC-21) vethc4538f3b@if2": "da:c1:9c:b7:ef:2c",
+        "MAC (NIC-22) veth8efacb08@if2": "82:72:4f:7d:0b:59"
       },
       "color": "green"
     }
@@ -5223,20 +5293,7 @@
     "B2-121-18": {
       "ip": "10.10.121.18",
       "ethernet_interfaces": {
-        "MAC (NIC-1) eno2": "80:e8:2c:e2:e0:6a",
-        "MAC (NIC-2) eno1": "80:e8:2c:e2:e0:6a",
-        "MAC (NIC-3) bond0": "80:e8:2c:e2:e0:6a",
-        "MAC (NIC-4) docker0": "02:42:d8:5f:23:71",
-        "MAC (NIC-5) flannel.1": "b6:3b:b0:d2:61:af",
-        "MAC (NIC-6) cni0": "92:ab:f2:55:1c:15",
-        "MAC (NIC-7) vethbbfbcc3c@if2": "2e:d5:61:b9:ae:21",
-        "MAC (NIC-8) vethefb45550@if2": "da:bc:9b:74:d5:85",
-        "MAC (NIC-9) veth10941665@if2": "76:d4:59:10:c6:c3",
-        "MAC (NIC-10) veth89421b15@if2": "32:d2:36:f5:f2:4f",
-        "MAC (NIC-11) veth43431172@if2": "86:d7:85:18:03:3d",
-        "MAC (NIC-12) veth5e33f212@if2": "3a:b3:f4:58:5a:6f",
-        "MAC (NIC-13) vethd6cc99db@if2": "86:5c:33:73:52:b0",
-        "MAC (NIC-14) veth34d03a1b@if2": "36:43:9d:52:5d:ed"
+        "MAC (NIC-1) kex_exchange_identification": "read"
       },
       "color": "green"
     }
@@ -5614,17 +5671,17 @@
         "MAC (NIC-1) eno2": "80:e8:2c:e1:e9:17",
         "MAC (NIC-2) eno1": "80:e8:2c:e1:e9:17",
         "MAC (NIC-3) bond0": "80:e8:2c:e1:e9:17",
-        "MAC (NIC-4) docker0": "02:42:46:69:9f:c1",
+        "MAC (NIC-4) docker0": "02:42:10:7f:9a:40",
         "MAC (NIC-5) flannel.1": "9e:0f:bc:49:b6:9d",
-        "MAC (NIC-6) cni0": "02:33:cd:0e:d3:08",
-        "MAC (NIC-7) vetha3df8bca@if2": "4e:6c:4f:4b:c6:0a",
-        "MAC (NIC-8) vethcbc23bf5@if2": "9e:16:61:1b:9a:e1",
-        "MAC (NIC-9) vethae42fe6f@if2": "36:a2:79:80:2b:b6",
-        "MAC (NIC-10) veth43a49270@if2": "2a:3b:f6:03:fe:b5",
-        "MAC (NIC-11) veth70158ceb@if2": "ea:79:86:ad:6d:a2",
-        "MAC (NIC-12) veth60d00f94@if2": "36:3a:7f:57:8b:d3",
-        "MAC (NIC-13) veth16baaf50@if2": "46:13:a7:bc:82:04",
-        "MAC (NIC-14) veth32d0e5db@if2": "1a:67:66:38:40:63"
+        "MAC (NIC-6) cni0": "22:35:fe:73:fe:53",
+        "MAC (NIC-7) veth72751d7b@if2": "72:df:23:93:89:9e",
+        "MAC (NIC-8) veth2fb9f391@if2": "06:b5:59:a0:3b:7c",
+        "MAC (NIC-9) vethb384920d@if2": "4a:59:20:ae:c3:82",
+        "MAC (NIC-10) vethe67534af@if2": "42:30:fc:f8:46:52",
+        "MAC (NIC-11) veth9b5e17d1@if2": "c6:8f:1f:f1:9a:71",
+        "MAC (NIC-12) vetheac3ff7f@if2": "d2:84:a4:ea:82:00",
+        "MAC (NIC-13) vethce24dcf5@if2": "da:c8:0f:a8:1d:0a",
+        "MAC (NIC-14) veth9945e4cf@if2": "ce:01:71:81:a7:df"
       },
       "color": "green"
     }
@@ -5878,7 +5935,7 @@
     "B2-123-9": {
       "ip": "10.10.123.9",
       "ethernet_interfaces": {
-        "MAC (NIC-1) kex_exchange_identification": "read"
+        "MAC (NIC-1) kex_exchange_identification": "Connection closed by remote host\r"
       },
       "color": "green"
     }
@@ -6781,8 +6838,12 @@
   {
     "B2-125-15": {
       "ip": "10.10.125.15",
-      "error": "No route to host",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) Warning": "Permanently added '10.10.125.15' (ED25519) to the list of known hosts.\r",
+        "MAC (NIC-2) eno2": "80:e8:2c:e2:bb:75",
+        "MAC (NIC-3) eno1": "80:e8:2c:e2:bb:74"
+      },
+      "color": "green"
     }
   },
   {
@@ -6824,8 +6885,14 @@
   {
     "B2-125-19": {
       "ip": "10.10.125.19",
-      "error": "No route to host",
-      "color": "red"
+      "ethernet_interfaces": {
+        "MAC (NIC-1) Warning": "Permanently added '10.10.125.19' (ED25519) to the list of known hosts.\r",
+        "MAC (NIC-2) eno2": "80:e8:2c:e2:d4:73",
+        "MAC (NIC-3) eno1": "80:e8:2c:e2:d4:73",
+        "MAC (NIC-4) bond0": "80:e8:2c:e2:d4:73",
+        "MAC (NIC-5) docker0": "02:42:e1:b5:eb:86"
+      },
+      "color": "green"
     }
   },
   {

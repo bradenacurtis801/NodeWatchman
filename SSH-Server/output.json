@@ -1,23 +1,136 @@
 [
   {
-    "ip": "10.10.112.11",
+    "ip": "10.10.21.1",
     "result": {
-      "cmd": "sudo reboot",
-      "output": "Connection to 10.10.112.11 closed by remote host.\r"
+      "cmd": "ls",
+      "output": "image_check_report.txt"
     }
   },
   {
-    "ip": "10.10.112.16",
+    "ip": "10.10.21.2",
     "result": {
-      "cmd": "sudo reboot",
-      "output": "Connection to 10.10.112.16 closed by remote host.\r"
+      "cmd": "ls",
+      "output": "image_check_report.txt\nzabbix-release_6.4-1+ubuntu20.04_all.deb"
     }
   },
   {
-    "ip": "10.10.112.17",
+    "ip": "10.10.21.3",
     "result": {
-      "cmd": "sudo reboot",
-      "output": "Connection to 10.10.112.17 closed by remote host.\r"
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.4",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.5",
+    "error": "No route to host"
+  },
+  {
+    "ip": "10.10.21.6",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.7",
+    "result": {
+      "cmd": "ls",
+      "output": ""
+    }
+  },
+  {
+    "ip": "10.10.21.8",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.9",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.10",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.11",
+    "error": "No route to host"
+  },
+  {
+    "ip": "10.10.21.12",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.13",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.14",
+    "result": {
+      "cmd": "ls",
+      "output": ""
+    }
+  },
+  {
+    "ip": "10.10.21.15",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.16",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.17",
+    "result": {
+      "cmd": "ls",
+      "output": ""
+    }
+  },
+  {
+    "ip": "10.10.21.18",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.19",
+    "result": {
+      "cmd": "ls",
+      "output": "image_check_report.txt"
+    }
+  },
+  {
+    "ip": "10.10.21.20",
+    "result": {
+      "cmd": "ls",
+      "output": "Desktop\nDocuments\nDownloads\nMusic\nPictures\nPublic\nTemplates\nVideos\nimage_check_report.txt\nthinclient_drives"
     }
   }
 ]
