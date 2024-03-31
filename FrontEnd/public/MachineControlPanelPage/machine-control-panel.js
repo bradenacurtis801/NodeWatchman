@@ -140,47 +140,64 @@ document.addEventListener("DOMContentLoaded", async () => {
 };
 
 startCommandBtn.addEventListener("click", async () => {
-    console.log('running start command');
-    const bashCode = document.getElementById("textareaInput").value;
-    const ipsString = manager.getSelectedBoxesIps();
+  console.log('running start command');
+  const bashCode = document.getElementById("textareaInput").value;
+  const ipsString = manager.getSelectedBoxesIps();
 
-    console.log("Sending Bash Script and IPs to server:", bashCode, ipsString);
+  console.log("Sending Bash Script and IPs to server:", bashCode, ipsString);
 
-    const executeCommand = async () => {
-        try {
-            const result = await executeScript(ipsString, bashCode);
-            console.log("Execution Result:", result);
-            displayBashOutput(result);
-            console.log("after");
-            return {status: 'completed', result};
-        } catch (error) {
-            console.error("Error executing script:", error);
-            throw {status: 'failed', error}; // Include status in thrown error for consistency
-        }
-    };
+  // Utility function to append messages to the modal
+  const updateExecutionStatus = (message, isError = false) => {
+      const statusDiv = document.getElementById("customScriptModalExecutionStatus");
+      const messageElement = document.createElement("div");
+      messageElement.textContent = message;
+      if (isError) {
+          // messageElement.style.color = "red";
+      } else {
+        statusDiv.appendChild(messageElement);
+      }
+  };
 
-    // Function to handle moving the command from pending to completed
-    const handleCompletion = (index, result) => {
-        commandExecutions.completed.push({index, ...result}); // Add to completed with index for tracking
-        commandExecutions.pending = commandExecutions.pending.filter(item => item !== index); // Remove from pending
-    };
+  const executeCommand = async () => {
+      try {
+          const result = await executeScript(ipsString, bashCode);
+          console.log("Execution Result:", result);
+          displayBashOutput(result);
+          console.log("after");
+          return {status: 'completed', result};
+      } catch (error) {
+          console.error("Error executing script:", error);
+          throw {status: 'failed', error}; // Include status in thrown error for consistency
+      }
+  };
 
-    // Add the command to pending
-    const commandIndex = commandExecutions.pending.length + commandExecutions.completed.length;
-    commandExecutions.pending.push(commandIndex);
+  const handleCompletion = (index, result) => {
+      commandExecutions.completed.push({index, ...result});
+      commandExecutions.pending = commandExecutions.pending.filter(item => item !== index);
+      if (result.status === 'completed') {
+          updateExecutionStatus(`Command ${index} completed successfully.`);
+      } else {
+          updateExecutionStatus(`Command ${index} failed: ${result.error}`, true);
+      }
+  };
 
-    executeCommand().then(result => {
-        console.log(`Command ${commandIndex} completed`, result);
-        handleCompletion(commandIndex, result);
-    }).catch(error => {
-        console.error(`Command ${commandIndex} failed`, error);
-        handleCompletion(commandIndex, error);
-    });
+  const commandIndex = commandExecutions.pending.length + commandExecutions.completed.length;
+  commandExecutions.pending.push(commandIndex);
 
-    console.log(`Command ${commandIndex} is being executed`);
-    console.log('current commands:', commandExecutions);
+  // Append initial pending status
+  updateExecutionStatus(`Command ${commandIndex} is pending execution.`);
+
+  executeCommand().then(result => {
+      console.log(`Command ${commandIndex} completed`, result);
+      handleCompletion(commandIndex, result);
+  }).catch(error => {
+      console.error(`Command ${commandIndex} failed`, error);
+      handleCompletion(commandIndex, error);
+  });
+
+  console.log(`Command ${commandIndex} is being executed`);
+  console.log('current commands:', commandExecutions);
 });
-
 
 
   updateNodesBtn.addEventListener("click", async () => {
