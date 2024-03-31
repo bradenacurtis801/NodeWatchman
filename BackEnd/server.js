@@ -314,7 +314,6 @@ app.post('/interact/update-machine-state', async (req, res) => {
 
 app.get('/interact/load-machine-state', async (req, res) => {
     try {
-        console.log('here')
         let dataFile = INTERACTIVE_NODES_FILE;
 
         const data = await fs.readFile(dataFile, 'utf8');
