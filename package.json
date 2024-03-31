@@ -9,6 +9,7 @@
   },
   "name": "nodewatchman",
   "version": "1.0.1",
+  "type": "module",
   "main": "temp.js",
   "scripts": {
     "start-backend": "node ./BackEnd/server.js",
