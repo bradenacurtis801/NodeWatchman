@@ -2,6 +2,13 @@ import { Router } from "express";
 import authenticateToken from "./auth/auth.js";
 import fs from "fs/promises"; // Import fs using promise-based API
 import cors from "cors";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config({ path: './.env' })
+import jwt from "jsonwebtoken";
+import pool from "./db/db.js";
+
+const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
 const router = Router();
 
 router.post("/save-machine-state", async (req, res) => {
@@ -9,10 +16,33 @@ router.post("/save-machine-state", async (req, res) => {
   res.status(201).json(result);
 });
 
-router.get("/load-machine-state", async (req, res) => {
-  const result = "NOT IMPLEMENTED";
-  res.status(201).json(result);
-  return;
+router.get('/load-machine-state', async (req, res) => {
+  try {
+      const client = await pool.connect();
+      const queryResult = await client.query('SELECT * FROM machine_status');
+      const jsonData = queryResult.rows;
+      client.release(); // Release the client back to the pool
+
+      res.json(jsonData);
+  } catch (err) {
+      console.error('Error:', err);
+      res.status(500).send('Error loading machine status');
+  }
+});
+
+
+router.get('/dc02-hardware-info', async (req, res) => {
+  try {
+      const client = await pool.connect();
+      const queryResult = await client.query('SELECT * FROM dc02_hardware');
+      const jsonData = queryResult.rows;
+      client.release(); // Release the client back to the pool
+
+      res.json(jsonData);
+  } catch (err) {
+      console.error('Error:', err);
+      res.status(500).send('Error loading machine status');
+  }
 });
 
 // Registration endpoint
@@ -29,6 +59,7 @@ router.get("/approve/:id", async (req, res) => {
 
 // Login route
 router.post("/login", async (req, res) => {
+  console.log('here')
   const { loginIdentifier, password } = req.body;
 
   try {

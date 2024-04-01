@@ -1,25 +1,15 @@
 import fs from 'fs';
-import { Pool } from 'pg';
+import pool from "./db.js";
 import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' })
 
 
 
 // Read JSON data from file
-const jsonData = fs.readFileSync('DC02_HARDWARE_INFO_ALL.json', 'utf8');
+const jsonData = fs.readFileSync('interactive_nodes.json', 'utf8');
 
 // Parse JSON data into JavaScript objects
 const data = JSON.parse(jsonData);
-
-// Configure the PostgreSQL connection pool
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: 5432, // PostgreSQL default port
-    ssl: false // Set to true if using SSL
-});
 
 // Function to insert data into the PostgreSQL database
 async function insertData() {
