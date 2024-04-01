@@ -14,17 +14,18 @@ async function register(email, username, password) {
 }
 
 async function login(email, password) {
-    try {
-      const response = await axios.post('http://localhost:3001/login', {
-        email,
-        password
-      });
-      console.log('Login token:', response.data.token);
-      return response.data.token; // You might need the token for subsequent requests
-    } catch (error) {
-      console.error('Error during login:', error.response.data);
-    }
+  try {
+    const response = await axios.post('http://localhost:3000/login', {
+      loginIdentifier: email, // Use email as the login identifier
+      password
+    });
+    console.log('Login token:', response);
+    return response.data.token; // You might need the token for subsequent requests
+  } catch (error) {
+    console.error('Error during login:', error);
   }
+}
+
 
 async function approve(userId, adminToken) {
   try {
@@ -51,11 +52,11 @@ async function adminRevoke(user_email, adminToken) {
 }
 
 async function testFlow() {
-  await register('newuser@gmail.com', 'newuser', 'newpassword');
+  // await register('newuser@gmail.com', 'newuser', 'newpassword');
   const token = await login('bradenacurtis801@gmail.com', 'wpkf0224');
   // Use the token for approve and adminRevoke functions...
 
-  await adminRevoke('newuser@gmail.com', token);
+  // await adminRevoke('newuser@gmail.com', token);
 
 
 }
