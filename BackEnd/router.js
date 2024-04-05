@@ -1,7 +1,6 @@
 import { Router } from "express";
 import authenticateToken from "./auth/auth.js";
 import fs from "fs/promises"; // Import fs using promise-based API
-import cors from "cors";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 dotenv.config({ path: './.env' })
@@ -11,10 +10,10 @@ import pool from "./db/db.js";
 const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
 const router = Router();
 
-router.post("/save-machine-state", async (req, res) => {
-  const result = "NOT IMPLEMENTED";
-  res.status(201).json(result);
-});
+router.post("/update-machine-state", async (req, res) => {
+    const result = "NOT IMPLEMENTED";
+    res.status(201).json(result);
+  });
 
 router.get('/load-machine-state', async (req, res) => {
   try {
@@ -59,7 +58,6 @@ router.get("/approve/:id", async (req, res) => {
 
 // Login route
 router.post("/login", async (req, res) => {
-  console.log('here')
   const { loginIdentifier, password } = req.body;
 
   try {
@@ -82,6 +80,11 @@ router.post("/login", async (req, res) => {
     );
     const user = userResult.rows[0];
 
+    // DEBUGGING LINE //////////////////////////////////////
+    // console.log(user)
+    // console.log(password)
+    ////////////////////////////////////////////////////////
+    
     // Check password
     const isPasswordValid = await bcrypt.compare(password, user.password_hash);
     if (!isPasswordValid) {
@@ -115,19 +118,7 @@ router.post("/logout", (req, res) => {
   res.send("Logged out successfully");
 });
 
-router.post("/interact/update-machine-state", async (req, res) => {
-  const result = "NOT IMPLEMENTED";
-  res.status(201).json(result);
-});
 
-router.get("/interact/load-machine-state", async (req, res) => {
-  const result = "NOT IMPLEMENTED";
-  res.status(201).json(result);
-});
 
-router.get("/interact/dc02-hardware-info", async (req, res) => {
-  const result = "NOT IMPLEMENTED";
-  res.status(201).json(result);
-});
 
 export default router;

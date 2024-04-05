@@ -1,7 +1,7 @@
-//_config = dev
+_config = dev
 
 // uncomment to use production env variables
- _config = prod
+//  _config = prod
 
 async function executeScript(ipsString, bashCode) {
     const executeScriptUrl = `http://${_config.SSH_SERVER}/execute-script`;
@@ -22,7 +22,7 @@ async function executeScript(ipsString, bashCode) {
   }
   
   async function updateMachineState(mappedArrayFormatted) {
-    const updateStateUrl = `http://${_config.BACKEND_SERVER}/interact/update-machine-state`;
+    const updateStateUrl = `http://${_config.BACKEND_SERVER}/update-machine-state`;
     try {
       const response = await fetch(updateStateUrl, {
         method: "POST",
@@ -40,7 +40,7 @@ async function executeScript(ipsString, bashCode) {
   }
 
   async function fetchHardwareInfo() {
-    const apiEndpoint = `http://${_config.BACKEND_SERVER}/interact/dc02-hardware-info`;
+    const apiEndpoint = `http://${_config.BACKEND_SERVER}/dc02-hardware-info`;
     const response = await fetch(apiEndpoint);
     if (!response.ok) {
       throw new Error(`Failed to fetch state: ${response.statusText}`);
@@ -49,7 +49,7 @@ async function executeScript(ipsString, bashCode) {
   }
 
   async function loadBoxState() {
-    const apiUrl = `http://${_config.BACKEND_SERVER}/interact/load-machine-state`;
+    const apiUrl = `http://${_config.BACKEND_SERVER}/load-machine-state`;
   
     try {
       const response = await fetch(apiUrl);

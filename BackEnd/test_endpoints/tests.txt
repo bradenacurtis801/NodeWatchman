@@ -5,4 +5,7 @@
 // curl -X POST http://localhost:3001/register -H "Content-Type: application/json" -d '{"username": "newuser", "password": "newpassword"}' 
 
 // Powershell script for testing /login api
-Invoke-WebRequest -Uri http://localhost:3001/login -Method Post -ContentType "application/json" -Body '{"username": "bradenacurtis801", "password": "wpkf0224"}'
+Invoke-WebRequest -Uri http://localhost:3000/login -Method Post -ContentType "application/json" -Body '{"loginIdentifier": "bradenacurtis801", "wpkf0224": "wpkf0224"}'
+
+// 
+curl -X POST http://localhost:3000/login -H "Content-Type: application/json" -d '{"loginIdentifier": "bradenacurtis801", "password": "wpkf0224"}'
