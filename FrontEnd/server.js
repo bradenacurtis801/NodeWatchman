@@ -1,23 +1,28 @@
 // CHECK IF COMPUTER OS IS COMPATIBLE
 //////////////////////////////////////////////////
-const checkOS = require('../Utils/chk_os.js');
+import checkOS from '../Utils/chk_os.js';
+
 checkOS();
+
 //////////////////////////////////////////////////
 
-const config = require('../Config/config.js');
+import config from '../Config/config.js';
 
 checkOS();
 
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
 const app = express();
-const cors = require('cors');
+import cors from 'cors';
+import { fileURLToPath } from 'url';
 
 app.use(cors()); // Enable CORS for all routes
 
+// Get the directory name using import.meta.url
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
-console.log('server.js dir:', __dirname)
+console.log('server.js dir:', path.join(__dirname, 'public'))
 
 // Route to serve the home.html file
 app.get('/', (req, res) => {

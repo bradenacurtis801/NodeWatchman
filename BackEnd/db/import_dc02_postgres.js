@@ -21,7 +21,7 @@ async function insertData() {
         for (const entry of data) {
             const machineId = Object.keys(entry)[0]; // Extract machine_id
             const status = JSON.stringify(entry[machineId]); // Convert status to JSON string
-            await client.query('INSERT INTO dc02_hardware (machine_id, status) VALUES ($1, $2)', [machineId, status]);
+            await client.query('INSERT INTO machine_status (machine_id, data) VALUES ($1, $2)', [machineId, status]);
         }
 
         await client.query('COMMIT');

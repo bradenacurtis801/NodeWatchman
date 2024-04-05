@@ -1,42 +1,16 @@
-
-HARBOR_DOMAIN="core.harbor.domain"
-sudo mkdir -p /etc/docker/certs.d/
-sudo mkdir -p /etc/docker/certs.d/${HARBOR_DOMAIN}
+# Update trusted CA certificates
+sudo update-ca-certificates
 
 
-sudo echo -e '-----BEGIN CERTIFICATE-----
-MIIFozCCA4ugAwIBAgIUSljl4zEdP8RQupVZ739a1+QOlZQwDQYJKoZIhvcNAQEN
-BQAwYTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAlVUMQ4wDAYDVQQHDAVQcmljZTEL
-MAkGA1UECgwCREMxCzAJBgNVBAsMAk1MMRswGQYDVQQDDBJjb3JlLmhhcmJvci5k
-b21haW4wHhcNMjQwMzIxMDE0NDUyWhcNMzQwMzE5MDE0NDUyWjBhMQswCQYDVQQG
-EwJVUzELMAkGA1UECAwCVVQxDjAMBgNVBAcMBVByaWNlMQswCQYDVQQKDAJEQzEL
-MAkGA1UECwwCTUwxGzAZBgNVBAMMEmNvcmUuaGFyYm9yLmRvbWFpbjCCAiIwDQYJ
-KoZIhvcNAQEBBQADggIPADCCAgoCggIBAJx5o1XIWUaXN9J2DUMtkWs4ZJ/6jnp8
-TkcgGDHEr1C02BJNcqVco490MWjBdp7DTobTrSW6UvhKKC8vBrN1vvCDVQdM3hik
-2Fk0hYLNZzl/0xB9DACRjNMa75miapJXt3urh8enwXz+/RRQctcF5+EYBzvsuMuQ
-3aFrsKAhQO5leDS2qiixkGRFhqiloZk92vgJbE3mbIG6yt+WVt9OD+HTIO4Vsczk
-oxYK4pQr4b8DeKw2gGvaT4WHkD8EAZWjzoHWzOZX9iExl0n7mPVRjsjw+DUAO1i7
-vWWM/Ebaq++ei82qPYZvYj6/QcY32pAguIanheJOY2pJDdXvETMzRLzofyOGEjZU
-SqiMlatttcivh5fojPoEDinY9HbInLvJJho+znNkVE3MsLllZYPbsoBZbWpxZ4ic
-OR/mE9g4XHfDXU6Iwala7PtZmoXpCoGzHlRuqt6HWLSA5WAAAjoThbiUDmOcjY/b
-uiSCsxPJxzFM+gRZKvbCny5wvfTmuVz0+mGG973XqD98u28Q9KzJirgNwAs172Z4
-r0EGhQswBAFFKMr6ZbMngK9DMcjKy8RIgqnKaKogAJmOXqahEqeUlxUcD3SuksIT
-wohMWac7rEHdPjcBPAFeLelV3j0ECaf0rZHKkUtKDFiq909ExjkGVBBRZVV76p7t
-/7FMO9JWSf0vAgMBAAGjUzBRMB0GA1UdDgQWBBR00JbGo8IF3X013OuWw0dVO6Gv
-UTAfBgNVHSMEGDAWgBR00JbGo8IF3X013OuWw0dVO6GvUTAPBgNVHRMBAf8EBTAD
-AQH/MA0GCSqGSIb3DQEBDQUAA4ICAQBTZs07GgoBxnIZ2gea4OWVxDbONVExAbDz
-SjVdMp6K4Mhds/sZvppdSGQEjVwy27qAL1O0rU0moI1Trm1LK0iRjHgIiOhLH85Z
-GAwULVan9WSuHTl3e9YZj92QeQVL28gVs6s0Ef2dOujIn38DOxKtilK2xybHrTMx
-gas2J/fGViQVBVZnNvGHlCfG3hdj+rvll+7ggahVyQSlN+lBmmzIrY97NdOuXgCM
-Pv3qMXdTyor6w3rqvOtg6uupO+JS9SukS5gBYP2Q/DZnmKzVPYG4cNtCjger+OFW
-4kVFDX1KytM5i0126Jf5AkyvMT6DWhHHwibFe4i8IU/lM/BDUMb0m5oeK7RfnR0x
-58ZNVrbASS3aEXhw5fXi7PBsrb0bvmpN8H+3siWXnPed9CM1QMjXY3nVfCVpThIb
-eoa5cprlKqpngsHZIED7p04VL6JTsl6epMp7dcQdm6XzQAPxIY9ABvpdXEHWbNFK
-A00Vq0nridfzZwcsaCpFxWhXcRuyKOhAfXiXubt7iDfd9/cF8eo2PLhBFY2kumEX
-V5krJyG9iwPpzyr/TWdK1qX6kul85NZn+f8y6PIPmkyiug0A2tOsK7E8tUqs07qJ
-WX9i88uj4jLTE/0OzU/oF+NvvRS7hgmUjn5rz7t/AZ0CvXq9afrj+ppe0tPgvbul
-QgT0MxNnHA==
------END CERTIFICATE-----
-' | sudo tee /etc/docker/certs.d/${HARBOR_DOMAIN}/ca.crt 
+# restart the k3s node
+# If the node is a worker node, use the following command:
+sudo systemctl restart k3s-agent
+# If the node is a master node, use the command below instead:
+sudo systemctl restart k3s.service 
 
-sudo systemctl restart docker
+
+
+
+# check if service restarted without issue
+sudo systemctl status k3s-agent
+sudo systemctl status k3s.service

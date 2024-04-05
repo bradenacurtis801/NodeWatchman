@@ -234,20 +234,13 @@ startCommandBtn.addEventListener("click", async () => {
     });
 
 
-
-
-
-
-
-
-
   function displayBashOutput(mappedArray) {
     const bashOutputContainer = document.getElementById("BashOutput");
     bashOutputContainer.innerHTML = ""; // Clear existing content
 
     mappedArray.forEach((item, index) => {
-      let obj; // This will store the relevant object (either directly or nested)
-      let id; // This will store the identifier (IP or custom ID)
+      const obj = item.data; // Data is nested under 'data'
+      const id = obj.ip; // IP is now under obj.data.ip
 
       // Check if the item is in the first format with a unique key
       if (Object.keys(item).length === 1 && Object.keys(item)[0] !== "ip") {
@@ -308,8 +301,6 @@ startCommandBtn.addEventListener("click", async () => {
 });
 
 
-
-
 async function applyBoxState(savedStates) {
   try {
     // Fetch the hardware information from the API
@@ -318,14 +309,14 @@ async function applyBoxState(savedStates) {
     let a = checkBoxPosition(DC02_HARDWARE, savedStates);
     console.log('mismatched', a)
     document.querySelectorAll(".box").forEach((box) => {
-      const boxState = savedStates.find((state) => state[box.id]);
+      const boxState = savedStates.find((state) => state.machine_id === box.id);
 
       // Clear previous mismatch class if any
       box.classList.remove("box_mismatch");
 
       // Apply colors based on saved states, if available
-      if (boxState && boxState[box.id].color) {
-        box.style.backgroundColor = boxState[box.id].color;
+      if (boxState && boxState.data.color) {
+        box.style.backgroundColor = boxState.data.color;
       } else {
         box.style.backgroundColor = ""; // Set to your default color or remove the style
       }
@@ -456,23 +447,23 @@ function checkBoxPosition(dcHardware, jsonArray) {
   if (dcHardware.length !== jsonArray.length) {
     throw new Error("The lengths of DC02_HARDWARE and JSON_ARRAY do not match.");
   }
-
+  console.log(jsonArray)
   // Convert JSON_ARRAY to a lookup table by box ID for faster access
   const jsonArrayLookup = jsonArray.reduce((acc, item) => {
-    const key = Object.keys(item)[0];
-    acc[key] = item[key];
+    acc[item.machine_id] = item.data;
     return acc;
   }, {});
 
   const mismatchedBoxes = dcHardware.map(boxData => {
-    const boxId = Object.keys(boxData)[0];
+    const boxId = boxData.machine_id;
     const jsonBoxData = jsonArrayLookup[boxId];
     if (!jsonBoxData) {
       console.error(`Matching entry for ${boxId} not found in JSON_ARRAY.`);
       return null; // Skipping unmatched boxData, might adjust based on requirements
     }
 
-    const ethernetInterfaces1 = boxData[boxId].ethernet_interfaces;
+    // Access 'ethernet_interfaces' within the 'data' structure
+    const ethernetInterfaces1 = boxData.data.ethernet_interfaces;
     const ethernetInterfaces2 = jsonBoxData.ethernet_interfaces;
 
     if (!ethernetInterfaces1 || !ethernetInterfaces2) return null;
@@ -504,8 +495,8 @@ function checkBoxPosition(dcHardware, jsonArray) {
 function findMachineIdByMac(data, mac) {
   // console.log(data[101])
   for (const entry of data) {
-    const id = Object.keys(entry)[0];
-    const info = entry[id];
+    const id = entry.machine_id;
+    const info = entry.data;
     if (info.ethernet_interfaces) {
       const macs = Object.values(info.ethernet_interfaces).map((mac) =>
         mac.toLowerCase().trim()

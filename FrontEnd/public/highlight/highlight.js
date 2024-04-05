@@ -2603,7 +2603,9 @@ var hljs = (function () {
   return highlight;
 
 })();
-if (typeof exports === 'object' && typeof module !== 'undefined') { module.exports = hljs; }
+if (typeof exports === 'object' && typeof module !== 'undefined') {
+  export default hljs;
+}
 /*! `bash` grammar compiled for Highlight.js 11.9.0 */
   (function(){
     var hljsGrammar = (function () {

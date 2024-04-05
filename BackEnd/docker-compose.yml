@@ -14,3 +14,11 @@ services:
       - "5432:5432"
 volumes:
   postgres-data:
+
+# docker-compose --env-file .env up -d
+# run in admin powershell. 
+# Get-Process | Where-Object { $_.ProcessName -like "postgres*" } | Stop-Process -Force
+# pg_restore --dbname=node_watchman_db --username=postgres --no-password < node_watchman_db.dump
+# $ProcessUsingPort = Get-NetTCPConnection -LocalPort 5432 | Select-Object -ExpandProperty OwningProcess
+# Get-Process -Id $ProcessUsingPort | Select-Object Id, ProcessName
+# Stop-Process -Id $ProcessUsingPort -Force
