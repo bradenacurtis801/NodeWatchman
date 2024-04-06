@@ -6,14 +6,55 @@ import dotenv from "dotenv";
 dotenv.config({ path: './.env' })
 import jwt from "jsonwebtoken";
 import pool from "./db/db.js";
+import { generateUpdateList } from "./utils/utils.js";
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 const REMOVED_JWT_SECRET = process.env.REMOVED_JWT_SECRET;
 const router = Router();
 
 router.post("/update-machine-state", async (req, res) => {
-    const result = "NOT IMPLEMENTED";
-    res.status(201).json(result);
-  });
+  const updatedStates = req.body; // Directly use req.body as it contains the updated machine states
+
+  // Validate the updatedStates to ensure it's not empty and is an array
+  if (!Array.isArray(updatedStates) || updatedStates.length === 0) {
+      console.log('Invalid or empty updated states provided');
+      return res.status(400).send('Invalid or empty updated states provided');
+  }
+
+  try {
+      const client = await pool.connect();
+      
+      // Load the current machine states from your database or a file
+      // For this example, let's assume you're loading it from a JSON file as before
+      const currentData = await fs.readFile('path/to/your/currentStates.json', 'utf8');
+      const currentStates = JSON.parse(currentData);
+      
+      // Use generateUpdateList to identify what needs to be updated
+      const updatesNeeded = await generateUpdateList(currentStates, updatedStates);
+
+      // Iterate over updatesNeeded and update the database
+      for (const update of updatesNeeded) {
+          const machineId = update.machineId; // Assuming each update includes a machineId
+          const newData = update.data; // And the new data
+
+          // Perform your database update logic here
+          console.log(`Updating record for machine ID: ${machineId}`);
+          await client.query('UPDATE machine_status SET data = $1 WHERE machine_id = $2', [JSON.stringify(newData), machineId]);
+      }
+
+      client.release(); // Release the client back to the pool
+
+      // Respond with a success message
+      res.json({ status: 'success', message: `${updatesNeeded.length} machines updated successfully.` });
+  } catch (error) {
+      console.error('Error updating machine state:', error);
+      res.status(500).send('Error processing request');
+  }
+});
+
 
 router.get('/load-machine-state', async (req, res) => {
   try {
