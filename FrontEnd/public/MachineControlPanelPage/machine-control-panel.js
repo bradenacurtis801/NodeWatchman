@@ -202,17 +202,7 @@ startCommandBtn.addEventListener("click", async () => {
 
   updateNodesBtn.addEventListener("click", async () => {
       const ipsString = manager.getIpAll();
-      const bashCode = `
-    ip addr | awk '
-    $1 ~ /^[0-9]+:/ {
-        if (iface != "" && mac != "") print iface": "mac;
-        iface = $2; sub(/:$/, "", iface); mac = "";
-    }
-    $1 == "link/ether" { mac = $2; }
-    END {
-        if (iface != "" && mac != "") print iface": "mac;
-    }
-    '`;
+      const bashCode = getNicInfoString()
 
       console.log("Sending Node Info to /execute-script:", bashCode, ipsString);
       // return
@@ -261,6 +251,13 @@ startCommandBtn.addEventListener("click", async () => {
       button.classList.add("collapsible-btn");
       button.setAttribute("type", "button");
       button.setAttribute("data-target", elementId);
+
+      // Check if the color property exists and apply it as the button border
+      if (obj.color) {
+        button.style.backgroundColor = obj.color;
+      } else {
+        button.style.backgroundColor = "white";
+      }
 
       const contentDiv = document.createElement("div");
       contentDiv.id = elementId;
