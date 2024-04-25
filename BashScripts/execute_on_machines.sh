@@ -1,24 +1,4 @@
 #!/bin/bash
-#sudo apt install jq
-# Improved function to parse output and create JSON object using jq
-parse_output_to_json() {
-    local ip="$1"
-    local command="$2"
-    local output="$3"
-
-    # Check if output contains "No route to host" error message
-    if [[ $output == *"No route to host"* ]]; then
-        # Create JSON object for "No route to host" error using jq
-        jq -n --arg ip "$ip" '{"ip": $ip, "error": "No route to host"}'
-    elif [[ $output == *"Connection timed out"* ]]; then
-        # Create JSON object for "Connection timed out" error using jq
-        jq -n --arg ip "$ip" '{"ip": $ip, "error": "Connection timed out"}'
-    else
-        # Use jq to properly escape and create JSON objects for other outputs
-        jq -nR --arg ip "$ip" --arg cmd "$command" --arg out "$output" \
-          '{"ip": $ip, "result": {"cmd": $cmd, "output": $out}}'
-    fi
-}
 
 # Declare an array to store JSON data
 temp_file=$(mktemp)
@@ -39,10 +19,32 @@ command="$2"
 for ip in "${machine_ips[@]}"; do
     (
         # Capture the output of each SSH command and write it to a temporary file
-        output=$(ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ubuntu@"$ip" "$command" 2>&1)
+        if output=$(ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ubuntu@"$ip" "$command" 2>/dev/null); then
+             # Look for a special label in the output to determine the color
+            color=$(echo "$output" | grep -oP 'result-color: \K\w+')
+            
+            # Default color if not specified
+            [[ -z "$color" ]] && color="red"
 
-        # Call function to parse output and create JSON object
-        parse_output_to_json "$ip" "$command" "$output" >> "$temp_file"
+            # Remove the label line from the output to clean up before JSON formatting
+            output=$(echo "$output" | sed '/result-color:/d')
+
+            jq -nR \
+                --arg _ip "$ip" \
+                --arg _cmd "$command" \
+                --arg _out "$output" \
+                --arg _color "$color" \
+                '{"ip": $_ip, "result": {"cmd": $_cmd, "output": $_out}, "color": $_color}' \
+                >> "$temp_file"
+        else
+            # If SSH connection fails, write an error message to the temporary file
+            jq -nR \
+                --arg _ip "$ip" \
+                --arg _err "SSH connection failed" \
+                --arg _err_info "$output" \
+                '{"ip": $_ip, "error": $_err, "error_info": $_err_info}' \
+                >> "$temp_file"
+        fi
     ) &
 done
 

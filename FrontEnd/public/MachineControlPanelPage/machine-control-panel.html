@@ -88,6 +88,7 @@
     <div class="section" id="section-B"></div> -->
   </div>
   <script src="../scripts/config.js"></script>
+  <script src="../bash_cmd.js"></script>
   <script src="./machine-control-panel.js"></script>
   <script src="./api.js"></script>
   <script src="./boxFactory/boxFactory.js"></script>
@@ -154,7 +155,7 @@
       const rowA2 = manager.getRow("A2");
       const rowB1 = manager.getRow("B1");
       const rowB2 = manager.getRow("B2");
-      if (rowA1) {
+      
         rowA1.addRack("11", 20, SpecializedRackContainer);
         rowA1.addRack("12", 20, SpecializedRackContainer);
         rowA1.addRack("13", 20, SpecializedRackContainer);
@@ -175,9 +176,7 @@
         rowB2.addRack("123", 20, SpecializedRackContainer);
         rowB2.addRack("124", 20, SpecializedRackContainer);
         rowB2.addRack("125", 20, SpecializedRackContainer);
-      } else {
-        console.log("Row A1 does not exist.");
-      }
+
 
       //console.log(manager);
       //const allInfo = manager.getObjAll();
