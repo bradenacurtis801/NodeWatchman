@@ -35,16 +35,38 @@ To install Nodewatchman, follow these steps:
 3. Configure the project by editing the configuration files as needed:
     - `config.json`: Update with your specific data center configuration.
 
-## Usage
-
-1. Start the Nodewatchman server:
+1. Start the Nodewatchman server using PM2:
     ```bash
-    npm start
+    pm2 start processes.json
     ```
 
-2. Open your web browser and navigate to `http://localhost:3000` to access the Nodewatchman UI.
+    The `processes.json` file contains the configuration for PM2 to manage the Nodewatchman processes. PM2 is a process manager for Node.js applications that allows you to keep applications alive forever, restart them, and manage logs.
 
-3. Use the UI to select machines, run scripts, and view the results.
+2. Check the status of the Nodewatchman processes:
+    ```bash
+    pm2 status
+    ```
+
+    This command will display the status of all managed processes, including their uptime, memory usage, and other useful information.
+
+3. To stop the Nodewatchman server:
+    ```bash
+    pm2 stop processes.json
+    ```
+
+4. To restart the Nodewatchman server:
+    ```bash
+    pm2 restart processes.json
+    ```
+
+5. To view logs of the Nodewatchman server:
+    ```bash
+    pm2 logs
+    ```
+
+6. Open your web browser and navigate to `http://localhost:5500` to access the Nodewatchman UI.
+
+7. Use the UI to select machines, run scripts, and view the results.
 
 ## Running Commands
 
