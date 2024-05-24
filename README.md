@@ -33,7 +33,7 @@ To install Nodewatchman, follow these steps:
     ```
 
 3. Configure the project by editing the configuration files as needed:
-    - `config.json`: Update with your specific data center configuration.
+    - `Config/config.json`: Update with your specific data center configuration.
 
 1. Start the Nodewatchman server using PM2:
     ```bash
