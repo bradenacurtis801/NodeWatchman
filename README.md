@@ -56,13 +56,6 @@ To install Nodewatchman, follow these steps:
   - **Green**: Machine is reachable via SSH.
   - **Red**: Machine is not reachable via SSH.
 
-## NIC MAC ID Verification
-
-- Use the provided script to check the NIC MAC IDs of the machines against the internal documentation to ensure accurate placement and identification in the data center:
-    ```bash
-    npm run verify-macs
-    ```
-
 ## Contributing
 
 We welcome contributions to improve Nodewatchman. Please fork the repository and submit pull requests.
