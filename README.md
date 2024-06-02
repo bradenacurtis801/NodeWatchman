@@ -81,15 +81,6 @@ To install Nodewatchman, follow these steps:
 ## Contributing
 
 We welcome contributions to improve Nodewatchman. Please fork the repository and submit pull requests.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## Contact
-
-For any inquiries or issues, please contact [yourname@yourdomain.com](mailto:yourname@yourdomain.com).
-
 ---
 
 Nodewatchman is developed to enhance the management and automation of our data center, providing a seamless and efficient way to handle our Linux machines.
