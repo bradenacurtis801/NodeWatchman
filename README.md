@@ -78,10 +78,6 @@ To install Nodewatchman, follow these steps:
   - **Green**: Machine is reachable via SSH.
   - **Red**: Machine is not reachable via SSH.
 
-## Contributing
-
-We welcome contributions to improve Nodewatchman. Please fork the repository and submit pull requests.
----
 
 Nodewatchman is developed to enhance the management and automation of our data center, providing a seamless and efficient way to handle our Linux machines.
 
