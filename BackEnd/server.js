@@ -31,8 +31,8 @@ const PENDING_REGISTRATIONS_FILE = './db/pendingRegistrations.json'
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: 'datacare234@gmail.com', // Your email address
-      pass: 'uftx faiu skyc babj' // Your email password
+      user: '', // Your email address
+      pass: '' // Your email password
     }
   });
 
